@@ -1,0 +1,25 @@
+%h1 Listing squads
+
+%table
+  %tr
+    %th Name
+    %th Points
+    %th Size
+    %th Army
+    %th
+    %th
+    %th
+
+  - @squads.each do |squad|
+    %tr
+      %td= squad.name
+      %td= squad.points
+      %td= squad.size
+      %td= squad.army_id
+      %td= link_to 'Show', squad
+      %td= link_to 'Edit', edit_squad_path(squad)
+      %td= link_to 'Destroy', squad, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Squad', new_squad_path

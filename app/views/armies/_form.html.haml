@@ -1,0 +1,10 @@
+= @army.squads.all
+
+= simple_form_for @army do |f|
+  = f.input :name
+  = f.input :faction, collection: Army::FACTIONS
+  = f.simple_fields_for :squads do |squad|
+    .squad
+      = render 'squad_fields', :f => squad
+  = link_to_add_fields "Add Squad", f, :squads
+  = f.button :submit

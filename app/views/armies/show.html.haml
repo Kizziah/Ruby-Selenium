@@ -1,0 +1,23 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @army.name
+%p
+  %b Faction:
+  = @army.faction
+%p
+  Squads
+  - @army.squads.each do |squad|
+    - squad.define_squad
+    = squad.name
+    = squad.points
+
+%p
+  Total Points
+  -@army.squads.each do |squad|
+    - @total += squad.points
+  = @total
+= link_to 'Edit', edit_army_path(@army)
+\|
+= link_to 'Back', armies_path

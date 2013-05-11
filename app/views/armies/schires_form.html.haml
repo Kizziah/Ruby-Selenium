@@ -1,0 +1,14 @@
+= simple_form_for @army do |f|
+  = f.input :name
+  = f.input :faction, collection: Army::FACTIONS
+
+  = f.simple_fields_for :squads do |squad|
+    .squad
+      = squad.input :name, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last
+      = squad.input :size
+    .squad
+      = squad.input :name, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last
+      = squad.input :size
+
+  = f.button :submit
+

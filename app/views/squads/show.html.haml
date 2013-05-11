@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @squad.name
+%p
+  %b Points:
+  = @squad.points
+%p
+  %b Size:
+  = @squad.size
+%p
+  %b Army:
+  = @squad.army_id
+
+= link_to 'Edit', edit_squad_path(@squad)
+\|
+= link_to 'Back', squads_path
