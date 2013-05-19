@@ -3,21 +3,28 @@
 %p
   %b Name:
   = @army.name
+  = @havoc
 %p
   %b Faction:
   = @army.faction
-%p
-  Squads
-  - @army.squads.each do |squad|
-    - squad.define_squad
-    = squad.name
-    = squad.points
+%table
 
+  %tr
+    %th Squad
+    %th Points
+    %th Size
+  - @army.squads.each do |squad|
+    %tr
+      %td=link_to "#{squad.name}", edit_army_squad_path(@army, squad)
+      %td= squad.points
+      %td= squad.size
 %p
   Total Points
-  -@army.squads.each do |squad|
-    - @total += squad.points
-  = @total
+  =@army.points
+%p
+  Add Squad
+  = @army.extra
+
 = link_to 'Edit', edit_army_path(@army)
 \|
 = link_to 'Back', armies_path

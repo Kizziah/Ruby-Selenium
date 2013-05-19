@@ -1,8 +1,17 @@
 %h1 Army
 
-- @armies.each do |army|
-  %h2= link_to army.name, army
-  %p= link_to 'Edit Army', edit_army_path(army)
-  %p= link_to 'Destroy', army, :method => :delete, :data => { :confirm => 'Are you sure?' }
+%table
+  %thead
+    %tr
+      %th Name
+      %th.action Edit
+      %th.action Destroy
+  %tbody
+    - @armies.each do |army|
+      %tr
+        %td= link_to army.name, army
+        %td= link_to 'Edit', edit_army_path(army)
+        %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'New Army', new_army_path
+
+= link_to 'New Army', new_army_path, class: "button"

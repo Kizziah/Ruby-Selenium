@@ -1,10 +1,26 @@
-= @army.squads.all
-
 = simple_form_for @army do |f|
+  %h3 Select Faction
   = f.input :name
   = f.input :faction, collection: Army::FACTIONS
+
+  %h3 Squads
   = f.simple_fields_for :squads do |squad|
-    .squad
-      = render 'squad_fields', :f => squad
-  = link_to_add_fields "Add Squad", f, :squads
+    .fields.squad
+      = link_to "Remove", '#', class: "remove_squad"
+      = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
+      %h4 Troops
+      %table
+        %thead
+          %tr
+            %th Weapon
+        %tbody
+          = squad.simple_fields_for :troops do |troop|
+            %tr
+              %td= troop.input :weapon, collection: ["melta", "plasma", "bolt"], prompt: "Select Weapon", label: false
+      = link_to "Add Troop", "#", class: "add_troop"
+
+    = link_to "Add another squad", '#', id: "add_squad"
+
   = f.button :submit
+
+= link_to "console log", "#", id: "click"

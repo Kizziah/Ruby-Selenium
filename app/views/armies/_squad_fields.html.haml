@@ -1,3 +1,6 @@
-= f.input :name, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last
-= f.check_box :_destroy
-
+.fields.squad
+  = f.input :name, label: "Squad #{@name_number}", collection: Squad::TYPES.to_a, value_method: :first, label_method: :last
+  = link_to "Remove", '#', id: "remove_squad"
+  = f.input :_destroy, as: :boolean, label: "Remove"
+  = f.simple_fields_for :troops do |troop|
+    = troop.input :weapon

@@ -1,7 +1,10 @@
-%h1 Editing squad
+%h1= "Edit #{@squad.name}"
+= @squad.troops.size
+= @squad.troops
+= simple_form_for [@army, @squad] do |f|
+  = f.input :size
+  = f.simple_fields_for :troops do |troop|
+    = troop.input :weapon
+  = f.button :submit
 
-= render 'form'
-
-= link_to 'Show', @squad
-\|
-= link_to 'Back', squads_path
+= link_to 'Complete Details on Squad', army_squad_path(@army, @squad)

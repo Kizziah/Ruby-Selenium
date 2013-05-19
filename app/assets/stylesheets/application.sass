@@ -1,0 +1,106 @@
+@import "bourbon"
+
+
+// This is a manifest file that'll be compiled into application.css, which will include all the files
+// listed below.
+//
+// Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+// or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+//
+// You're free to add application-wide styles to this file and they'll appear at the top of the
+// compiled file, but it's generally better to create a new file per style scope.
+//
+//= require_self
+
+// ----------------------------------------------------------------------------
+// Reset
+// ----------------------------------------------------------------------------
+*
+  margin: 0
+  padding: 0
+
+
+// ----------------------------------------------------------------------------
+// Typography
+// ----------------------------------------------------------------------------
+h1
+  margin: 10px 0
+
+h3
+
+  border-bottom: 1px solid gray
+  padding-bottom: 3px
+  margin-bottom: 10px
+  margin-top: 40px
+
+// ----------------------------------------------------------------------------
+// Layout
+// ----------------------------------------------------------------------------
+body
+  font-family: helvetica, sans-serif
+  font-size: 12px
+
+#pagewrap
+  width: 980px
+  margin: 0 auto
+// ----------------------------------------------------------------------------
+// Tables
+// ----------------------------------------------------------------------------
+table
+  background: white
+  margin-bottom: 10px
+  border-collapse: collapse
+  width: 100%
+  thead
+    tr
+      th
+        border: 1px solid gray
+        background: #333
+        color: white
+        padding: 5px 10px
+        text-align: left
+        &.action
+          width: 55px
+
+  tbody
+
+    tr
+      td
+        border: 1px solid gray
+        padding: 5px 10px
+
+// ----------------------------------------------------------------------------
+// New army form
+// ----------------------------------------------------------------------------
+form#new_army
+  width: 600px
+
+  .squad.fields
+    border: 1px solid #ccc
+    background: #f0f0f0
+    border-radius: 5px
+    padding: 15px
+    margin-bottom: 10px
+
+  .remove_squad
+    float: right
+
+  #add_squad
+    @include button(#809743)
+    margin-bottom: 10px
+    float: right
+// ----------------------------------------------------------------------------
+// Misc
+// ----------------------------------------------------------------------------
+label
+  display: block
+
+.button
+  @include button(pill)
+  margin-bottom: 10px
+
+.input
+  margin-bottom: 10px
+
+
+

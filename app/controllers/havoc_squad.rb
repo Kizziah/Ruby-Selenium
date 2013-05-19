@@ -1,0 +1,5 @@
+class HavocSquad < Squad
+
+
+
+end

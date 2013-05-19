@@ -1,8 +1,9 @@
 class Squad < ActiveRecord::Base
-  attr_accessible :army_id, :name, :points, :size
+  attr_accessible :army_id, :name, :points, :size, :troops_attributes
   belongs_to :army
-  #validates_presence_of :name, :points
-
+  has_many :troops
+  accepts_nested_attributes_for :troops, allow_destroy: true
+  # validates_presence_of :name
 
   TYPES = {
     havoc: "Havoc",
@@ -10,22 +11,29 @@ class Squad < ActiveRecord::Base
     korne_bezerker: "Korne Bezerker"
   }
 
-  def add
+  EXTRA_HAVOC = 13
+  EXTRA_CULTIST = 4
+  EXTRA_BEZERKER = 19
 
-  end
-
-
-  def define_squad
+  def define_base_squad
     if self.name == "havoc"
-      self.points = 75
-      self.size = 5
+      self.update_attribute(:size, 5)
+      self.update_attribute(:points, 75)
+
     end
 
     if self.name == "cultist"
-      self.points = 50
-      self.size = 10
+      self.update_attribute(:size, 10)
+      self.update_attribute(:points, 50)
+      self.size.times { self.troops.build }
     end
 
   end
+
+  def create_troops_in_squad
+
+  end
+
+  private
 
 end

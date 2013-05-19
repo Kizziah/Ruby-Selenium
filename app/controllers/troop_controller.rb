@@ -1,0 +1,5 @@
+class TroopController < ApplicationController
+
+
+
+end

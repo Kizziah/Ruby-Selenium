@@ -12,3 +12,33 @@
 
   = f.button :submit
 
+
+
+= simple_form_for @army do |f|
+  = f.input :name
+  = f.input :faction, collection: Army::FACTIONS
+  = f.input :extra, label: "Add Squad"
+  = f.simple_fields_for :squads do |builder|
+    = f.input :name, label: "Squad #{@name_number}", collection:   Squad::TYPES.to_a, value_method: :first, label_method: :last
+    - @name_number += 1
+    = "Remove"
+    = f.check_box :_destroy
+  %p
+  = f.button :submit
+
+
+%div#army_form
+  = simple_form_for @army do |f|
+    = f.input :name
+    = f.input :faction, collection: Army::FACTIONS
+
+    %div#squads_form
+      .squads
+        %h3 Squads
+        = f.simple_fields_for :squads do |troop|
+          .fields.squad
+            = troop.input :name, label: "Squad #{@name_number}", collection: Squad::TYPES.to_a, value_method: :first, label_method: :last
+            = link_to "Remove", '#', id: "remove_squad"
+        = link_to "Add another squad", '#', id: "#btnAdd"
+
+    = f.button :submit

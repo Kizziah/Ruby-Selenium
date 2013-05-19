@@ -6,6 +6,7 @@ gem 'sqlite3',        '~> 1.3.7'
 gem 'jquery-rails',   '~> 2.2.1'
 gem 'haml-rails',     '~> 0.4'
 gem 'simple_form',    '~> 2.1.0'
+gem 'bourbon'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
