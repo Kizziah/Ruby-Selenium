@@ -20,7 +20,7 @@ jQuery ->
     squad = $(".fields.squad:last")
     squadClone = squad.clone(true)
 
-    # Creates new fields for
+    # TODO: Remove extra squad fields
 
     renameField
       field: squadClone.find('.army_squads_name select')
