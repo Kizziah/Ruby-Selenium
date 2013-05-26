@@ -8,12 +8,21 @@ class Squad < ActiveRecord::Base
   TYPES = {
     havoc: "Havoc",
     cultist: "Cultists",
-    korne_bezerker: "Korne Bezerker"
+    korne_bezerker: "Korne Bezerker",
+    marine: "Marine"
   }
 
   EXTRA_HAVOC = 13
   EXTRA_CULTIST = 4
   EXTRA_BEZERKER = 19
+
+
+    WEAPONS = [
+    :meltagun,
+    :missle_launcher,
+    :boltgun
+  ]
+
 
   def define_base_squad
     if self.name == "havoc"
@@ -28,11 +37,14 @@ class Squad < ActiveRecord::Base
       self.size.times { self.troops.build }
     end
 
+    if self.name == "marine"
+      self.update_attribute(:size, 5)
+      self.update_attribute(:points, 75)
+    end
+
   end
 
-  def create_troops_in_squad
 
-  end
 
   private
 

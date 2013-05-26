@@ -16,7 +16,10 @@
         %tbody
           = squad.simple_fields_for :troops do |troop|
             %tr
-              %td= troop.input :weapon, collection: ["melta", "plasma", "bolt"], prompt: "Select Weapon", label: false
+              %td
+                = troop.input :weapon, collection: ["meltagun", "plasmagun", "boltgun"], prompt: "Select Weapon", label: false
+                = link_to "remove", "#", class: "remove_troop"
+
       = link_to "Add Troop", "#", class: "add_troop"
 
     = link_to "Add another squad", '#', id: "add_squad"

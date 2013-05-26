@@ -14,9 +14,6 @@ class ArmiesController < ApplicationController
     @army = Army.new
     squad = @army.squads.build
     squad.troops.build
-
-    # troops = squad.size
-    # troops.times { squad.troops.build }
   end
 
   def edit

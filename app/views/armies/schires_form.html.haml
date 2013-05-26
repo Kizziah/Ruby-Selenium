@@ -14,6 +14,7 @@
 
 
 
+
 = simple_form_for @army do |f|
   = f.input :name
   = f.input :faction, collection: Army::FACTIONS
@@ -42,3 +43,15 @@
         = link_to "Add another squad", '#', id: "#btnAdd"
 
     = f.button :submit
+
+
+
+
+  $("#allbox").bind("mouseenter", ->
+    $("#sslider").show "slide",
+      direction: "left"
+    , 1000
+  ).bind "mouseleave", ->
+    $("#sslider").hide "slide",
+      direction: "left"
+    , 1000
