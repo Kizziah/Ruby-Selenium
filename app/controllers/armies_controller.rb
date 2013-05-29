@@ -12,8 +12,8 @@ class ArmiesController < ApplicationController
 
   def new
     @army = Army.new
-    squad = @army.squads.build
-    squad.troops.build
+    @squad = @army.squads.build
+    @squad.troops.build
   end
 
   def edit

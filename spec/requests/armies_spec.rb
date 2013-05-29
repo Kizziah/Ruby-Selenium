@@ -2,19 +2,23 @@ require 'spec_helper'
 
 describe Army do
 
-  it "when I press the Add another squad button it should creat a new squad field" do
+  it "should create a Marine Army", :js => true  do
     visit armies_path
     page.should have_content "Army"
     click_link "New Army"
     page.should have_content "New army"
     page.should have_css("div.fields.squad")
-    click_link "add_squad"
+    select "Marine", from: "army_squads_attributes_0_name"
+    binding.pry
+    select "car", from: "army_squads_attributes_0_troops_attributes_0_weapon"
+
+    # page.should have_css('.squad table select', text: 'fuck')
+    page.has_selector?('.squad table select[disabled]', count: 4)
+    # 3.times { click_link "Add Troop" }
 
   end
 
 end
-
-
 
     # fill_in "Name", with: "Cool Name"
     # select "Cultist", from: "Squad 1"
@@ -27,3 +31,5 @@ end
     # check "army[squads_attributes][1][_destroy]"
     # click_button "Update Army"
     # page.should have_content "125"
+#army_squads_attributes_0_troops_attributes_0_weapon".
+#page.should have_selector('#blah', visible: true)

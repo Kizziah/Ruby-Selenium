@@ -1,0 +1,17 @@
+      "basic": "boltgun"
+      "special": "meltagun"
+      "special": "flamer"
+      "special": "plasmagun"
+
+      "heavy": "cannon"
+
+
+  havocRules = (opts = {}) ->
+    max = 10
+    limit = max - opts.size
+    generateTroop unless limit is 0
+      troop: opts.troop
+      weapon: "boltgun"
+
+  create_default_havoc_squad = (opts = {}) ->
+    _.times(4, -> generateTroop(troop: opts.troop, weapon: "boltgun"))

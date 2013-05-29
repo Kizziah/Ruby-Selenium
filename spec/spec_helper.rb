@@ -9,6 +9,13 @@ require 'rspec/autorun'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
+
+
+  # if Rails.env.test?
+  #   require 'selenium-webdriver'
+  #   Selenium::WebDriver::Firefox::Binary.path= Rails.root.to_s + '/bin/spec/macosx/Firefox.app/Contents/MacOS/firefox-bin'
+  # end
+
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -34,5 +41,8 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
+
   config.order = "random"
+
 end
+

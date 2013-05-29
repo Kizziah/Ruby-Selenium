@@ -4,11 +4,11 @@ jQuery ->
   #
   Marine =
     basicMarineWeapons:
-      "boltgun": 1
-      "meltagun": 2
-      "plasmagun": 2
-      "flamer": 2
-      "cannon": 3
+      "boltgun": "basic"
+      "meltagun": "special"
+      "plasmagun": "special"
+      "flamer": "special"
+      "cannon": "heavy"
 
   # Renames the `id` and `name` attributes for a given field in order to work
   # properly with `accepts_nested_attributes_for` params.
@@ -56,63 +56,95 @@ jQuery ->
     $.each opts.weaponOptions, (key, value) ->
       opts.troops.append $("<option></option>").attr("value", value).text(key)
 
-
-
-  havocRules = (opts = {}) ->
-    max = 10
-    limit = max - opts.size
-    generateTroop unless limit is 0
-      troop: opts.troop
-      weapon: "boltgun"
-
-
-
-  create_default_havoc_squad = (opts = {}) ->
-    _.times(4, -> generateTroop(troop: opts.troop, weapon: "boltgun"))
-
   create_default_marine_squad = (opts = {}) ->
     _.times(4, -> generateTroop(troop: opts.troop, weapon: "boltgun"))
     troops = opts.location.find('.army_squads_troops_weapon select')
     troops.empty()
     apply_weapons(troops: troops, weaponOptions: Marine.basicMarineWeapons)  # give squad weapons weapons selection
 
-  marineRules = (opts = {}) ->
-    max = 20
+    weapons = opts.location.find('.army_squads_troops_weapon select option')
+    weapons.each ->
+      if $(this).val() is "heavy"
+        $(this).attr("disabled", true)
+
+  addMarineSquadRules = (opts = {}) ->
+    max = 10
     squadFull = (max - opts.size) is 0
     generateTroop unless squadFull
       troop: opts.troop
       weapon: "boltgun"
 
-  marine_weapon_rules = (opts = {}) ->
-    disabledSelection = (opts = {}) ->
-      opts.selection.attr("disabled", true)
+  marineWeaponRules = (opts = {}) ->
     size = opts.size
-    special = opts.special
-    troops = opts.troops
-    console.log size
-    if special == 1 && size < 7
-      troops.each ->
-        disabledSelection(selection: $(this)) unless $(this).val() isnt "1"
-    if special == 0
-      troops.each ->
-        $(this).attr("disabled", false)
-    if size >= 7
-       troops.each ->
-        $(this).attr("disabled", false)
-    if special == 2
-      troops.each ->
-        $(this).attr("disabled", true) unless $(this).val() isnt "1"
-
-
-  countWeapons = (opts = {}) ->
-    basic = 0
     special = 0
-    weapons = []
-    opts.troops.each ->
-      special++ if $(this).val() isnt "1"
-      weapons.push $(this).val()
+    heavy = 0
+    troops = opts.troops
+    weapons = opts.weapons
 
-    marine_weapon_rules(size: opts.size, special: special, troops: opts.troops) if opts.type is "marine"
+    countWeaponTypes = -> # determines weapon types of each squad memeber
+      basic = 0
+      special = 0
+      heavy = 0
+      troops.each ->
+        special++ if $(this).val() isnt "basic"
+        heavy++ if $(this).val() is "heavy"
+
+
+    addWeaponOption = (opts = {}) ->
+      weapons.each ->
+        $(this).attr("disabled", false) if $(this).val() is opts.weapon
+    removeWeaponOption = (opts = {}) ->
+      weapons.each ->
+        $(this).attr("disabled", true) if $(this).val() is opts.weapon
+    disableOptionSelector = (opts = {}) ->
+      opts.weapon.attr("disabled", true) if opts.weapon.val() is "special"
+    onlyBasicWeapon = ->
+      weapons.each ->
+        disableOptionSelector(weapon: $(this)) if $(this).val() is "special"
+    removeHeavyWeapon = ->
+      troops.each ->
+        $(this).val("boltgun") if $(this).val() is "heavy"
+      weapons.each ->
+        $(this).attr("disabled", true) if $(this).val() is "heavy"
+      countWeaponTypes ->
+    removeSpecialWeapon = (weapon) ->
+      troops.each ->
+        $(this).val("boltgun") if $(this).val() is "special" unless special is 1
+        countWeaponTypes ->
+
+    countWeaponTypes ->
+    weapons.each -> # Make sure all weapons have a value, prevents null bug.
+      $(this).attr("disabled", false)
+
+    if size < 7
+      removeHeavyWeapon ->
+      countWeaponTypes ->
+    if special == 2 and size < 7
+      removeSpecialWeapon
+    if special is 1
+      onlyBasicWeapon ->
+    if special == 0
+      weapons.each ->
+        $(this).attr("disabled", false) if $(this).val() isnt "heavy"
+    if size >= 7
+      addWeaponOption(weapon: "heavy")
+      addWeaponOption(weapon: "special")
+    if special == 0
+      weapons.each ->
+        $(this).attr("disabled", false) if $(this).val() isnt "heavy"
+    if special == 2
+      weapons.each ->
+        $(this).attr("disabled", true) if $(this).val() isnt "basic"
+
+    countWeaponTypes ->
+    troops.each ->
+      if $(this).val() is null
+        $(this).closest('.army_squads_troops_weapon').find('select option').attr("disabled", false)
+    countWeaponTypes ->
+    if size < 7
+      removeWeaponOption(weapon: "heavy")
+    if heavy is 1
+      removeWeaponOption(weapon: "heavy")
 
   $("#add_squad").click ->
     event.preventDefault()
@@ -134,52 +166,46 @@ jQuery ->
     event.preventDefault()
     $(this).closest(".squad").remove()
 
+  getSquadInfo = (squad) ->
+    return do ->
+      object: squad
+      troops: squad.find('.army_squads_troops_weapon select')
+      size: squad.find('.army_squads_troops_weapon').size()
+      weapons: squad.find('.army_squads_troops_weapon select option')
+      type: squad.find(".army_squads_name select").val()
+      troop: squad.find("table tbody tr:last")
+
   $(".remove_troop").click ->
     event.preventDefault()
-    squad = $(this).closest(".squad")
-    $(this).closest("tr").remove()
-    size = squad.find("table tbody tr").size()
-    squadType = squad.find(".army_squads_name select").val()
-    troops = squad.find('.army_squads_troops_weapon select')
-    countWeapons(troops: troops, size: newSize, type: squadType)
+    location = $(this).closest(".squad")
+    squad = getSquadInfo(location)
+    $(this).closest("tr").remove() unless squad.size <= 5
+    squad = getSquadInfo(location)
+    marineWeaponRules(troops: squad.troops, size: squad.size, type: squad.type, weapons: squad.weapons) unless squad.size <= 5
 
   $(".add_troop").click ->
     event.preventDefault()
-    size = $(this).closest(".squad").find("table tbody tr").size()
-    squadType = $(this).closest(".squad").find(".army_squads_name select").val()
-    troop = $(this).closest(".squad").find("table tbody tr:last")
-
-    marineRules(size: size, troop: troop) if squadType is "marine"
-    havocRules(size: size, troop: troop) if squadType is "havoc"
-
-    newSize = $(this).closest(".squad").find("table tbody tr").size()
-    troops = $(this).closest(".squad").find('.army_squads_troops_weapon select')
-
-    countWeapons(troops: troops, size: newSize, type: squadType)
-
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    addMarineSquadRules(size: squad.size, troop: squad.troop)
+    newSquad = getSquadInfo(currentSquad)
+    marineWeaponRules(troops: newSquad.troops, size: newSquad.size, type: newSquad.type, weapons: newSquad.weapons)
 
   $(".army_squads_troops_weapon select").change ->
-    type = $(this).closest(".squad").find(".army_squads_name select").val()
-    size = $(this).closest(".squad").find('.army_squads_troops_weapon').size()
-    troops = $(this).closest(".squad").find('.army_squads_troops_weapon select')
-    countWeapons(troops: troops, size: size, type: type)
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    marineWeaponRules(troops: squad.troops, size: squad.size, type: squad.type, weapons: squad.weapons)
 
   $(".army_squads_name select").change ->
-    size = $(this).closest(".squad").find("table tbody tr").size()
-    while size > 1  # reset troops in squad for when squad changes types
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    while squad.size > 1  # reset troops in squad for when squad changes types
       $(this).closest(".squad").find("table tbody tr:last").remove()
-      size--
+      squad.size--
+    squad = getSquadInfo(currentSquad)
+    if squad.type is 'cultist'
+      _.times(9, -> generateTroop(troop: squad.troop))
+    if squad.type is 'marine'
+      create_default_marine_squad(troop: squad.troop, location: currentSquad)
 
-    type = $(this).val()
-    troop = $(this).closest(".squad").find("table tbody tr:last")
-    location = $(this).closest(".squad")
-    if type is 'cultist'
-      _.times(9, -> generateTroop(troop: troop))
-    if type is 'marine'
-      create_default_marine_squad(troop: troop, location: location)
-    if type is 'havoc'
-      create_default_havoc_squad(troop: troop, location: location)
-
-
-  $("#click").click ->
-    $(".squad").find(".army_squads_troops_weapon select option:contains(p)").attr "disabled", "disabled"
+  # $("#click").click ->

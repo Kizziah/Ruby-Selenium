@@ -22,8 +22,9 @@ end
 
 group :test do
   gem 'cucumber-rails', require: false
-  gem 'capybara', '~> 1.1.2'
+  gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
+  gem "selenium-webdriver", "~> 2.32.1"
 end
