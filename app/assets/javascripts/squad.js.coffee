@@ -66,13 +66,18 @@ jQuery ->
     weapons.each ->
       if $(this).val() is "heavy"
         $(this).attr("disabled", true)
+    table = troops.closest(".squad")
+    leader = table.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select")
+    leader.val("special") if leader.val() is "basic"
 
   addMarineSquadRules = (opts = {}) ->
-    max = 10
+    max = 20
     squadFull = (max - opts.size) is 0
     generateTroop unless squadFull
       troop: opts.troop
       weapon: "boltgun"
+
+
 
   marineWeaponRules = (opts = {}) ->
     size = opts.size
@@ -80,71 +85,79 @@ jQuery ->
     heavy = 0
     troops = opts.troops
     weapons = opts.weapons
+    table = opts.troops.closest(".squad")
+    leader = table.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select")
+    # leader.val("heavy")
+    # leader.attr("boltgun")
 
-    countWeaponTypes = -> # determines weapon types of each squad memeber
-      basic = 0
-      special = 0
-      heavy = 0
-      troops.each ->
-        special++ if $(this).val() isnt "basic"
-        heavy++ if $(this).val() is "heavy"
+    # console.log leader.val()
+    leader.val("cannon") if leader.val() is "special"
+
+    # countWeaponTypes = -> # determines weapon types of each squad memeber
+    #   basic = 0
+    #   special = 0
+    #   heavy = 0
+    #   troops.each ->
+    #     special++ if $(this).val() isnt "basic"
+    #     heavy++ if $(this).val() is "heavy"
 
 
-    addWeaponOption = (opts = {}) ->
-      weapons.each ->
-        $(this).attr("disabled", false) if $(this).val() is opts.weapon
-    removeWeaponOption = (opts = {}) ->
-      weapons.each ->
-        $(this).attr("disabled", true) if $(this).val() is opts.weapon
-    disableOptionSelector = (opts = {}) ->
-      opts.weapon.attr("disabled", true) if opts.weapon.val() is "special"
-    onlyBasicWeapon = ->
-      weapons.each ->
-        disableOptionSelector(weapon: $(this)) if $(this).val() is "special"
-    removeHeavyWeapon = ->
-      troops.each ->
-        $(this).val("boltgun") if $(this).val() is "heavy"
-      weapons.each ->
-        $(this).attr("disabled", true) if $(this).val() is "heavy"
-      countWeaponTypes ->
-    removeSpecialWeapon = (weapon) ->
-      troops.each ->
-        $(this).val("boltgun") if $(this).val() is "special" unless special is 1
-        countWeaponTypes ->
+    # addWeaponOption = (opts = {}) ->
+    #   weapons.each ->
+    #     $(this).attr("disabled", false) if $(this).val() is opts.weapon
+    # removeWeaponOption = (opts = {}) ->
+    #   weapons.each ->
+    #     $(this).attr("disabled", true) if $(this).val() is opts.weapon
+    # disableOptionSelector = (opts = {}) ->
+    #   opts.weapon.attr("disabled", true) if opts.weapon.val() is "special"
+    # onlyBasicWeapon = ->
+    #   weapons.each ->
+    #     disableOptionSelector(weapon: $(this)) if $(this).val() is "special"
+    # removeHeavyWeapon = ->
+    #   troops.each ->
+    #     $(this).val("boltgun") if $(this).val() is "heavy"
+    #   weapons.each ->
+    #     $(this).attr("disabled", true) if $(this).val() is "heavy"
+    #   countWeaponTypes ->
+    # removeSpecialWeapon = ->
+    #   troops.each ->
+    #     $(this).val("boltgun") if $(this).val() is "special" unless special is 1
+    #     countWeaponTypes ->
 
-    countWeaponTypes ->
-    weapons.each -> # Make sure all weapons have a value, prevents null bug.
-      $(this).attr("disabled", false)
+    # countWeaponTypes ->
+    # weapons.each -> # Make sure all weapons have a value, prevents null bug.
+    #   $(this).attr("disabled", false)
 
-    if size < 7
-      removeHeavyWeapon ->
-      countWeaponTypes ->
-    if special == 2 and size < 7
-      removeSpecialWeapon
-    if special is 1
-      onlyBasicWeapon ->
-    if special == 0
-      weapons.each ->
-        $(this).attr("disabled", false) if $(this).val() isnt "heavy"
-    if size >= 7
-      addWeaponOption(weapon: "heavy")
-      addWeaponOption(weapon: "special")
-    if special == 0
-      weapons.each ->
-        $(this).attr("disabled", false) if $(this).val() isnt "heavy"
-    if special == 2
-      weapons.each ->
-        $(this).attr("disabled", true) if $(this).val() isnt "basic"
+    # if size < 10
+    #   removeHeavyWeapon ->
+    #   countWeaponTypes ->
+    # if special == 2 and size < 10
+    #   removeSpecialWeapon ->
+    # if special is 1
+    #   onlyBasicWeapon ->
+    # if special == 0
+    #   weapons.each ->
+    #     $(this).attr("disabled", false) if $(this).val() isnt "heavy"
+    # if size >= 10
+    #   addWeaponOption(weapon: "heavy")
+    #   addWeaponOption(weapon: "special")
+    # if special == 0
+    #   weapons.each ->
+    #     $(this).attr("disabled", false) if $(this).val() isnt "heavy"
+    # if special == 2
+    #   weapons.each ->
+    #     $(this).attr("disabled", true) if $(this).val() isnt "basic"
+    # countWeaponTypes ->
+    # troops.each ->
+    #   if $(this).val() is null
+    #     $(this).closest('.army_squads_troops_weapon').find('select option').attr("disabled", false)
+    # countWeaponTypes ->
+    # if size < 10
+    #   removeWeaponOption(weapon: "heavy")
+    # if heavy is 1
+    #   removeWeaponOption(weapon: "heavy")
 
-    countWeaponTypes ->
-    troops.each ->
-      if $(this).val() is null
-        $(this).closest('.army_squads_troops_weapon').find('select option').attr("disabled", false)
-    countWeaponTypes ->
-    if size < 7
-      removeWeaponOption(weapon: "heavy")
-    if heavy is 1
-      removeWeaponOption(weapon: "heavy")
+
 
   $("#add_squad").click ->
     event.preventDefault()
@@ -208,4 +221,5 @@ jQuery ->
     if squad.type is 'marine'
       create_default_marine_squad(troop: squad.troop, location: currentSquad)
 
-  # $("#click").click ->
+  $("#click").click ->
+
