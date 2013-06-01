@@ -14,6 +14,7 @@ class ArmiesController < ApplicationController
     @army = Army.new
     @squad = @army.squads.build
     @squad.troops.build
+    @info = "troop"
   end
 
   def edit

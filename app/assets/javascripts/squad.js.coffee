@@ -2,13 +2,19 @@ jQuery ->
 
   #Marine Options
   #
-  Marine =
-    basicMarineWeapons:
-      "boltgun": "basic"
-      "meltagun": "special"
-      "plasmagun": "special"
-      "flamer": "special"
-      "cannon": "heavy"
+  basicMarineWeapons = [
+    "boltgun",
+    "meltagun",
+    "plasmagun",
+    "flamer",
+    "cannon"
+  ]
+
+  basicMarineLeaderWeapons = [
+    "boltpistol",
+    "plasmapistol",
+    "plasmagun"
+  ]
 
   # Renames the `id` and `name` attributes for a given field in order to work
   # properly with `accepts_nested_attributes_for` params.
@@ -26,7 +32,7 @@ jQuery ->
   generateTroop = (opts = {}) ->
     troopClone = opts.troop.clone(true)
     renameField
-      field: troopClone.find('.army_squads_troops_weapon select').val(opts.weapon)
+      field: troopClone.find('.army_squads_troops_weapon select')
       number: _.random(0, 100000)
       matcher: /(\d+)(?!.*\d)/
     opts.troop.after troopClone
@@ -50,25 +56,37 @@ jQuery ->
     squad.after squadClone
     squadClone.hide()
 
-  # Changes troops weapons options
-  #
-  apply_weapons = (opts = {}) ->
-    $.each opts.weaponOptions, (key, value) ->
-      opts.troops.append $("<option></option>").attr("value", value).text(key)
-
   create_default_marine_squad = (opts = {}) ->
-    _.times(4, -> generateTroop(troop: opts.troop, weapon: "boltgun"))
+    _.times(4, -> generateTroop(troop: opts.troop))
     troops = opts.location.find('.army_squads_troops_weapon select')
     troops.empty()
-    apply_weapons(troops: troops, weaponOptions: Marine.basicMarineWeapons)  # give squad weapons weapons selection
 
-    weapons = opts.location.find('.army_squads_troops_weapon select option')
-    weapons.each ->
-      if $(this).val() is "heavy"
-        $(this).attr("disabled", true)
+    weaponsArray = basicMarineWeapons
+    squadSelect = ""
+    $.each weaponsArray, (i) ->
+      squadSelect += "<option value=\"" + weaponsArray[i] + "\">" + weaponsArray[i] + "</option>"
+    troops.append squadSelect
+
     table = troops.closest(".squad")
-    leader = table.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select")
-    leader.val("special") if leader.val() is "basic"
+    leader = table.find(" table tr:nth-child(1)")
+    leader.find(".army_squads_troops_weapon select").empty()
+    weaponsArray = basicMarineLeaderWeapons
+
+    leaderSelect = ""
+
+    $.each weaponsArray, (i) ->
+      leaderSelect += "<option value=\"" + weaponsArray[i] + "\">" + weaponsArray[i] + "</option>"
+    leader.find(".army_squads_troops_weapon select").append leaderSelect
+    leader.find("a.remove_troop").hide()
+    table.find(" table tr:nth-child(1)").find(".info").text("Squad Champion")
+
+    troops = table.find(" table tr:gt(1)")
+    troops.each ->
+      $(this).find("a.remove_troop").hide()
+    normalTroops = table.find(" table tr:gt(1)")
+
+    normalTroops.find("select option").each ->
+      $(this).attr("disabled", true) if $(this).val() is "cannon"
 
   addMarineSquadRules = (opts = {}) ->
     max = 20
@@ -78,86 +96,57 @@ jQuery ->
       weapon: "boltgun"
 
 
-
   marineWeaponRules = (opts = {}) ->
-    size = opts.size
     special = 0
     heavy = 0
+    size = opts.size
     troops = opts.troops
     weapons = opts.weapons
-    table = opts.troops.closest(".squad")
-    leader = table.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select")
-    # leader.val("heavy")
-    # leader.attr("boltgun")
+    normalTroops = opts.normalTroops
+    leaderTroop = opts.leaderTroop
 
-    # console.log leader.val()
-    leader.val("cannon") if leader.val() is "special"
+    normalTroops.find("select").each ->
+      $(this).attr("disabled", false)
+    normalTroops.find("select option").each ->
+      $(this).attr("disabled", false)
 
-    # countWeaponTypes = -> # determines weapon types of each squad memeber
-    #   basic = 0
-    #   special = 0
-    #   heavy = 0
-    #   troops.each ->
-    #     special++ if $(this).val() isnt "basic"
-    #     heavy++ if $(this).val() is "heavy"
+    countWeaponTypes = ->
+      special = 0
+      heavy = 0
+      normalTroops.find("select").each ->
+        special++ if $(this).val() is "plasmagun" or $(this).val() is "meltagun" or $(this).val() is "flamer" or $(this).val() is "cannon"
+        heavy++ if $(this).val() is "cannon"
 
-
-    # addWeaponOption = (opts = {}) ->
-    #   weapons.each ->
-    #     $(this).attr("disabled", false) if $(this).val() is opts.weapon
-    # removeWeaponOption = (opts = {}) ->
-    #   weapons.each ->
-    #     $(this).attr("disabled", true) if $(this).val() is opts.weapon
-    # disableOptionSelector = (opts = {}) ->
-    #   opts.weapon.attr("disabled", true) if opts.weapon.val() is "special"
-    # onlyBasicWeapon = ->
-    #   weapons.each ->
-    #     disableOptionSelector(weapon: $(this)) if $(this).val() is "special"
-    # removeHeavyWeapon = ->
-    #   troops.each ->
-    #     $(this).val("boltgun") if $(this).val() is "heavy"
-    #   weapons.each ->
-    #     $(this).attr("disabled", true) if $(this).val() is "heavy"
-    #   countWeaponTypes ->
-    # removeSpecialWeapon = ->
-    #   troops.each ->
-    #     $(this).val("boltgun") if $(this).val() is "special" unless special is 1
-    #     countWeaponTypes ->
-
-    # countWeaponTypes ->
-    # weapons.each -> # Make sure all weapons have a value, prevents null bug.
-    #   $(this).attr("disabled", false)
-
-    # if size < 10
-    #   removeHeavyWeapon ->
-    #   countWeaponTypes ->
-    # if special == 2 and size < 10
-    #   removeSpecialWeapon ->
-    # if special is 1
-    #   onlyBasicWeapon ->
-    # if special == 0
-    #   weapons.each ->
-    #     $(this).attr("disabled", false) if $(this).val() isnt "heavy"
-    # if size >= 10
-    #   addWeaponOption(weapon: "heavy")
-    #   addWeaponOption(weapon: "special")
-    # if special == 0
-    #   weapons.each ->
-    #     $(this).attr("disabled", false) if $(this).val() isnt "heavy"
-    # if special == 2
-    #   weapons.each ->
-    #     $(this).attr("disabled", true) if $(this).val() isnt "basic"
-    # countWeaponTypes ->
-    # troops.each ->
-    #   if $(this).val() is null
-    #     $(this).closest('.army_squads_troops_weapon').find('select option').attr("disabled", false)
-    # countWeaponTypes ->
-    # if size < 10
-    #   removeWeaponOption(weapon: "heavy")
-    # if heavy is 1
-    #   removeWeaponOption(weapon: "heavy")
+    countWeaponTypes ->
+    if special is 1 and size < 10
+      normalTroops.find("select").each -> #allows special to still select itself
+        $(this).attr("disabled", true) unless $(this).val() is "flamer" or $(this).val() is "plasmagun" or $(this).val() is "meltagun"
+    countWeaponTypes ->
+    if size >= 10 and heavy is 1
+      normalTroops.find("select").each ->
+        $(this).find("option").attr("disabled", false) unless $(this).val() is "cannon"
+    countWeaponTypes ->
+    if special is 2
+      normalTroops.find("select").each ->
+        $(this).attr("disabled", true) unless $(this).val() is "flamer" or $(this).val() is "plasmagun" or $(this).val() is "meltagun" or $(this).val() is "cannon"
+    if size < 10
+      normalTroops.find("select").each ->
+        $(this).val("boltgun") if $(this).val() is "cannon"
+    countWeaponTypes ->
+    if size < 10 and special is 2
+      normalTroops.find("select").each ->
+        $(this).val("boltgun") if $(this).val() is "flamer" or $(this).val() is "plasmagun" or $(this).val() is "meltagun"
+    if size < 10
+       normalTroops.find("select option").each ->
+        $(this).attr("disabled", true) if $(this).val() is "cannon"
+    countWeaponTypes ->
+    if heavy is 1
+      normalTroops.find("select option").each ->
+        $(this).attr("disabled", true) if $(this).val() is "cannon"
 
 
+    # console.log  heavy  + "HEAVY"
+    # console.log  special + "Special"
 
   $("#add_squad").click ->
     event.preventDefault()
@@ -187,14 +176,16 @@ jQuery ->
       weapons: squad.find('.army_squads_troops_weapon select option')
       type: squad.find(".army_squads_name select").val()
       troop: squad.find("table tbody tr:last")
+      normalTroops: squad.find(" table tr:gt(1)")
+      leaderTroop: squad.find(" table tr:nth-child(1)")
 
   $(".remove_troop").click ->
     event.preventDefault()
     location = $(this).closest(".squad")
     squad = getSquadInfo(location)
-    $(this).closest("tr").remove() unless squad.size <= 5
+    $(this).closest("tr").remove()
     squad = getSquadInfo(location)
-    marineWeaponRules(troops: squad.troops, size: squad.size, type: squad.type, weapons: squad.weapons) unless squad.size <= 5
+    marineWeaponRules(troops: squad.troops, size: squad.size, type: squad.type, weapons: squad.weapons, normalTroops: squad.normalTroops, leaderTroop: squad.leaderTroop)
 
   $(".add_troop").click ->
     event.preventDefault()
@@ -202,12 +193,16 @@ jQuery ->
     squad = getSquadInfo(currentSquad)
     addMarineSquadRules(size: squad.size, troop: squad.troop)
     newSquad = getSquadInfo(currentSquad)
-    marineWeaponRules(troops: newSquad.troops, size: newSquad.size, type: newSquad.type, weapons: newSquad.weapons)
+    marineWeaponRules(troops: newSquad.troops, size: newSquad.size, type: newSquad.type, weapons: newSquad.weapons, normalTroops: newSquad.normalTroops, leaderTroop: newSquad.leaderTroop)
+    table = $(this).closest(".squad")
+    extratroops = table.find(" table tr:gt(5)")
+    extratroops.each ->
+      $(this).find("a.remove_troop").show()
 
   $(".army_squads_troops_weapon select").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
-    marineWeaponRules(troops: squad.troops, size: squad.size, type: squad.type, weapons: squad.weapons)
+    marineWeaponRules(troops: squad.troops, size: squad.size, type: squad.type, weapons: squad.weapons, normalTroops: squad.normalTroops, leaderTroop: squad.leaderTroop)
 
   $(".army_squads_name select").change ->
     currentSquad = $(this).closest(".squad")
@@ -219,7 +214,7 @@ jQuery ->
     if squad.type is 'cultist'
       _.times(9, -> generateTroop(troop: squad.troop))
     if squad.type is 'marine'
-      create_default_marine_squad(troop: squad.troop, location: currentSquad)
-
+      create_default_marine_squad(troop: squad.troop, location: currentSquad )
   $("#click").click ->
-
+      #   $.each opts.weaponOptions, (key, value) ->
+  #     opts.troops.append $("<option></option>").attr("value", value).text(key)
