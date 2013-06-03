@@ -16,6 +16,8 @@ jQuery ->
     "plasmagun"
   ]
 
+  SquadPoints = 0
+
   # Renames the `id` and `name` attributes for a given field in order to work
   # properly with `accepts_nested_attributes_for` params.
   #
@@ -57,11 +59,13 @@ jQuery ->
     squadClone.hide()
 
   create_default_marine_squad = (opts = {}) ->
+
     _.times(4, -> generateTroop(troop: opts.troop))
+
     troops = opts.location.find('.army_squads_troops_weapon select')
     troops.empty()
-
     weaponsArray = basicMarineWeapons
+
     squadSelect = ""
     $.each weaponsArray, (i) ->
       squadSelect += "<option value=\"" + weaponsArray[i] + "\">" + weaponsArray[i] + "</option>"
@@ -70,8 +74,8 @@ jQuery ->
     table = troops.closest(".squad")
     leader = table.find(" table tr:nth-child(1)")
     leader.find(".army_squads_troops_weapon select").empty()
-    weaponsArray = basicMarineLeaderWeapons
 
+    weaponsArray = basicMarineLeaderWeapons
     leaderSelect = ""
 
     $.each weaponsArray, (i) ->
@@ -79,14 +83,15 @@ jQuery ->
     leader.find(".army_squads_troops_weapon select").append leaderSelect
     leader.find("a.remove_troop").hide()
     table.find(" table tr:nth-child(1)").find(".info").text("Squad Champion")
-
     troops = table.find(" table tr:gt(1)")
     troops.each ->
       $(this).find("a.remove_troop").hide()
     normalTroops = table.find(" table tr:gt(1)")
-
     normalTroops.find("select option").each ->
       $(this).attr("disabled", true) if $(this).val() is "cannon"
+
+    SquadPoints += 75
+    table.find(".squadpoints").text(SquadPoints)
 
   addMarineSquadRules = (opts = {}) ->
     max = 20
@@ -94,7 +99,6 @@ jQuery ->
     generateTroop unless squadFull
       troop: opts.troop
       weapon: "boltgun"
-
 
   marineWeaponRules = (opts = {}) ->
     special = 0
@@ -139,14 +143,28 @@ jQuery ->
     if size < 10
        normalTroops.find("select option").each ->
         $(this).attr("disabled", true) if $(this).val() is "cannon"
+
+
+    table = troops.closest(".squad")
+    SquadPoints = 75
+    extraTroops = size - 5
+    console.log size
+    console.log extraTroops
+
+    SquadPoints += extraTroops * 13 if extraTroops isnt 0
+    troops.each ->
+      switch $(this).val()
+        when "flamer" then SquadPoints += 5
+        when "meltagun", "plasmagun" then SquadPoints += 10
+        when "plasmapistol" then SquadPoints += 15
+        when "cannon" then SquadPoints += 20
+    table.find(".squadpoints").text(SquadPoints)
+
     countWeaponTypes ->
     if heavy is 1
       normalTroops.find("select option").each ->
         $(this).attr("disabled", true) if $(this).val() is "cannon"
 
-
-    # console.log  heavy  + "HEAVY"
-    # console.log  special + "Special"
 
   $("#add_squad").click ->
     event.preventDefault()
@@ -167,6 +185,7 @@ jQuery ->
   $(".remove_squad").click ->
     event.preventDefault()
     $(this).closest(".squad").remove()
+
 
   getSquadInfo = (squad) ->
     return do ->
@@ -199,6 +218,7 @@ jQuery ->
     extratroops.each ->
       $(this).find("a.remove_troop").show()
 
+
   $(".army_squads_troops_weapon select").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
@@ -214,7 +234,7 @@ jQuery ->
     if squad.type is 'cultist'
       _.times(9, -> generateTroop(troop: squad.troop))
     if squad.type is 'marine'
-      create_default_marine_squad(troop: squad.troop, location: currentSquad )
+      create_default_marine_squad(troop: squad.troop, location: currentSquad)
+
   $("#click").click ->
-      #   $.each opts.weaponOptions, (key, value) ->
-  #     opts.troops.append $("<option></option>").attr("value", value).text(key)
+    console.log $(".squad")

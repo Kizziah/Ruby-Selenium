@@ -6,7 +6,6 @@ describe Army do
     click_link "New Army"
   end
 
-
   it "should only allow 20 marines in squad using the add troop and remove troop button", :js => true  do
     page.should have_content "New army" #Jumpstarts JAVASCRIPT
     page.should match_exactly(2, ".input.select.optional.army_squads_troops_weapon")
@@ -23,63 +22,42 @@ describe Army do
 
   it "should have correct marine weapon select options for basic squad", :js => true  do
     page.find("#army_squads_attributes_0_name").select "Marine"
-    page.find("div.fields.squad table tr:nth-child(1) select").select "plasmapistol"
-    page.find("div.fields.squad table tr:nth-child(1) select")['value'].should == "plasmapistol"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "boltgun"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
+    squad_leader.select "plasmapistol"
+    squad_leader_weapon.should == "plasmapistol"
+    squad_troop(2).select "cannon"
+    troop_weapon(2).should == "boltgun"
+    give_troop_weapon_and_check_value(2, "meltagun")
+    give_troop_weapon_and_check_wrong_value(3, "meltagun", "boltgun")
+    give_troop_weapon_and_check_value(2, "boltgun")
+    give_troop_weapon_and_check_wrong_value(3, "cannon", "boltgun")
+    give_troop_weapon_and_check_value(3, "meltagun")
+    give_troop_weapon_and_check_wrong_value(2, "flamer", "boltgun")
     5.times { click_link "Add Troop" }
-    page.find("div.fields.squad table tr:nth-child(2) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "flamer"
+    give_troop_weapon_and_check_value(2, "flamer")
   end
 
  it "should have correct marine weapon select options for squad with a heavyweapon", :js => true  do
     page.find("#army_squads_attributes_0_name").select "Marine"
     page.find("div.fields.squad table tr:nth-child(1) select").select "plasmapistol"
     page.find("div.fields.squad table tr:nth-child(1) select")['value'].should == "plasmapistol"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "boltgun"
+    give_troop_weapon_and_check_wrong_value(3, "cannon", "boltgun")
     page.should match_exactly(6, ".input.select.optional.army_squads_troops_weapon")
-    page.find("div.fields.squad table tr:nth-child(3) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "meltagun"
+    give_troop_weapon_and_check_value(3, "meltagun")
     7.times { click_link "Add Troop" }
     page.should match_exactly(13, ".input.select.optional.army_squads_troops_weapon")
-    page.find("div.fields.squad table tr:nth-child(3) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "flamer"
-    page.find("div.fields.squad table tr:nth-child(6) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(6) select")['value'].should == "cannon"
-    page.find("div.fields.squad table tr:nth-child(7) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(7) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(6) select")['value'].should == "cannon"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(6) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(6) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(6) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(6) select")['value'].should == "cannon"
-    page.find("div.fields.squad table tr:nth-child(5) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(5) select")['value'].should == "boltgun"
+    give_troop_weapon_and_check_value(3, "flamer")
+    give_troop_weapon_and_check_value(6, "cannon")
+    give_troop_weapon_and_check_wrong_value(7, "cannon", "boltgun")
+    give_troop_weapon_and_check_value(3, "meltagun")
+    give_troop_weapon_and_check_wrong_value(3, "cannon", "meltagun")
+    troop_weapon(6).should == "cannon"
+    give_troop_weapon_and_check_wrong_value(2, "flamer", "boltgun")
+    give_troop_weapon_and_check_wrong_value(2, "cannon", "boltgun")
+    give_troop_weapon_and_check_value(6, "meltagun")
+    give_troop_weapon_and_check_value(6, "cannon")
+    give_troop_weapon_and_check_wrong_value(5, "meltagun", "boltgun")
     4.times { click_link "Add Troop" }
-    page.find("div.fields.squad table tr:nth-child(9) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(9) select")['value'].should == "boltgun"
+    give_troop_weapon_and_check_wrong_value(9, "flamer", "boltgun")
  end
 
   it "should remove correct weapon when squad is reduced under 10 troops", :js => true  do
@@ -87,40 +65,27 @@ describe Army do
     page.find("div.fields.squad table tr:nth-child(1) select").select "plasmapistol"
     page.find("div.fields.squad table tr:nth-child(1) select")['value'].should == "plasmapistol"
     5.times { click_link "Add Troop" }
-    page.find("div.fields.squad table tr:nth-child(2) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "cannon"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "flamer"
+    give_troop_weapon_and_check_value(2, "cannon")
+    give_troop_weapon_and_check_value(3, "flamer")
     click_link "remove"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "boltgun"
+    troop_weapon(2).should == "boltgun"
+    give_troop_weapon_and_check_wrong_value(2, "flamer", "boltgun")
     click_link "Add Troop"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "meltagun"
+    give_troop_weapon_and_check_value(2, "meltagun")
     click_link "remove"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "flamer"
-    page.find("div.fields.squad table tr:nth-child(2) select").select "meltagun"
-    page.find("div.fields.squad table tr:nth-child(2) select")['value'].should == "meltagun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "cannon"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "boltgun"
-    page.find("div.fields.squad table tr:nth-child(3) select").select "flamer"
-    page.find("div.fields.squad table tr:nth-child(3) select")['value'].should == "boltgun"
+    troop_weapon(3).should == "boltgun"
+    give_troop_weapon_and_check_value(2, "flamer")
+    give_troop_weapon_and_check_wrong_value(2, "cannon", "flamer")
+    give_troop_weapon_and_check_value(2, "meltagun")
+    give_troop_weapon_and_check_wrong_value(3, "cannon", "boltgun")
+    give_troop_weapon_and_check_wrong_value(3, "flamer", "boltgun")
   end
 
+    it "should remove correct weapon when squad is reduced under 10 troops", :js => true  do
+
+    end
 end
 
-    # page.find("div.input.select.optional.army_squads_troops_weapon").select "meltagun"
-    # 5.times { click_link "Add Troop" }
-    # select "cannon", from: "army_squads_attributes_0_troops_attributes_0_weapon"
-    # page.find("#army_squads_attributes_0_troops_attributes_0_weapon")['value'].should == "heavy"
-    # page.find("div.input.select.optional.army_squads_troops_weapon:first").select "meltagun"
-
-    # should have_selector(:title, text: "|")
     # page.has_selector?('.army_squads_attributes_0_name')
 
 

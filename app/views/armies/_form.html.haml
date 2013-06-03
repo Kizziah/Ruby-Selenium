@@ -4,11 +4,11 @@
   = f.input :faction, collection: Army::FACTIONS
 
   %h3 Squads
-  = link_to "console log", "#", id: "click"
   = f.simple_fields_for :squads do |squad|
     .fields.squad
       = link_to "Remove", '#', class: "remove_squad"
       = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
+      .squadpoints
       %h4 Troops
       %table
         %thead
@@ -26,5 +26,6 @@
 
     = link_to "Add another squad", '#', id: "add_squad"
 
-  = f.button :submit
 
+  = f.button :submit
+= link_to "console log", "#", id: "click"
