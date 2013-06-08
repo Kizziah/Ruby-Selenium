@@ -16,28 +16,32 @@ RSpec::Matchers.define :match_exactly do |expected_match_count, selector|
 end
 
 
+def points
+    page.find("div.squadpoints")
+end
+
 def squad_leader
-page.find("div.fields.squad table tr:nth-child(1) select")
+    page.find("div.fields.squad table tr:nth-child(1) select")
 end
 
 def squad_leader_weapon
-page.find("div.fields.squad table tr:nth-child(1) select")['value']
+    page.find("div.fields.squad table tr:nth-child(1) select")['value']
 end
 
 def squad_troop(number)
-page.find("div.fields.squad table tr:nth-child(#{number}) select")
+    page.find("div.fields.squad table tr:nth-child(#{number}) select")
 end
 
 def troop_weapon(number)
-page.find("div.fields.squad table tr:nth-child(#{number}) select")['value']
+    page.find("div.fields.squad table tr:nth-child(#{number}) select")['value']
 end
 
 def give_troop_weapon_and_check_value(number, weapon)
-squad_troop(number).select weapon
-troop_weapon(number).should == weapon
+    squad_troop(number).select weapon
+    troop_weapon(number).should == weapon
 end
 
 def give_troop_weapon_and_check_wrong_value(number, weapon, correct_weapon)
-squad_troop(number).select weapon
-troop_weapon(number).should == correct_weapon
+    squad_troop(number).select weapon
+    troop_weapon(number).should == correct_weapon
 end

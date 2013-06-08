@@ -17,6 +17,7 @@
 *
   margin: 0
   padding: 0
+  // background-color: black
 
 
 // ----------------------------------------------------------------------------
@@ -26,7 +27,6 @@ h1
   margin: 10px 0
 
 h3
-
   border-bottom: 1px solid gray
   padding-bottom: 3px
   margin-bottom: 10px
@@ -42,6 +42,7 @@ body
 #pagewrap
   width: 980px
   margin: 0 auto
+
 // ----------------------------------------------------------------------------
 // Tables
 // ----------------------------------------------------------------------------
@@ -50,6 +51,11 @@ table
   margin-bottom: 10px
   border-collapse: collapse
   width: 100%
+  &.tank
+    border-none
+    td
+      border: none
+      padding: none
   thead
     tr
       th
@@ -60,19 +66,15 @@ table
         text-align: left
         &.action
           width: 55px
-
   tbody
-
     tr
       td
         border: 1px solid gray
         padding: 5px 10px
-
+        background: #516780
 // ----------------------------------------------------------------------------
 // New army form
 // ----------------------------------------------------------------------------
-
-
 
 form#new_army
   width: 600px
@@ -93,19 +95,59 @@ form#new_army
     float: right
   .remove_troop
     @include button(pill, #FF3D00)
-    margin-top: -15px
     float: right
+    margin-top: -15px
+    margin-right: 25px
 
   .input.select.optional.army_squads_troops_weapon
     .select
       width: 110px
+      background-color: gray
 
   .squadpoints
     float: right
-    margin-right: 50px
+    margin-right: 80px
+    margin-top: -20px
+
+  a.add_troop
+    @include button(pill, #2BB99D)
+  #add_heavyweapon
+    @include button(#00ADFF)
+    float: right
+  #add_elite
+    @include button(#351792)
+    float: right
+  #add_hq
+    @include button(#B6C509)
+    float: right
+    width: 60px
 // ----------------------------------------------------------------------------
 // Misc
 // ----------------------------------------------------------------------------
+.troop_icon
+  float: right
+  width: 30px
+  height: 30px
+  &.havoc
+    background: image-url("choas/havoc.jpeg")
+  &.champion
+    background: image-url("choas/champion.jpeg")
+  &.choasmarine
+    background: image-url("choas/choasmarine.jpg")
+  &.gunney
+    background: image-url("choas/gunny.jpeg")
+  &.tenk
+    background: image-url("choas/10k.jpeg")
+  &.tenkleader
+    background: image-url("choas/10kleader.jpeg")
+  &.terminator
+    background: image-url("choas/terminator.jpeg")
+  &.landraider
+    background: image-url("choas/landraider.jpg")
+    width: 250px
+    height: 185px
+
+
 label
   display: block
 

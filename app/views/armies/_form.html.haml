@@ -1,31 +1,35 @@
 = simple_form_for @army do |f|
-  %h3 Select Faction
+  %h2 Select Faction
   = f.input :name
   = f.input :faction, collection: Army::FACTIONS
+  .army_points
+  .squadform
+    %h3 Squads
+    = f.simple_fields_for :squads do |squad|
+      .fields.squad
+        = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
+        .squad_wrap
+          = link_to "Remove", '#', class: "remove_squad"
+          .squadpoints
+          %h4 Troops
+          %table
+            %thead
+              %tr
+                %th Weapon
+            %tbody
+              = squad.simple_fields_for :troops do |troop|
+                %tr
+                  %td
+                    .troop_icon
+                    = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
+                    = link_to "remove", "#", class: "remove_troop"
 
-  %h3 Squads
-  = f.simple_fields_for :squads do |squad|
-    .fields.squad
-      = link_to "Remove", '#', class: "remove_squad"
-      = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
-      .squadpoints
-      %h4 Troops
-      %table
-        %thead
-          %tr
-            %th Weapon
-        %tbody
-          = squad.simple_fields_for :troops do |troop|
-            %tr
-              %td
-                .info
-                = troop.input :weapon, collection: ["meltagun", "plasmagun", "boltgun"], prompt: "Select Weapon", label: false
-                = link_to "remove", "#", class: "remove_troop"
+          = link_to "Add Troop", "#", class: "add_troop"
 
-      = link_to "Add Troop", "#", class: "add_troop"
+      = link_to "Add Troop Squad", '#', id: "add_squad"
+      = link_to "Add Elite Squad", '#', id: "add_elite"
+      = link_to "Add Heavy Weapon", '#', id: "add_heavyweapon"
+      = link_to "Add HQ", '#', id: "add_hq"
 
-    = link_to "Add another squad", '#', id: "add_squad"
-
-
-  = f.button :submit
+    = f.button :submit
 = link_to "console log", "#", id: "click"
