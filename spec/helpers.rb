@@ -15,6 +15,34 @@ RSpec::Matchers.define :match_exactly do |expected_match_count, selector|
     end
 end
 
+def confirm_squad_troop_count(x, squad)
+    table = squad.find("table")
+    y = 1
+    x.times do
+      table.find("tr:nth-child(#{y})")
+      y += 1
+    end
+    y -= 1
+    y.should == x
+    x += 1
+    table.find("tr:nth-child(#{x})") rescue x = true
+    x.should == true
+end
+
+def test_max_min_squad_size(max, min, squad)
+    troops_to_add = max - min
+    troops_to_add.times { squad.find(".add_troop").click }
+    squad.find(".add_troop").visible?.should == false
+    confirm_squad_troop_count(max, squad)
+    min_math = 0
+    min_math = min - max
+    math = min_math.abs
+    math.times {squad.find(".remove_troop").click }
+    confirm_squad_troop_count(min, squad)
+    squad.find(".remove_troop").visible?.should == false
+    squad.find(".add_troop").visible?.should == true
+
+end
 
 def points
     page.find("div.squadpoints")

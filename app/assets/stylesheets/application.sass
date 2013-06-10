@@ -72,6 +72,11 @@ table
         border: 1px solid gray
         padding: 5px 10px
         background: #516780
+table.army_composition
+  th
+    background: #351792
+  td
+    background: white
 // ----------------------------------------------------------------------------
 // New army form
 // ----------------------------------------------------------------------------
@@ -89,10 +94,6 @@ form#new_army
   .remove_squad
     float: right
 
-  #add_squad
-    @include button(#809743)
-    margin-bottom: 10px
-    float: right
   .remove_troop
     @include button(pill, #FF3D00)
     float: right
@@ -103,6 +104,14 @@ form#new_army
     .select
       width: 110px
       background-color: gray
+    &.tankraider
+      .select
+        background-color: black
+    &.berzerker
+      .select
+        float: left
+        margin-right: 50px
+        margin-top: 11px
 
   .squadpoints
     float: right
@@ -111,16 +120,23 @@ form#new_army
 
   a.add_troop
     @include button(pill, #2BB99D)
+
+  #add_squad
+    @include button(#809743)
+    float: right
   #add_heavyweapon
     @include button(#00ADFF)
+    float: right
+  #add_fastattack
+    @include button(#F06E17)
     float: right
   #add_elite
     @include button(#351792)
     float: right
+    padding-left: 16px
   #add_hq
     @include button(#B6C509)
     float: right
-    width: 60px
 // ----------------------------------------------------------------------------
 // Misc
 // ----------------------------------------------------------------------------
@@ -134,7 +150,7 @@ form#new_army
     background: image-url("choas/champion.jpeg")
   &.choasmarine
     background: image-url("choas/choasmarine.jpg")
-  &.gunney
+  &.gunny
     background: image-url("choas/gunny.jpeg")
   &.tenk
     background: image-url("choas/10k.jpeg")
@@ -146,15 +162,18 @@ form#new_army
     background: image-url("choas/landraider.jpg")
     width: 250px
     height: 185px
-
-
+  &.berzerkermodel
+    background: image-url("choas/fullsizeberzerker.png")
+    width: 150px
+    height: 150px
+    float: left
 label
   display: block
 
-.button
-  @include button(pill)
-  margin-bottom: 10px
-
+.create_army
+  .button
+    @include button(pill)
+    float: right
 .input
   margin-bottom: 10px
 
