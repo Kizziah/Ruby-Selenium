@@ -45,6 +45,8 @@
                   %td
                     .troop_icon
                     = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
+                    = troop.input :weapon2, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
+
                     = link_to "remove", "#", class: "remove_troop"
 
           = link_to "Add Troop", "#", class: "add_troop"

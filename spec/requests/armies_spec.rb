@@ -142,7 +142,7 @@ describe Army do
   end
 
   describe "Thousand Son" do
-    it "should allow max 35 troops min of 10", :js => true  do
+    it "should allow max 20 troops min of 5", :js => true  do
       page.find(".army_faction select").select "Choas Force"
       click_link "add_elite"
       squads = page.all(".squad")
@@ -182,29 +182,29 @@ end
 
 
 
-    # it "should create havoc and marine squad", :js => true do
-    #     page.find(".army_faction select").select "Choas Force"
-    #     click_link "add_heavyweapon"
-    #     squads = page.all(".squad")
-    #     squads[2].find(".army_squads_name select").select "Havoc"
-    #     squads[2].find(".squadpoints").should have_content "75"
-    #     # give_troop_weapon_and_check_value(2, "meltagun")
-    #     # give_troop_weapon_and_check_value(3, "flamer")
-    #     # give_troop_weapon_and_check_value(4, "lascannon")
-    #     # give_troop_weapon_and_check_value(5, "lascannon")
-    #     # points.should have_content "130"
-    #     # 4.times { click_link "Add Troop" }
-    #     # points.should have_content "182"
-    #     # 4.times { click_link "remove" }
-    #     # points.should have_content "130"
-    #     # click_link "add_squad"
-    #     # squads = page.all(".squad")
-    #     squads[1].find(".army_squads_name select").select "Marine"
-    #     squads[1].find("div.squadpoints").should have_content "75"
-    #     squads[1].find("table tr:nth-child(1) select").select "plasmapistol"
-    #     squads[1].find("div.squadpoints").should have_content "90"
+    it "should create havoc and marine squad", :js => true do
+        page.find(".army_faction select").select "Choas Force"
+        click_link "add_heavyweapon"
+        squads = page.all(".squad")
+        squads[2].find(".army_squads_name select").select "Havoc"
+        squads[2].find(".squadpoints").should have_content "75"
+        give_troop_weapon_and_check_value(2, "meltagun")
+        give_troop_weapon_and_check_value(3, "flamer")
+        give_troop_weapon_and_check_value(4, "lascannon")
+        give_troop_weapon_and_check_value(5, "lascannon")
+        points.should have_content "130"
+        4.times { click_link "Add Troop" }
+        points.should have_content "182"
+        4.times { click_link "remove" }
+        points.should have_content "130"
+        click_link "add_squad"
+        squads = page.all(".squad")
+        squads[1].find(".army_squads_name select").select "Marine"
+        squads[1].find("div.squadpoints").should have_content "75"
+        squads[1].find("table tr:nth-child(1) select").select "plasmapistol"
+        squads[1].find("div.squadpoints").should have_content "90"
 
-    # end
+    end
   # end
 # end
 

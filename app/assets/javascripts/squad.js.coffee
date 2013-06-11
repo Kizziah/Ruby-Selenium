@@ -1,11 +1,13 @@
 basicMarineWeapons = [
   "boltgun"
+  "boltpistol"
 ]
 gunnyWeapons = [
   "boltgun",
   "meltagun",
   "plasmagun",
-  "flamer"
+  "flamer",
+  "boltpistol"
 ]
 havocWeapons = [
   "boltgun"
@@ -96,7 +98,8 @@ createWeaponOptions = (opts = {}) ->
       weaponoptions += "<option value=\"" + opts.weapons[i] + "\">" + opts.weapons[i] + "</option>"
     opts.troops.append weaponoptions
 
-createLandraider = (opts = {}) -> #TODO DEBUG LANDRAIDER
+createLandraider = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
   createWeaponOptions(weapons: landRaiderMain, troops: opts.location.find('.army_squads_troops_weapon select'))
   gun = opts.location.closest(".squad").find('.army_squads_troops_weapon').clone(true)
   gun2 = opts.location.closest(".squad").find('.army_squads_troops_weapon').clone(true)
@@ -113,24 +116,30 @@ createLandraider = (opts = {}) -> #TODO DEBUG LANDRAIDER
   SquadPoints = 230
   opts.location.find(".squadpoints").text(SquadPoints)
   opts.location.find(".add_troop").hide()
+
 createChoasBiker = (opts = {}) ->
   _.times(2, -> generateTroop(troop: opts.troop))
   opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "champion"
   opts.location.find(" table tr:nth-child(2)").find(".troop_icon").addClass "gunny"
   opts.location.find(" table tr:nth-child(3)").find(".troop_icon").addClass "gunny"
   createWeaponOptions(weapons: gunnyWeapons, troops: opts.location.find('.army_squads_troops_weapon select'))
-
   opts.location.find(" table tr:gt(0)").each ->
     $(this).find("a.remove_troop").hide()
   SquadPoints = 70
   opts.location.find(".squadpoints").text(SquadPoints)
 
+
 createDefaultCultistSquad = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
   _.times(9, -> generateTroop(troop: opts.troop))
   createWeaponOptions(weapons: cultistWeapons, troops: opts.location.find('.army_squads_troops_weapon select'))
+  createWeaponOptions(weapons:  ["autopistol", "autogun", "shotgun"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select"))
   createWeaponOptions(weapons: cultistGunnyWeapons, troops: opts.location.find(" table tr:nth-child(2)").find(".army_squads_troops_weapon select"))
+  createWeaponOptions(weapons: ["axe", "club", "mace"], troops: opts.location.find('.army_squads_troops_weapon2 select'))
+
   opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "champion"
   opts.location.find(" table tr:nth-child(2)").find(".troop_icon").addClass "gunny"
+
   opts.location.find(" table tr:gt(2)").each ->
     $(this).find(".troop_icon").addClass "choasmarine"
   opts.location.find(" table tr:gt(0)").each ->
@@ -139,20 +148,30 @@ createDefaultCultistSquad = (opts = {}) ->
   opts.location.find(".squadpoints").text(SquadPoints)
 
 createDefaultMarineSquad = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
   _.times(4, -> generateTroop(troop: opts.troop))
   createWeaponOptions(weapons: basicMarineWeapons, troops: opts.location.find('.army_squads_troops_weapon select'))
+  createWeaponOptions(weapons: ["chainsword"], troops: opts.location.find('.army_squads_troops_weapon2 select'))
   createWeaponOptions(weapons: gunnyWeapons, troops: opts.location.find(" table tr:nth-child(2)").find(".army_squads_troops_weapon select"))
+  createWeaponOptions(weapons: ["chainsword", "powerfist"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon2 select"))
   createWeaponOptions(weapons: basicMarineLeaderWeapons, troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select"))
+
   opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "champion"
   opts.location.find(" table tr:nth-child(2)").find(".troop_icon").addClass "gunny"
+
   opts.location.find(" table tr:gt(0)").each ->
     $(this).find("a.remove_troop").hide()
+  opts.location.find(" table tr:gt(1)").each ->
+    $(this).find(".army_squads_troops_weapon2 select").hide()
   opts.location.find(" table tr:gt(2)").each ->
     $(this).find(".troop_icon").addClass "choasmarine"
+
   SquadPoints = 75
   opts.location.find(".squadpoints").text(SquadPoints)
 
 createDefaultHavocSquad = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
+
   _.times(4, -> generateTroop(troop: opts.troop))
   createWeaponOptions(weapons: havocWeapons, troops: opts.location.find('.army_squads_troops_weapon select'))
   createWeaponOptions(weapons: basicMarineLeaderWeapons, troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select"))
@@ -165,24 +184,25 @@ createDefaultHavocSquad = (opts = {}) ->
   opts.location.find(".squadpoints").text(SquadPoints)
 
 createDefaultBerzerkerSquad = (opts = {}) ->
-  #TODO CREATE 2 WEAPONS
-  _.times(4, -> generateTroop(troop: opts.troop))
-  createWeaponOptions(weapons: ["boltpistol", "chainaxe"], troops: opts.location.find('.army_squads_troops_weapon select'))
-  createWeaponOptions(weapons: ["boltpistol", "chainaxe"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select"))
-  opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "berzerkermodel"
-  ws_weapon = opts.location.closest(".squad").find('.army_squads_troops_weapon:last').clone(true)
-  squad = opts.location.find("table tr td")
-  ws_weapon.addClass "berzerker"
-  createWeaponOptions(weapons: ["chainsword", "chainaxe"], troops: ws_weapon.find("select"))
-  squad.prepend(ws_weapon)
+  opts.location.find(".squad_wrap").show()
 
-  # console.log opts.location.find("table tr td:last").addClass "berzerker"
+  _.times(4, -> generateTroop(troop: opts.troop))
+  createWeaponOptions(weapons: ["boltpistol"], troops: opts.location.find('.army_squads_troops_weapon select'))
+  createWeaponOptions(weapons: ["chainsword", "chainaxe"], troops: opts.location.find('.army_squads_troops_weapon2 select'))
+  createWeaponOptions(weapons: ["boltpistol"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select"))
+  createWeaponOptions(weapons: ["boltpistol", "plasmapistol"], troops: opts.location.find(" table tr:nth-child(2)").find(".army_squads_troops_weapon select"))
+  createWeaponOptions(weapons: ["boltpistol", "plasmapistol"], troops: opts.location.find(" table tr:nth-child(3)").find(".army_squads_troops_weapon select"))
+  opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "berzerkermodel"
+  opts.location.find(" table tr:gt(1)").each ->
+    $(this).find(".troop_icon").addClass "khornemark"
   opts.location.find(" table tr:gt(0)").each ->
     $(this).find("a.remove_troop").hide()
   SquadPoints = 105
   opts.location.find(".squadpoints").text(SquadPoints)
 
 createDefaultThousandSonSquad = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
+
   _.times(4, -> generateTroop(troop: opts.troop))
   createWeaponOptions(weapons: ["10kboltgun"], troops: opts.location.find('.army_squads_troops_weapon select'))
   createWeaponOptions(weapons: ["10kboltgun"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_weapon select"))
@@ -195,9 +215,11 @@ createDefaultThousandSonSquad = (opts = {}) ->
   opts.location.find(".squadpoints").text(SquadPoints)
 
 createSorcerer = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
   createWeaponOptions(weapons: ["Force Axe", "Boltgun"], troops: opts.location.find('.army_squads_troops_weapon select'))
 
 createKharn = (opts = {}) ->
+  opts.location.find(".squad_wrap").show()
   createWeaponOptions(weapons: ["Axe", "plasmapistol"], troops: opts.location.find('.army_squads_troops_weapon select'))
 
 weaponPointChart = (opts = {}) ->
@@ -205,10 +227,14 @@ weaponPointChart = (opts = {}) ->
   opts.troops.each ->
     switch $(this).val()
       when "autogun" then points += 1
-      when "flamer", "heavystubber" then points += 5
+      when "shotgun" then points += 2
+      when "chainaxe", "combibolter", "sonicblaster" then points += 3
+      when "flamer", "heavystubber", "meltabomb" then points += 5
       when "meltagun", "heavybotler", "autocannon" then points += 10
-      when "plasmapistol", "plasmagun", "misssle launcher" then points += 15
+      when "plasmapistol", "plasmagun", "misssle launcher", "doomsiren" then points += 15
       when "lascannon" then points += 20
+      when "powerfist" then points += 25
+      when "blastmaster" then points += 30
   return do ->
     points
 
@@ -282,6 +308,7 @@ countSquadPoints = (opts = {}) ->
   surplusTroops = opts.size - squad.min if surplusTroops isnt 0
   squadPoints += surplusTroops * squad.troop if surplusTroops isnt 0
   weaponPoints = weaponPointChart(troops: opts.troops)
+  weaponPoints += weaponPointChart(troops: opts.secondWeapon)
   squadPoints += weaponPoints
   opts.table.find(".squadpoints").text(squadPoints)
 
@@ -343,13 +370,14 @@ removeTroopRules = (opts = {}) ->
     when "Marine" then marineSquadWeaponRules(size: opts.size, table: table)
     when "Cultist" then cultistSquadWeaponRules(size: opts.size, table: table)
 
-  countSquadPoints(troops: opts.troops, table: table, size: opts.size, type: opts.type)
+  countSquadPoints(troops: opts.troops, table: table, size: opts.size, type: opts.type, secondWeapon: opts.secondWeapon)
   countArmyPoints ->
 
 getSquadInfo = (squad) ->
   return do ->
     object: squad
     troops: squad.find('.army_squads_troops_weapon select')
+    secondWeapon: squad.find('.army_squads_troops_weapon2 select')
     size: squad.find('.army_squads_troops_weapon').size()
     weapons: squad.find('.army_squads_troops_weapon select option')
     type: squad.find(".army_squads_name select").val()
@@ -463,6 +491,8 @@ setUpChoasArmy = ->
   $.each choasHQ, (i) ->
     hqOptions += "<option value=\"" + choasHQ[i] + "\">" + choasHQ[i] + "</option>"
   hqSquads.append hqOptions
+  $(".squad").find(".squad_wrap").hide()
+
   findSquad.find("h4").text("HQ")
   findSquad.find(".add_troop").hide()
 
@@ -484,6 +514,14 @@ editTableWithProperOptions = (opts = {}) ->
   findSquad.find("h4").text(opts.title)
   findSquad.find(".add_troop").hide() if opts.title is "HQ"
   armyRules ->
+
+addSecondWeapon = (opts = {}) ->
+  opts.troops.each ->
+    switch $(this).val()
+      when "boltpistol", "autopistol", "plasmapistol"
+        $(this).closest('td').find(".army_squads_troops_weapon2 select").show()
+      else
+        $(this).closest('td').find(".army_squads_troops_weapon2 select").hide()
 
 jQuery ->
 
@@ -533,7 +571,7 @@ jQuery ->
     squad = getSquadInfo(location)
     $(this).closest("tr").remove()
     squad = getSquadInfo(location)
-    removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type)
+    removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, secondWeapon: squad.secondWeapon)
     location.find(".add_troop").show()
 
   $(".add_troop").click ->
@@ -542,12 +580,18 @@ jQuery ->
     squad = getSquadInfo(currentSquad)
     addTroopRules(size: squad.size, troop: squad.troop, type: squad.type)
     newSquad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type)
+    countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, secondWeapon: newSquad.secondWeapon)
 
   $(".army_squads_troops_weapon select").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type)
+    addSecondWeapon(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, secondWeapon: squad.secondWeapon)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, secondWeapon: squad.secondWeapon)
+
+  $(".army_squads_troops_weapon2 select").change ->
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, secondWeapon: squad.secondWeapon)
 
   $(".army_squads_name select").change ->
     currentSquad = $(this).closest(".squad")

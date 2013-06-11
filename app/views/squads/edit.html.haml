@@ -5,6 +5,8 @@
   = f.input :size
   = f.simple_fields_for :troops do |troop|
     = troop.input :weapon
+    = troop.input :weapon2
+
   = f.button :submit
 
 = link_to 'Complete Details on Squad', army_squad_path(@army, @squad)

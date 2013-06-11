@@ -1,5 +1,5 @@
 class Troop < ActiveRecord::Base
-  attr_accessible :name, :points, :squad_id, :weapon
+  attr_accessible :name, :points, :squad_id, :weapon, :weapon2
   belongs_to :squad
 
   WEAPONS = [
@@ -7,5 +7,10 @@ class Troop < ActiveRecord::Base
     :missle_launcher,
     :boltgun
   ]
+
+Points = [
+  "hello",
+  "goodbye"
+]
 
 end

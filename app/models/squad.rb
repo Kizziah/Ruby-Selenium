@@ -12,17 +12,6 @@ class Squad < ActiveRecord::Base
     marine: "Marine"
   }
 
-  EXTRA_HAVOC = 13
-  EXTRA_CULTIST = 4
-  EXTRA_BEZERKER = 19
-
-
-    WEAPONS = [
-    :meltagun,
-    :missle_launcher,
-    :boltgun
-  ]
-
 
   def define_base_squad
     if self.name == "havoc"
