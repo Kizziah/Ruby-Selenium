@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails',          '3.2.8'
 gem 'devise',         '~> 2.1.2'
-gem 'sqlite3',        '~> 1.3.7'
+gem 'pg',             '~> 0.15.1'
 gem 'jquery-rails',   '~> 2.2.1'
 gem 'haml-rails',     '~> 0.4'
 gem 'simple_form',    '~> 2.1.0'
@@ -27,4 +27,9 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem "selenium-webdriver", "~> 2.32.1"
+end
+
+
+group :development do
+  gem 'heroku_san'
 end

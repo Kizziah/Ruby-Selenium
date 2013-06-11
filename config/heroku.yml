@@ -1,0 +1,9 @@
+production:
+  app: warhammer-builder
+  config:
+    BUNDLE_WITHOUT: "development:test"
+
+staging:
+  app: warhammer-builder-staging
+  config:
+    BUNDLE_WITHOUT: "development:test"
