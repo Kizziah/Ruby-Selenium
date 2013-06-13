@@ -4,7 +4,6 @@
   = f.input :faction, collection: Army::FACTIONS
   .army_points
 
-
   .squadform
     %table.army_composition
       Army Composition
@@ -34,18 +33,26 @@
         .squad_wrap
           = link_to "Remove", '#', class: "remove_squad"
           .squadpoints
-          %h4 Troops
+          %h4
           %table
             %thead
               %tr
-                %th Weapon
+                %th.squad_details
+                  .main_weapon
+                    Weapon
+                  .stats
+                    WS BS S T W I A Ld Sv
+                  .side_weapon
+                    Side Weapon
             %tbody
               = squad.simple_fields_for :troops do |troop|
                 %tr
                   %td
                     .troop_icon
                     = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
+                    .troop_details
                     = troop.input :weapon2, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
+
 
                     = link_to "remove", "#", class: "remove_troop"
 

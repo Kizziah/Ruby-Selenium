@@ -29,7 +29,6 @@ group :test do
   gem "selenium-webdriver", "~> 2.32.1"
 end
 
-
 group :development do
   gem 'heroku_san'
 end

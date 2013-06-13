@@ -23,6 +23,10 @@
 // ----------------------------------------------------------------------------
 // Typography
 // ----------------------------------------------------------------------------
+html
+  // background: image-url("choas/deamonprince.png")
+
+  background: image-url("choas/choasbackground1.jpeg")
 h1
   margin: 10px 0
 
@@ -31,6 +35,9 @@ h3
   padding-bottom: 3px
   margin-bottom: 10px
   margin-top: 40px
+
+h4
+  float: center
 
 // ----------------------------------------------------------------------------
 // Layout
@@ -42,7 +49,6 @@ body
 #pagewrap
   width: 980px
   margin: 0 auto
-
 // ----------------------------------------------------------------------------
 // Tables
 // ----------------------------------------------------------------------------
@@ -66,12 +72,29 @@ table
         text-align: left
         &.action
           width: 55px
+      .squad_details
+        .main_weapon
+          float: left
+        .stats
+          float: left
+          margin-left: 146px
+        .side_weapon
+          float: right
+          margin-right: 77px
+
   tbody
     tr
       td
         border: 1px solid gray
         padding: 5px 10px
         background: #516780
+      .troop_details
+        float: left
+        margin-left: 198px
+        margin-top: -29px
+        font-family: fantasy
+        font-size: 18px
+
 table.army_composition
   th
     background: #351792
@@ -109,9 +132,10 @@ form#new_army
       width: 110px
       background-color: gray
       float: right
-      margin-right: 128px
+      margin-right: 16px
       margin-top: -28px
-
+      &.deamonprince
+        margin-right: 35px
     &.tankraider
       .select
         background-color: black
@@ -148,6 +172,10 @@ form#new_army
 // ----------------------------------------------------------------------------
 // Misc
 // ----------------------------------------------------------------------------
+.army_points
+  font-size: 30px
+  float: right
+
 .troop_icon
   float: right
   width: 30px
@@ -175,6 +203,16 @@ form#new_army
     width: 150px
     height: 150px
     float: left
+  &.deamonprince
+    background: image-url("choas/deamonprince.png")
+    width: 230px
+    height: 230px
+    float: left
+  &.kharn
+    background: image-url("choas/kharn.png")
+    width: 180px
+    height: 180px
+    float: left
   &.khornemark
     background: image-url("choas/khornemark.jpg")
 label
@@ -186,6 +224,4 @@ label
     float: right
 .input
   margin-bottom: 10px
-
-
 
