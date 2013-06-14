@@ -23,9 +23,10 @@
 // ----------------------------------------------------------------------------
 // Typography
 // ----------------------------------------------------------------------------
-html
-  // background: image-url("choas/deamonprince.png")
+html.index
+  background: image-url("choas/indexbackground.jpg")
 
+html.choas_army
   background: image-url("choas/choasbackground1.jpeg")
 h1
   margin: 10px 0
@@ -52,11 +53,24 @@ body
 // ----------------------------------------------------------------------------
 // Tables
 // ----------------------------------------------------------------------------
+.army_composition
+  float: right
+  margin-right: -420px
+  table
+    // thead
+    //   display: table-cell
+    // th
+    //   display: table-cell
+    tr
+      float: right
+
+      display: table-cell
+    td
+      background: gray
 table
   background: white
   margin-bottom: 10px
   border-collapse: collapse
-  width: 100%
   &.tank
     border-none
     td
@@ -94,12 +108,6 @@ table
         margin-top: -29px
         font-family: fantasy
         font-size: 18px
-
-table.army_composition
-  th
-    background: #351792
-  td
-    background: white
 // ----------------------------------------------------------------------------
 // New army form
 // ----------------------------------------------------------------------------
@@ -109,13 +117,20 @@ form#new_army
 
   .squad.fields
     border: 1px solid #ccc
-    background: #f0f0f0
+    background: #1A0808
     border-radius: 5px
     padding: 15px
     margin-bottom: 10px
-
+    width: 100%
+    .squad_table
+      background: white
+      margin-bottom: 10px
+      border-collapse: collapse
+      width: 100%
   .remove_squad
     float: right
+
+
 
   .remove_troop
     @include button(pill, #FF3D00)
@@ -169,6 +184,14 @@ form#new_army
   #add_hq
     @include button(#B6C509)
     float: right
+// ----------------------------------------------------------------------------
+// Index Page
+// ----------------------------------------------------------------------------
+.Choas_Army_Button
+  @include button(black)
+
+.BloodAngel_Army_Button
+  @include button(red)
 // ----------------------------------------------------------------------------
 // Misc
 // ----------------------------------------------------------------------------

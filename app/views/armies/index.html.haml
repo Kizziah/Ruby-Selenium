@@ -1,17 +1,19 @@
-%h1 Army
+%html.index
+  %h1 Choose Type of Army
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th.action Edit
-      %th.action Destroy
-  %tbody
-    - @armies.each do |army|
+  %table
+    %thead
       %tr
-        %td= link_to army.name, army
-        %td= link_to 'Edit', edit_army_path(army)
-        %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
+        %th Name
+        %th.action Edit
+        %th.action Destroy
+    %tbody
+      - @armies.each do |army|
+        %tr
+          %td= link_to army.name, army
+          %td= link_to 'Edit', edit_army_path(army)
+          %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
 
 
-= link_to 'New Army', new_army_path, class: "button"
+  = link_to 'Create Choas Army', new_army_path, class: "Choas_Army_Button"
+  = link_to 'Create Blood Angel Army', new_army_path, class: "BloodAngel_Army_Button"

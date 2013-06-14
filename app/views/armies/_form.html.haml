@@ -5,27 +5,28 @@
   .army_points
 
   .squadform
-    %table.army_composition
-      Army Composition
-      %thead
-        %th.army_name HQ
-        %th.army_name Troop
-        %th.army_name Elite
-        %th.army_name Heavy Support
-        %th.army_name Fast Attack
-      %tbody
-        %tr
-        %td.hq 1
-        %td.troop 2
-        %td.elite 0
-        %td.heavy 0
-        %td.fast 0
-        %tr
-        %td 2
-        %td 6
-        %td 3
-        %td 3
-        %td 3
+    .army_composition
+      %table
+        Army Composition
+        %thead
+          %th.army_name HQ
+          %th.army_name Troop
+          %th.army_name Elite
+          %th.army_name Heavy Support
+          %th.army_name Fast Attack
+        %tbody
+          %tr
+          %td.hq 1
+          %td.troop 2
+          %td.elite 0
+          %td.heavy 0
+          %td.fast 0
+          %tr
+          %td 2
+          %td 6
+          %td 3
+          %td 3
+          %td 3
     %h3 Squads
     = f.simple_fields_for :squads do |squad|
       .fields.squad
@@ -33,8 +34,8 @@
         .squad_wrap
           = link_to "Remove", '#', class: "remove_squad"
           .squadpoints
-          %h4
-          %table
+          %h4 Troops
+          %table.squad_table
             %thead
               %tr
                 %th.squad_details
@@ -51,13 +52,13 @@
                     .troop_icon
                     = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     .troop_details
-                    = troop.input :weapon2, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
+                    = troop.input :weapon2, collection: ["Side Weapon"], prompt: "Side Weapon", label: false
 
 
                     = link_to "remove", "#", class: "remove_troop"
 
           = link_to "Add Troop", "#", class: "add_troop"
-
+    .add_buttons
       = link_to "Add Troop Squad", '#', id: "add_squad"
       = link_to "Add Elite Squad", '#', id: "add_elite"
       = link_to "Add Heavy Support", '#', id: "add_heavyweapon"
