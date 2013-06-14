@@ -9,15 +9,16 @@ describe Army do
   describe "Marine Squad" do
 
     it "allow max of 20 troops in Squad and Min of 5 troops", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
+      click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[0].find(".army_squads_name select").select "Marine"
       confirm_squad_troop_count(5, squads[0])
       test_max_min_squad_size(20, 5, squads[0])
+
     end
 
     it "should have the correct troop images", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
+      click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[0].find(".army_squads_name select").select "Marine"
       champion = squads[0].find("table").find("td:nth-child(1)")
@@ -36,7 +37,6 @@ describe Army do
     end
 
     it "only allow heavy weapon when size is 10 or greater", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
       page.find("#army_squads_attributes_0_name").select "Marine"
       give_troop_weapon_and_check_value(1, "plasmapistol")
       5.times { click_link "Add Troop" }
@@ -47,7 +47,7 @@ describe Army do
     end
 
     it "calculate squad with correct points", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
+      click_link "add_heavyweapon"
       page.find("#army_squads_attributes_0_name").select "Marine"
       points.should have_content "75"
       give_troop_weapon_and_check_value(1, "plasmapistol")
@@ -73,14 +73,14 @@ describe Army do
 
   describe "Cultist" do
     it "should allow max 35 troops min of 10", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
+      click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[0].find(".army_squads_name select").select "Cultist"
       test_max_min_squad_size(35, 10, squads[0])
     end
 
     it "should calculate correct points", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
+      click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[0].find(".army_squads_name select").select "Cultist"
       squads[0].find(".squadpoints").should have_content "50"
@@ -91,7 +91,7 @@ describe Army do
     end
 
     it "should allow 1 flamer for every 10 troops", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
+      click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[0].find(".army_squads_name select").select "Cultist"
       gunny1 = squads[0].find("table").find("tr:nth-child(2)").find("td").find(".troop_icon")
@@ -113,7 +113,6 @@ describe Army do
 
   describe "Havoc" do
     it "should allow max 10 troops min of 5", :js => true do
-      page.find(".army_faction select").select "Choas Force"
       click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[3].find(".army_squads_name select").select "Havoc"
@@ -121,7 +120,6 @@ describe Army do
     end
 
     it "should have correct images", :js => true do
-      page.find(".army_faction select").select "Choas Force"
       click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[3].find(".army_squads_name select").select "Havoc"
@@ -143,7 +141,6 @@ describe Army do
 
   describe "Thousand Son" do
     it "should allow max 20 troops min of 5", :js => true  do
-      page.find(".army_faction select").select "Choas Force"
       click_link "add_elite"
       squads = page.all(".squad")
       squads[3].find(".army_squads_name select").select "Thousand Son"
@@ -151,7 +148,6 @@ describe Army do
     end
 
     it "should be classified as a Troop squad when a Sorcerer is included", :js => true do
-      page.find(".army_faction select").select "Choas Force"
       click_link "add_elite"
       squads = page.all(".squad")
       squads[3].find(".army_squads_name select").select "Thousand Son"
@@ -165,7 +161,6 @@ describe Army do
 
   describe "Berzerker" do
     it "should allow max 20 troops min of 5", :js => true do
-      page.find(".army_faction select").select "Choas Force"
       click_link "add_elite"
       squads = page.all(".squad")
       squads[3].find(".army_squads_name select").select "Berzerker"

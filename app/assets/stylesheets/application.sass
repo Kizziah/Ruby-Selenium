@@ -23,11 +23,7 @@
 // ----------------------------------------------------------------------------
 // Typography
 // ----------------------------------------------------------------------------
-html.index
-  background: image-url("choas/indexbackground.jpg")
 
-html.choas_army
-  background: image-url("choas/choasbackground1.jpeg")
 h1
   margin: 10px 0
 
@@ -43,6 +39,12 @@ h4
 // ----------------------------------------------------------------------------
 // Layout
 // ----------------------------------------------------------------------------
+html.index
+  background: image-url("choas/indexbackground.jpg")
+
+html.choas_army
+  background: image-url("choas/choasbackground1.jpeg")
+
 body
   font-family: helvetica, sans-serif
   font-size: 12px
@@ -50,23 +52,25 @@ body
 #pagewrap
   width: 980px
   margin: 0 auto
+
 // ----------------------------------------------------------------------------
 // Tables
 // ----------------------------------------------------------------------------
 .army_composition
   float: right
-  margin-right: -420px
-  table
-    // thead
-    //   display: table-cell
-    // th
-    //   display: table-cell
-    tr
-      float: right
+  margin-top: -110px
+  margin-right: -236px
 
-      display: table-cell
-    td
+  table
+    thead
       background: gray
+    th
+
+    tr
+
+    td
+
+
 table
   background: white
   margin-bottom: 10px
@@ -116,8 +120,8 @@ form#new_army
   width: 600px
 
   .squad.fields
-    border: 1px solid #ccc
-    background: #1A0808
+    // border: 1px solid #ccc
+    // background: #1A0808
     border-radius: 5px
     padding: 15px
     margin-bottom: 10px
@@ -128,6 +132,7 @@ form#new_army
       border-collapse: collapse
       width: 100%
   .remove_squad
+    @include button(pill, #FF3D00)
     float: right
 
 
@@ -135,8 +140,8 @@ form#new_army
   .remove_troop
     @include button(pill, #FF3D00)
     float: right
-    margin-top: -15px
-    margin-right: 25px
+    margin-top: -32px
+    margin-right: 132px
 
   .input.select.optional.army_squads_troops_weapon
     .select

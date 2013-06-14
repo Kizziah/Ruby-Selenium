@@ -1,32 +1,40 @@
 = simple_form_for @army do |f|
-  %h2 Select Faction
+
   = f.input :name
-  = f.input :faction, collection: Army::FACTIONS
+
   .army_points
 
   .squadform
     .army_composition
+      Choas Army List
       %table
-        Army Composition
+
         %thead
-          %th.army_name HQ
-          %th.army_name Troop
-          %th.army_name Elite
-          %th.army_name Heavy Support
-          %th.army_name Fast Attack
-        %tbody
-          %tr
+          %th Squads
+          %th #
+          %th max
+        %tr
+          %td HQ
           %td.hq 1
+          %td 1
+        %tr
+          %td Troop
           %td.troop 2
-          %td.elite 0
-          %td.heavy 0
-          %td.fast 0
-          %tr
-          %td 2
           %td 6
+        %tr
+          %td Elite
+          %td.elite 0
           %td 3
+        %tr
+          %td Heavy Support
+          %td.heavy 0
           %td 3
+        %tr
+          %td Fast Attack
+          %td.fast 0
           %td 3
+
+
     %h3 Squads
     = f.simple_fields_for :squads do |squad|
       .fields.squad
