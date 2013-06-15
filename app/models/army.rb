@@ -2,6 +2,7 @@ class Army < ActiveRecord::Base
   attr_accessible :faction, :name, :squads_attributes, :extra
   has_many :squads
   accepts_nested_attributes_for :squads, allow_destroy: true
+  validates_presence_of :name
 
   FACTIONS = [
     "Choas Force",

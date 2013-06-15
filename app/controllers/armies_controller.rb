@@ -7,6 +7,7 @@ class ArmiesController < ApplicationController
   def show
     @army = Army.find(params[:id])
     @army.squads.each do |squad|
+      squad.delete_if_not_valid
     end
   end
 
@@ -14,7 +15,7 @@ class ArmiesController < ApplicationController
     @army = Army.new
     @squad = @army.squads.build
     @squad.troops.build
-    @info = "troop"
+
   end
 
   def edit
@@ -31,6 +32,7 @@ class ArmiesController < ApplicationController
     if @army.save
       @army.squads.each do |s|
         s.define_base_squad
+        s.delete_if_not_valid
       end
       redirect_to @army, notice: 'Army was successfully created.'
     else

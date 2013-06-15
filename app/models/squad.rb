@@ -3,7 +3,7 @@ class Squad < ActiveRecord::Base
   belongs_to :army
   has_many :troops
   accepts_nested_attributes_for :troops, allow_destroy: true
-  # validates_presence_of :name
+  validates_presence_of :name
 
   TYPES = {
     havoc: "Havoc",
@@ -12,6 +12,15 @@ class Squad < ActiveRecord::Base
     marine: "Marine"
   }
 
+
+  def valid_squad?(squad)
+    ["Cultist", "Thousand Son", "Havoc", "Marine", "Berzerker", "LandRaider", "Sorcerer", "Kharn", "Terminator", "Deamon Prince",
+      "Choas Biker"].include?(squad)
+  end
+
+  def delete_if_not_valid
+    self.delete unless valid_squad?(self.name)
+  end
 
   def define_base_squad
     if self.name == "havoc"
