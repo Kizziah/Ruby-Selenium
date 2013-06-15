@@ -10,11 +10,7 @@ class Army < ActiveRecord::Base
   ]
 
   def points
-    total = 0
-    squads.each do |squad|
-      total += squad.points unless squad.points.nil?
-    end
-    total
   end
+
 
 end
