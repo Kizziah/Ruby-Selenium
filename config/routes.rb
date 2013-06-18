@@ -1,6 +1,7 @@
 WarhammerBuilder::Application.routes.draw do
 
   get "armies/new_blood" => "armies#new_blood"
+  get "armies/new_wolf" => "armies#new_wolf"
 
 
   resources :armies do

@@ -4,6 +4,7 @@
 = @squad.mark
 = simple_form_for [@army, @squad] do |f|
 
+  = f.input :extras
   = f.input :size
   = f.input :mark
   = f.simple_fields_for :troops do |troop|

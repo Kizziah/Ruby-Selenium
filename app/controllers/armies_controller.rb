@@ -16,7 +16,12 @@ class ArmiesController < ApplicationController
     @army = Army.new
     @squad = @army.squads.build
     @squad.troops.build
+  end
 
+  def new_wolf
+    @army = Army.new
+    @squad = @army.squads.build
+    @squad.troops.build
   end
 
 

@@ -50,30 +50,28 @@
         .squad_wrap
 
           = link_to "Remove", '#', class: "remove_squad"
-          .squad_extras_list
-
           .squadpoints
           %h4 Troops
           %table.squad_table
             %thead
-
               %tr
                 %th.squad_details
                   .main_weapon
                     Weapon
-                  .stats
-                    WS BS S T W I A Ld Sv
+
                   .side_weapon
                     Side Weapon
                   .squad_click_addons
-                    = squad.check_box :extras, label: "meltabomb"
-                    meltabomb
-                    %br
-                    = check_box :hello, class: "mutation"
-                    mutation
-                    %br
-                    = check_box :hello, class: "veteran"
-                    veteran
+                    = squad.input :extras, class: "extras"
+                    .meltabomb
+                      = squad.check_box :extras, class: "meltabomb"
+                      meltabomb
+                    .mutation
+                      = check_box :extras, class: "mutation"
+                      gift of mutation
+                    .veteran
+                      = check_box :extras, class: "veteran"
+                      veteran
                   .mark
                     Choas Mark
                     = squad.input :mark, collection: ["Khorne", "Tzeentch", "Slaanesh", "Nurgle"], label: false
@@ -89,6 +87,7 @@
                     = troop.input :side_weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     = link_to "remove", "#", class: "remove_troop"
 
+
           = link_to "Add Troop", "#", class: "add_troop"
     .add_buttons
       = link_to "Add Troop Squad", '#', id: "add_squad"
@@ -98,3 +97,5 @@
       = link_to "Add HQ", '#', id: "add_hq"
 
     .create_army= f.button :submit
+
+= link_to "Click", '#', id: "click"

@@ -3,23 +3,25 @@
     %head
       %h1 Warhammer 40K Army Builder
 
-    %h2 Armies
-    %table
-      %thead
-        %tr
-          %th Name
-          %th.action Edit
-          %th.action Destroy
-      %tbody
-        - @armies.each do |army|
-          %tr
-            %td= link_to army.name, army
-            %td= link_to 'Edit', edit_army_path(army)
-            %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
+    / %h2 Armies
+    / %table
+    /   %thead
+    /     %tr
+    /       %th Name
+    /       %th.action Edit
+    /       %th.action Destroy
+    /   %tbody
+    /     - @armies.each do |army|
+    /       %tr
+    /         %td= link_to army.name, army
+    /         %td= link_to 'Edit', edit_army_path(army)
+    /         %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
 
     .army_buttons
       = link_to 'Create Choas Army', new_army_path, class: "Choas_Army_Button"
+      %br
       = link_to 'Create Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
+      %br
+      = link_to 'Create Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
 
-    .faction
 

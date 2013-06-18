@@ -48,6 +48,9 @@ body.choasbackground
 body.bloodangelbackground
   background: image-url("bloodangel.jpg")
 
+body.spacewolfbackground
+  background: image-url("spacewolfbackground.jpg")
+
 body
   font-family: helvetica, sans-serif
   font-size: 12px
@@ -189,9 +192,9 @@ form#new_army
         margin-top: 11px
 
   .squadpoints
+    @include button(#1A9CE6)
     float: right
     margin-right: 80px
-    margin-top: -20px
 
   a.add_troop
     @include button(pill, #2BB99D)
@@ -213,14 +216,22 @@ form#new_army
     @include button(#B6C509)
     float: right
     padding: 7px 17px
+
 // ----------------------------------------------------------------------------
 // Index Page
 // ----------------------------------------------------------------------------
 .Choas_Army_Button
   @include button(black)
+  width: 137px
 
 .BloodAngel_Army_Button
   @include button(red)
+  width: 137px
+
+.SpaceWolf_Army_Button
+  @include button(blue)
+  width: 137px
+
 // ----------------------------------------------------------------------------
 // Misc
 // ----------------------------------------------------------------------------
@@ -282,6 +293,6 @@ label
   margin-bottom: 10px
 
 .army_buttons
-  margin-top: -191px
-  margin-left: 313px
+  // margin-top: -191px
+  // margin-left: 313px
 

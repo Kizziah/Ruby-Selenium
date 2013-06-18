@@ -255,9 +255,9 @@ createDefaultMarineSquad = (opts = {}) ->
 
   createWeaponOptions(weapons: ["Addons", "meltabomb", "Choas Mark"], troops: opts.location.find(".squad_extras select"))
   createWeaponOptions(weapons: ["chainsword", "powerfist", "powerweapon"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_side_weapon select"))
-  opts.location.find(" table tr:nth-child(1)").find(".troop_details").text("4 4 4 4 4 2 9 3")
+  opts.location.find(" table tr:nth-child(1)").find(".troop_details").text("4ws 4bs 4s 4t 1w 4i 2a 9ld 3sv")
   opts.location.find(" table tr:gt(1)").each ->
-    $(this).find(".troop_details").text("4 4 4 4 4 1 8 3")
+    $(this).find(".troop_details").text("4ws 4bs 4s 4t 1w 4i 1a 8ld 3sv")
 
 createDefaultHavocSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -592,6 +592,10 @@ createNewTable = (opts = {}) ->
     number: newNumber
     matcher: squadMatcher
   renameField
+    field: squadClone.find('.army_squads_extras input')
+    number: newNumber
+    matcher: squadMatcher
+  renameField
     field: squadClone.find('.army_squads_troops_weapon select')
     number: newNumber
     matcher: squadMatcher
@@ -643,11 +647,6 @@ editTableWithProperOptions = (opts = {}) ->
   findSquad.find(".add_troop").hide() if opts.title is "HQ"
   armyRules ->
 
-editSquadExtras = (opts = {}) ->
-  if opts.extras.val() is "Choas Mark"
-    opts.table.find(".troop_points").text("5")
-  if opts.extras.val() is "meltabomb"
-    opts.table.find("table tr td:first").find(".troop_points").text("5")
 
 jQuery ->
 
@@ -719,17 +718,44 @@ jQuery ->
     squad = getSquadInfo(currentSquad)
     countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
 
-  $(".army_squads_extras select").change ->
+  addMeltabomb = (opts = {}) ->
+    currentSquad = opts.currentSquad
+    points = 0
+    if currentSquad.find(".meltabomb input").is(':checked') is true
+      points += 5
+      currentSquad.find(".army_squads_extras input").val("meltabomb")
+    return do ->
+      points
+  addMutation = (opts = {}) ->
+    currentSquad = opts.currentSquad
+    points = 0
+    if currentSquad.find(".mutation input").is(':checked') is true
+      points += 5
+      currentSquad.find(".army_squads_extras input").val("mutation")
+    return do ->
+      points
+
+  $(".squad_click_addons").find(".meltabomb input").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
-    editSquadExtras(table: currentSquad, extras: squad.squadExtras)
+    addMeltabomb(currentSquad: currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+  $(".squad_click_addons").find(".mutation input").change ->
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    addMutation(currentSquad: currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+  $(".squad_click_addons").find(".veteran input").change ->
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    addVetetarn(currentSquad: currentSquad)
     countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
 
   $(".army_squads_name select").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
-
-
     champion = $(this).closest(".squad").find("table tbody tr:first")
 
     while squad.size > 1  # reset troops in squad for when squad changes types
@@ -754,4 +780,6 @@ jQuery ->
     countArmyPoints ->
 
   $("#click").click ->
-
+    # input = $(".squad:first").find(".squad_click_addons").find(".meltabomb input") input.is(':checked') is true
+    # alert "meltabomb" if input.is(':checked') is true
+    console.log $(".army_squads_extras input").val()
