@@ -591,10 +591,10 @@ createNewTable = (opts = {}) ->
     field: squadClone.find('.army_squads_mark select')
     number: newNumber
     matcher: squadMatcher
-  renameField
-    field: squadClone.find('.army_squads_extras input')
-    number: newNumber
-    matcher: squadMatcher
+  # renameField
+  #   field: squadClone.find('.army_squads_extras input')
+  #   number: newNumber
+  #   matcher: squadMatcher
   renameField
     field: squadClone.find('.army_squads_troops_weapon select')
     number: newNumber
@@ -731,7 +731,8 @@ jQuery ->
     points = 0
     if currentSquad.find(".mutation input").is(':checked') is true
       points += 5
-      currentSquad.find(".army_squads_extras input").val("mutation")
+      input = currentSquad.find(".army_squads_extras input")
+      input.val("mutation")
     return do ->
       points
 

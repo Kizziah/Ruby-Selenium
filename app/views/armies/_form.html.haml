@@ -48,7 +48,6 @@
       .fields.squad
         = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
         .squad_wrap
-
           = link_to "Remove", '#', class: "remove_squad"
           .squadpoints
           %h4 Troops
@@ -62,7 +61,7 @@
                   .side_weapon
                     Side Weapon
                   .squad_click_addons
-                    = squad.input :extras, class: "extras"
+                    / = squad.input :extras, class: "extras"
                     .meltabomb
                       = squad.check_box :extras, class: "meltabomb"
                       meltabomb
@@ -86,7 +85,6 @@
                     .troop_details
                     = troop.input :side_weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     = link_to "remove", "#", class: "remove_troop"
-
 
           = link_to "Add Troop", "#", class: "add_troop"
     .add_buttons

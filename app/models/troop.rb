@@ -12,9 +12,9 @@ class Troop < ActiveRecord::Base
     :pistol
   ]
 
-Points = [
-  "hello",
-  "goodbye"
-]
+  Points = [
+    "hello",
+    "goodbye"
+  ]
 
 end

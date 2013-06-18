@@ -45,6 +45,7 @@ class ArmiesController < ApplicationController
 
     if @army.save
       @army.squads.each do |s|
+
         s.define_base_squad
         s.delete_if_not_valid
       end
