@@ -5,33 +5,41 @@
   .army_points
 
   .squadform
-    .army_composition
+    .army_list
       Choas Army List
       %table
 
         %thead
           %th Squads
           %th #
+          %th.points points
           %th max
         %tr
           %td HQ
           %td.hq 1
+          %td 0
           %td 1
         %tr
           %td Troop
           %td.troop 2
+          %td 0
           %td 6
         %tr
           %td Elite
           %td.elite 0
+          %td 0
           %td 3
+
         %tr
           %td Heavy Support
           %td.heavy 0
+          %td 0
           %td 3
+
         %tr
           %td Fast Attack
           %td.fast 0
+          %td 0
           %td 3
 
 
@@ -40,11 +48,15 @@
       .fields.squad
         = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
         .squad_wrap
+
           = link_to "Remove", '#', class: "remove_squad"
+          .squad_extras_list
+
           .squadpoints
           %h4 Troops
           %table.squad_table
             %thead
+
               %tr
                 %th.squad_details
                   .main_weapon
@@ -53,16 +65,28 @@
                     WS BS S T W I A Ld Sv
                   .side_weapon
                     Side Weapon
+                  .squad_click_addons
+                    = squad.check_box :extras, label: "meltabomb"
+                    meltabomb
+                    %br
+                    = check_box :hello, class: "mutation"
+                    mutation
+                    %br
+                    = check_box :hello, class: "veteran"
+                    veteran
+                  .mark
+                    Choas Mark
+                    = squad.input :mark, collection: ["Khorne", "Tzeentch", "Slaanesh", "Nurgle"], label: false
+
             %tbody
               = squad.simple_fields_for :troops do |troop|
                 %tr
                   %td
+                    .troop_points
                     .troop_icon
                     = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     .troop_details
                     = troop.input :side_weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
-
-
                     = link_to "remove", "#", class: "remove_troop"
 
           = link_to "Add Troop", "#", class: "add_troop"

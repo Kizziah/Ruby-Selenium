@@ -39,11 +39,14 @@ h4
 // ----------------------------------------------------------------------------
 // Layout
 // ----------------------------------------------------------------------------
-html.index
+body.index
   background: image-url("choas/indexbackground.jpg")
 
-html.choas_army
+body.choasbackground
   background: image-url("choas/choasbackground1.jpeg")
+
+body.bloodangelbackground
+  background: image-url("bloodangel.jpg")
 
 body
   font-family: helvetica, sans-serif
@@ -56,7 +59,7 @@ body
 // ----------------------------------------------------------------------------
 // Tables
 // ----------------------------------------------------------------------------
-.army_composition
+.army_list
   float: right
   margin-top: -110px
   margin-right: -236px
@@ -86,11 +89,13 @@ table
         border: 1px solid gray
         background: #333
         color: white
-        padding: 5px 10px
+        padding: 25px 10px
         text-align: left
         &.action
           width: 55px
       .squad_details
+        padding-bottom: 10px
+
         .main_weapon
           float: left
         .stats
@@ -115,6 +120,23 @@ table
 // ----------------------------------------------------------------------------
 // New army form
 // ----------------------------------------------------------------------------
+.squad_click_addons
+  float: right
+  margin-right: 174px
+.squad_extras
+  // margin-bottom: -45px
+  margin-left: 98px
+
+.squad_extras_list
+
+.troop_points
+  float: center
+  margin-left: 380px
+
+.mark
+  float: right
+  margin-right: -240px
+
 
 form#new_army
   width: 600px
@@ -125,12 +147,13 @@ form#new_army
     border-radius: 5px
     padding: 15px
     margin-bottom: 10px
-    width: 100%
+    width: 785px
     .squad_table
       background: white
       margin-bottom: 10px
       border-collapse: collapse
       width: 100%
+
   .remove_squad
     @include button(pill, #FF3D00)
     float: right
@@ -239,6 +262,11 @@ form#new_army
     float: left
   &.kharn
     background: image-url("choas/kharn.png")
+    width: 180px
+    height: 180px
+    float: left
+  &.sorcerer
+    background: image-url("choas/sorcerer.jpeg")
     width: 180px
     height: 180px
     float: left

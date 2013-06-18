@@ -1,6 +1,7 @@
 class ArmiesController < ApplicationController
 
   def index
+    @faction = ["choas", "blood"]
     @armies = Army.all
   end
 
@@ -10,6 +11,14 @@ class ArmiesController < ApplicationController
       squad.delete_if_not_valid
     end
   end
+
+  def new_blood
+    @army = Army.new
+    @squad = @army.squads.build
+    @squad.troops.build
+
+  end
+
 
   def new
     @army = Army.new

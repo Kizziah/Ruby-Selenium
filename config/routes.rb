@@ -1,5 +1,8 @@
 WarhammerBuilder::Application.routes.draw do
 
+  get "armies/new_blood" => "armies#new_blood"
+
+
   resources :armies do
     resources :squads
   end

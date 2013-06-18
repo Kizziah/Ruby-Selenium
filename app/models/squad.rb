@@ -1,5 +1,5 @@
 class Squad < ActiveRecord::Base
-  attr_accessible :army_id, :name, :points, :size, :troops_attributes
+  attr_accessible :army_id, :name, :points, :size, :extras, :mark, :troops_attributes
   belongs_to :army
   has_many :troops
   accepts_nested_attributes_for :troops, allow_destroy: true

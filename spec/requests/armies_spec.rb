@@ -38,7 +38,7 @@ describe Army do
 
     it "only allow heavy weapon when size is 10 or greater", :js => true  do
       page.find("#army_squads_attributes_0_name").select "Marine"
-      give_troop_weapon_and_check_value(1, "plasmapistol")
+      # give_troop_weapon_and_check_value(1, "plasmapistol")
       5.times { click_link "Add Troop" }
       give_troop_weapon_and_check_value(3, "lascannon")
       click_link "remove"
@@ -50,13 +50,11 @@ describe Army do
       click_link "add_heavyweapon"
       page.find("#army_squads_attributes_0_name").select "Marine"
       points.should have_content "75"
-      give_troop_weapon_and_check_value(1, "plasmapistol")
-      points.should have_content "90"
+      # give_troop_weapon_and_check_value(1, "boltpistol")
       click_link "Add Troop"
-      points.should have_content "103"
+      points.should have_content "88"
       4.times { click_link "Add Troop" }
-      points.should have_content "155"
-      give_troop_weapon_and_check_value(1, "boltpistol")
+      points.should have_content "140"
       points.should have_content "140"
       give_troop_weapon_and_check_value(2, "meltagun")
       points.should have_content "150"
@@ -84,6 +82,8 @@ describe Army do
       squads = page.all(".squad")
       squads[0].find(".army_squads_name select").select "Cultist"
       squads[0].find(".squadpoints").should have_content "50"
+      # give_troop_weapon_and_check_value(1, "auto")
+
       squads[0].find(".add_troop").click
       squads[0].find(".squadpoints").should have_content "54"
       squads[0].find(".remove_troop").click
@@ -116,6 +116,9 @@ describe Army do
       click_link "add_heavyweapon"
       squads = page.all(".squad")
       squads[3].find(".army_squads_name select").select "Havoc"
+      squads[3].find("table").find("td:nth-child(1) select").select "boltpistol"
+      give_troop_weapon_and_check_value(2, "lascannon")
+
       test_max_min_squad_size(10, 5, squads[3])
     end
 
@@ -170,43 +173,10 @@ describe Army do
       squads[3].find("h4").should have_content "Troops"
       squads[2].find(".army_squads_name select").select "Sorcerer"
       squads[3].find("h4").should have_content "Elite"
-
     end
   end
 end
 
-    # it "should create havoc and marine squad", :js => true do
-    #     page.find(".army_faction select").select "Choas Force"
-    #     click_link "add_heavyweapon"
-    #     squads = page.all(".squad")
-    #     squads[2].find(".army_squads_name select").select "Havoc"
-    #     squads[2].find(".squadpoints").should have_content "75"
-    #     give_troop_weapon_and_check_value(2, "meltagun")
-    #     give_troop_weapon_and_check_value(3, "flamer")
-    #     give_troop_weapon_and_check_value(4, "lascannon")
-    #     give_troop_weapon_and_check_value(5, "lascannon")
-    #     points.should have_content "130"
-    #     4.times { click_link "Add Troop" }
-    #     points.should have_content "182"
-    #     4.times { click_link "remove" }
-    #     points.should have_content "130"
-    #     click_link "add_squad"
-    #     squads = page.all(".squad")
-    #     squads[1].find(".army_squads_name select").select "Marine"
-    #     squads[1].find("div.squadpoints").should have_content "75"
-    #     squads[1].find("table tr:nth-child(1) select").select "plasmapistol"
-    #     squads[1].find("div.squadpoints").should have_content "90"
 
-    # end
-  # end
-# end
-
-
-
-
-      # give_troop_weapon_and_check_value(2, "lascannon")
-      # points.should have_content "110"
-
-    # page.has_selector?('.army_squads_attributes_0_name')
 
 
