@@ -1,9 +1,10 @@
 class Squad < ActiveRecord::Base
-  attr_accessible :army_id, :name, :points, :size, :extras, :mark, :troops_attributes
+  attr_accessible :army_id, :name, :points, :size, :extras, :mark, :troops_attributes, :veteran, :meltabomb, :mutation
   belongs_to :army
   has_many :troops
   accepts_nested_attributes_for :troops, allow_destroy: true
   validates_presence_of :name
+  after_create :delete_if_not_valid
 
   TYPES = {
     havoc: "Havoc",
@@ -12,10 +13,13 @@ class Squad < ActiveRecord::Base
     marine: "Marine"
   }
 
+  def veteran_status
+    "Veteran of Long War" if veteran?
+  end
 
   def valid_squad?(squad)
     ["Cultist", "Thousand Son", "Havoc", "Marine", "Berzerker", "LandRaider", "Sorcerer", "Kharn", "Terminator", "Deamon Prince",
-      "Choas Biker"].include?(squad)
+      "Choas Biker", "Raptor", "Warp Talon"].include?(squad)
   end
 
   def delete_if_not_valid
@@ -41,9 +45,5 @@ class Squad < ActiveRecord::Base
     end
 
   end
-
-
-
-  private
 
 end

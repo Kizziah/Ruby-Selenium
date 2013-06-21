@@ -1,6 +1,6 @@
 = simple_form_for @army do |f|
 
-  = f.input :name
+  = f.input :name, label: false
 
   .army_points
 
@@ -8,7 +8,6 @@
     .army_list
       Choas Army List
       %table
-
         %thead
           %th Squads
           %th #
@@ -29,52 +28,48 @@
           %td.elite 0
           %td 0
           %td 3
-
         %tr
           %td Heavy Support
           %td.heavy 0
           %td 0
           %td 3
-
         %tr
           %td Fast Attack
           %td.fast 0
           %td 0
           %td 3
+        %tr
+          %td Total
+          %td.total 3
+          %td 0
+          %td N/A
 
 
     %h3 Squads
     = f.simple_fields_for :squads do |squad|
       .fields.squad
-        = squad.input :name, label: false, collection: Squad::TYPES.to_a, value_method: :first, label_method: :last, prompt: "Select squad"
+        = squad.input :name, label: false, collection: Squad::TYPES.to_a, prompt: "Select squad"
         .squad_wrap
           = link_to "Remove", '#', class: "remove_squad"
-          .squadpoints
-          %h4 Troops
           %table.squad_table
             %thead
               %tr
+                %h4 Troops
                 %th.squad_details
-                  .main_weapon
-                    Weapon
-
-                  .side_weapon
-                    Side Weapon
-                  .squad_click_addons
-                    / = squad.input :extras, class: "extras"
-                    .meltabomb
-                      = squad.check_box :extras, class: "meltabomb"
-                      meltabomb
-                    .mutation
-                      = check_box :extras, class: "mutation"
-                      gift of mutation
-                    .veteran
-                      = check_box :extras, class: "veteran"
-                      veteran
-                  .mark
-                    Choas Mark
-                    = squad.input :mark, collection: ["Khorne", "Tzeentch", "Slaanesh", "Nurgle"], label: false
-
+                  %ul.squad_addons
+                    %li
+                      .veteran
+                        = squad.input :veteran, label: "Veteran of Long War", class: "veteran"
+                    %li
+                      .meltabomb
+                        = squad.input :meltabomb, label: "Meltabomb", class: "meltabomb"
+                    %li
+                      .mutation
+                        = squad.input :mutation, label: "Gift of Mutation", class: "mutation"
+                    %li
+                      .mark
+                        = squad.input :mark, collection: ["Khorne", "Tzeentch", "Slaanesh", "Nurgle"], label: false, prompt: "Mark"
+                  .squadpoints
             %tbody
               = squad.simple_fields_for :troops do |troop|
                 %tr
@@ -82,10 +77,8 @@
                     .troop_points
                     .troop_icon
                     = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
-                    .troop_details
                     = troop.input :side_weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     = link_to "remove", "#", class: "remove_troop"
-
           = link_to "Add Troop", "#", class: "add_troop"
     .add_buttons
       = link_to "Add Troop Squad", '#', id: "add_squad"

@@ -18,7 +18,25 @@ class ArmiesController < ApplicationController
     @squad.troops.build
   end
 
+  def new_ultra
+    @army = Army.new
+    @squad = @army.squads.build
+    @squad.troops.build
+  end
+
+  def new_dark
+    @army = Army.new
+    @squad = @army.squads.build
+    @squad.troops.build
+  end
+
   def new_wolf
+    @army = Army.new
+    @squad = @army.squads.build
+    @squad.troops.build
+  end
+
+  def new_ork
     @army = Army.new
     @squad = @army.squads.build
     @squad.troops.build
@@ -44,11 +62,7 @@ class ArmiesController < ApplicationController
     @army = Army.new(params[:army])
 
     if @army.save
-      @army.squads.each do |s|
 
-        s.define_base_squad
-        s.delete_if_not_valid
-      end
       redirect_to @army, notice: 'Army was successfully created.'
     else
       render :new
@@ -60,9 +74,7 @@ class ArmiesController < ApplicationController
 
     if @army.update_attributes(params[:army])
       @army.squads.each do|s|
-        if  s.points.nil?
-          s.define_base_squad
-        end
+
       end
       redirect_to @army, notice: 'Army was successfully updated.'
     else

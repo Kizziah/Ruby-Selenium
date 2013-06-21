@@ -31,7 +31,6 @@ h3
   border-bottom: 1px solid gray
   padding-bottom: 3px
   margin-bottom: 10px
-  margin-top: 40px
 
 h4
   float: center
@@ -51,6 +50,15 @@ body.bloodangelbackground
 body.spacewolfbackground
   background: image-url("spacewolfbackground.jpg")
 
+body.orkbackground
+  background: image-url("orkbackground.jpeg")
+
+body.ultrabackground
+  background: image-url("ultrabackground.jpg")
+
+body.darkbackground
+  background: image-url("darkbackground.jpg")
+
 body
   font-family: helvetica, sans-serif
   font-size: 12px
@@ -58,6 +66,23 @@ body
 #pagewrap
   width: 980px
   margin: 0 auto
+
+
+nav
+
+  a
+    font-size: 15px
+    border: 1px solid gray
+
+nav.army_button
+
+  ul
+    list-style: none
+    position: absolute
+    left: 0
+  li
+    margin-left: -6px
+
 
 // ----------------------------------------------------------------------------
 // Tables
@@ -67,18 +92,7 @@ body
   margin-top: -110px
   margin-right: -566px
 
-  table
-    thead
-      background: gray
-    th
-
-    tr
-
-    td
-
-
 table
-  background: white
   margin-bottom: 10px
   border-collapse: collapse
   &.tank
@@ -97,38 +111,65 @@ table
         &.action
           width: 55px
       .squad_details
-        padding-bottom: 10px
+        width: 300px
 
+        padding-bottom: 10px
+        font-size: 12px
         .main_weapon
-          float: left
+
         .stats
-          float: left
-          margin-left: 146px
+
         .side_weapon
-          float: right
-          margin-right: 77px
 
   tbody
     tr
       td
+
         border: 1px solid gray
         padding: 5px 10px
         background: #516780
-      .troop_details
-        float: left
-        margin-left: 198px
-        margin-top: -29px
-        font-family: fantasy
-        font-size: 18px
+        td
+
+
 // ----------------------------------------------------------------------------
 // New army form
 // ----------------------------------------------------------------------------
-.squad_click_addons
-  float: right
-  margin-right: 174px
-.squad_extras
-  // margin-bottom: -45px
-  margin-left: 98px
+.fields.squad
+  background-color: rgba(0, 0, 0, .3)
+
+ul.squad_addons
+  list-style: none
+  border-collapse: collapse
+  // border: 1px solid gray
+  margin-top: -24px
+  border-top: none
+  // background-color: #0C0C0C
+  text-align: center
+  overflow: no-display
+  label
+    display: inline-block
+    text-align: center
+  li
+    background-color: #0C0C0C
+
+    display: inline-block
+    border: 1px solid gray
+    border-top: none
+    margin-right: -4px
+    // padding-right: 10px
+    overflow-x: hidden
+
+  li:last-child
+  li:first-child
+  li:nth-child
+
+.squad_addons
+
+
+  .veteran
+  .meltabomb
+  .mutation
+  .mark
 
 .squad_extras_list
 
@@ -136,9 +177,6 @@ table
   float: center
   margin-left: 380px
 
-.mark
-  float: right
-  margin-right: -240px
 
 
 form#new_army
@@ -177,9 +215,6 @@ form#new_army
     .select
       width: 110px
       background-color: gray
-      float: right
-      margin-right: 16px
-      margin-top: -28px
       &.deamonprince
         margin-right: 35px
     &.tankraider
@@ -220,23 +255,32 @@ form#new_army
 // ----------------------------------------------------------------------------
 // Index Page
 // ----------------------------------------------------------------------------
+
+
 .Choas_Army_Button
   @include button(black)
-  width: 137px
-
+  width: 100px
 .BloodAngel_Army_Button
   @include button(red)
-  width: 137px
+  width: 100px
 
 .SpaceWolf_Army_Button
+  @include button(#7C11F0)
+  width: 100px
+.DarkAngel_Army_Button
+  @include button(#32325A)
+  width: 100px
+.Ultra_Army_Button
   @include button(blue)
-  width: 137px
-
+  width: 100px
+.Ork_Army_Button
+  @include button(green)
+  width: 100px
 // ----------------------------------------------------------------------------
 // Misc
 // ----------------------------------------------------------------------------
 .army_points
-  font-size: 30px
+  font-size: 35px
   float: right
 
 .troop_icon

@@ -1,27 +1,16 @@
 %html
+
   %body.index
     %head
+      %nav.army_button
+        %ul
+          %li= link_to 'Choas Army', new_army_path, class: "Choas_Army_Button"
+          %li= link_to 'Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
+          %li= link_to 'Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
+          %li= link_to 'Dark Angel Army', armies_new_dark_path, class: "DarkAngel_Army_Button"
+          %li= link_to 'Ultra Marine Army', armies_new_ultra_path, class: "Ultra_Army_Button"
+          %li= link_to 'Ork Army', armies_new_ork_path, class: "Ork_Army_Button"
+
       %h1 Warhammer 40K Army Builder
-
-    / %h2 Armies
-    / %table
-    /   %thead
-    /     %tr
-    /       %th Name
-    /       %th.action Edit
-    /       %th.action Destroy
-    /   %tbody
-    /     - @armies.each do |army|
-    /       %tr
-    /         %td= link_to army.name, army
-    /         %td= link_to 'Edit', edit_army_path(army)
-    /         %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
-
-    .army_buttons
-      = link_to 'Create Choas Army', new_army_path, class: "Choas_Army_Button"
-      %br
-      = link_to 'Create Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
-      %br
-      = link_to 'Create Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
 
 

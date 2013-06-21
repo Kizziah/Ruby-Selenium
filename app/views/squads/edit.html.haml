@@ -1,9 +1,14 @@
 %h1= "Edit #{@squad.name}"
 = @squad.troops.size
-= @squad.troops
 = @squad.mark
-= simple_form_for [@army, @squad] do |f|
 
+dasf
+= @squad.veteran?
+= @squad.meltabomb?
+= @squad.mutation?
+= @squad.veteran_status
+
+= simple_form_for [@army, @squad] do |f|
   = f.input :extras
   = f.input :size
   = f.input :mark
