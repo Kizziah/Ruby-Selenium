@@ -2,15 +2,16 @@
 
   %body.index
     %head
-      %nav.army_button
-        %ul
-          %li= link_to 'Choas Army', new_army_path, class: "Choas_Army_Button"
-          %li= link_to 'Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
-          %li= link_to 'Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
-          %li= link_to 'Dark Angel Army', armies_new_dark_path, class: "DarkAngel_Army_Button"
-          %li= link_to 'Ultra Marine Army', armies_new_ultra_path, class: "Ultra_Army_Button"
-          %li= link_to 'Ork Army', armies_new_ork_path, class: "Ork_Army_Button"
+      %h1
+        = image_tag("indextitle.png")
 
-      %h1 Warhammer 40K Army Builder
+      %ul
+        %li= link_to 'Choas Army', new_army_path, class: "Choas_Army_Button"
+        %li= link_to 'Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
+        %li= link_to 'Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
+        %li= link_to 'Dark Angel Army', armies_new_dark_path, class: "DarkAngel_Army_Button"
+        %li= link_to 'Ultra Marine Army', armies_new_ultra_path, class: "Ultra_Army_Button"
+        %li= link_to 'Ork Army', armies_new_ork_path, class: "Ork_Army_Button"
+
 
 
