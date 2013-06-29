@@ -198,6 +198,9 @@ createWeaponOptions = (opts = {}) ->
 
 #Squad Creators
 #
+
+createTank = (opts = {}) ->
+
 createLandraider = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
 
@@ -219,6 +222,9 @@ createLandraider = (opts = {}) ->
   SquadPoints = 230
   opts.location.find(".squadpoints").text(SquadPoints)
   opts.location.find(".add_troop").hide()
+
+
+createBike = (opts = {}) ->
 
 createChoasBiker = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -715,10 +721,8 @@ jQuery ->
   createSquadFieldThatWillRemainHidden = do ->
     createNewTable(hidden: true)
 
-  setArmyForChoas = do -> #TODO FIX This
-    switch
-      when "choas" then setUpChoasArmy ->
-
+  setArmyForChoas = do ->
+    setUpChoasArmy ->
 
   $("#add_squad").click ->
     event.preventDefault()

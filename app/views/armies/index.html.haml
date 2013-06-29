@@ -1,17 +1,227 @@
 %html
+  = javascript_include_tag "index"
 
   %body.index
     %head
       %h1
         = image_tag("indextitle.png")
-      %p.intro Warhammer 40K Army Builder is a web application that creates . Click and select features create a user friendly app that condenses game rules in the browser.
+      %p.intro Warhammer 40K Army Builder is a web application that creates Warhammer armies using click and select features create a user friendly app that condenses game rules in the browser.
       %ul.index
-        %li= link_to 'Chaos Army', new_army_path, class: "Choas_Army_Button"
-        %li= link_to 'Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
-        %li= link_to 'Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
-        %li= link_to 'Dark Angel Army', armies_new_dark_path, class: "DarkAngel_Army_Button"
-        %li= link_to 'Ultra Marine Army', armies_new_ultra_path, class: "Ultra_Army_Button"
-        %li= link_to 'Ork Army', armies_new_ork_path, class: "Ork_Army_Button"
+        %li
+          = link_to 'Chaos Army', new_army_path, class: "Choas_Army_Button"
+          %ul.dropdown
+            .box_pic= image_tag("listchaos.jpeg")
+            .box_pic2= image_tag("listchaos.jpeg")
+            %li.hq
+              HQ
+              %ul
+                %li Kharn
+                %li Deamon Price
+                %li Sorceror
 
+            %li.elite
+              Elite
+              %ul
+                %li Terminator
+                %li Thousand Son
+                %li Berzerker
 
+            %li.heavy
+              Heavy Support
+              %ul
+                %li Havoc
+                %li LandRaider
+            %li.troop
+              Troop
+              %ul
+                %li Cultist
+                %li Marine
+            %li.fast
+              Fast Attack
+              %ul
+                %li Biker
+                %li Warp Talon
+                %li Raptor
+        %li
+          = link_to 'Blood Angel Army', armies_new_blood_path, class: "BloodAngel_Army_Button"
+          %ul.dropdown
+            .box_pic= image_tag("dropblood.jpeg")
+            .box_pic2= image_tag("dropblood.jpeg")
+            %li.hq
+              HQ
+              %ul
+                %li Dante
+                %li Mephiston
+                %li Tycho
+
+            %li.elite
+              Elite
+              %ul
+                %li Terminator
+                %li Death Company
+                %li Assault Squad
+
+            %li.heavy
+              Heavy Support
+              %ul
+                %li Dreadnought
+                %li Devastator
+                %li LandRaider
+                %li Whirlwind
+            %li.troop
+              Troop
+              %ul
+                %li Assault
+                %li Tactical
+            %li.fast
+              Fast Attack
+              %ul
+                %li Biker
+                %li Attack Bike
+                %li Land Speeder
+        %li
+          = link_to 'Space Wolf Army', armies_new_wolf_path, class: "SpaceWolf_Army_Button"
+          %ul.dropdown
+            .box_pic= image_tag("wolfdrop.jpg")
+            .box_pic2= image_tag("wolfdrop.jpg")
+            %li.hq
+              HQ
+              %ul
+                %li Great Wolf
+                %li StormCaller
+                %li Ragnar
+
+            %li.elite
+              Elite
+              %ul
+                %li WolfGuard
+                %li Iron Priest
+                %li Lone Wolf
+                %li Dreadnought
+
+            %li.heavy
+              Heavy Support
+              %ul
+                %li LongFang
+                %li LandRaider
+                %li Whirlwind
+            %li.troop
+              Troop
+              %ul
+                %li Grey Hunter
+                %li Blood Claw
+            %li.fast
+              Fast Attack
+              %ul
+                %li ThunderWolf
+                %li SwiftClaw Bike
+                %li SkyClaw
+                %li Wolfpack
+        %li
+          = link_to 'Dark Angel Army', armies_new_dark_path, class: "DarkAngel_Army_Button"
+          %ul.dropdown
+            .box_pic= image_tag("dropdark.jpeg")
+            .box_pic2= image_tag("dropdark.jpeg")
+            %li.hq
+              HQ
+              %ul
+                %li Azrael
+                %li Ezekiel
+                %li Asmodai
+
+            %li.elite
+              Elite
+              %ul
+                %li DeathWing
+                %li Dreadnought
+                %li Veteran Company
+
+            %li.heavy
+              Heavy Support
+              %ul
+                %li Devastator
+                %li LandRaider
+                %li Whirlwind
+            %li.troop
+              Troop
+              %ul
+                %li Tactical
+                %li Scout
+            %li.fast
+              Fast Attack
+              %ul
+                %li RavenWing Bike
+                %li RavenWing Knight
+                %li Assault
+        %li
+          = link_to 'Ultra Marine Army', armies_new_ultra_path, class: "Ultra_Army_Button"
+          %ul.dropdown
+            .box_pic= image_tag("dropultra.jpeg")
+            .box_pic2= image_tag("dropultra.jpeg")
+            %li.hq
+              HQ
+              %ul
+                %li Macragge
+                %li Sicarius
+                %li Tigurius
+
+            %li.elite
+              Elite
+              %ul
+                %li SternGuard
+                %li Dreadnought
+                %li Veteran Company
+
+            %li.heavy
+              Heavy Support
+              %ul
+                %li Devastator
+                %li LandRaider
+                %li Whirlwind
+            %li.troop
+              Troop
+              %ul
+                %li Tactical
+                %li Scout
+            %li.fast
+              Fast Attack
+              %ul
+                %li Bike
+                %li Assault
+        %li
+          = link_to 'Ork Army', armies_new_ork_path, class: "Ork_Army_Button"
+          %ul.dropdown
+            .box_pic= image_tag("dropork.jpg")
+            .box_pic2= image_tag("dropork.jpg")
+            %li.hq
+              HQ
+              %ul
+                %li Thraka
+                %li Grotsnik
+                %li Zogwort
+
+            %li.elite
+              Elite
+              %ul
+                %li Burna Boyz
+                %li Meganobz
+                %li Nobz
+
+            %li.heavy
+              Heavy Support
+              %ul
+                %li Battle Wagon
+                %li Killa Kans
+                %li Deff Dread
+            %li.troop
+              Troop
+              %ul
+                %li Ork Boyz
+                %li Gretchin
+            %li.fast
+              Fast Attack
+              %ul
+                %li Storm Boyz
+                %li WarBikes
+                %li Deffkoptas
 

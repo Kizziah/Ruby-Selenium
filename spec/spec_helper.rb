@@ -6,8 +6,7 @@ require 'rspec/autorun'
 require 'capybara/rspec'
 require 'helpers'
 
-
-# Using chrome as browser to test in capybara.
+# Using safari as browser to test in capybara.
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :safari)
 end

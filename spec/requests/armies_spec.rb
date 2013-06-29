@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Army do
   before(:each) do
     visit armies_path
-    click_link "Create Choas Army"
+    click_link "Chaos Army"
   end
 
   describe "Marine Squad" do
