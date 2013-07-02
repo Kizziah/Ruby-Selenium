@@ -1,5 +1,4 @@
 
-
 daemonicSteeds = [
   "Juggernaut of Khorne"
   "Disc of Tzeentch"
@@ -7,7 +6,6 @@ daemonicSteeds = [
   "Steed of Slaanesh"
 
 ]
-
 
 basicMarineWeapons = [
   "boltgun"
@@ -284,7 +282,15 @@ createDefaultMarineSquad = (opts = {}) ->
   createWeaponOptions(weapons: ["chainsword", "powerfist", "powerweapon"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_side_weapon select"))
   opts.location.find(" table tr:nth-child(1)").find(".troop_details").text("4ws 4bs 4s 4t 1w 4i 2a 9ld 3sv")
   opts.location.find(" table tr:gt(1)").each ->
-    $(this).find(".troop_details").text("4ws 4bs 4s 4t 1w 4i 1a 8ld 3sv")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 createDefaultHavocSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -556,7 +562,7 @@ getSquadInfo = (squad) ->
     size: squad.find('.army_squads_troops_weapon').size()
     weapons: squad.find('.army_squads_troops_weapon select option')
     type: squad.find(".army_squads_name select").val()
-    troop: squad.find("table tbody tr:last")
+    troop: squad.find("table tbody tr.troop")
     normalTroops: squad.find(" table tr:gt(1)")
     leaderTroop: squad.find(" table tr:nth-child(1)")
     squadExtras: squad.find(".army_squads_extras select")

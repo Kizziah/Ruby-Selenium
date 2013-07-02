@@ -72,13 +72,36 @@
                   .squadpoints
             %tbody
               = squad.simple_fields_for :troops do |troop|
-                %tr
+                %tr.troop
                   %td
                     .troop_points
                     .troop_icon
                     = troop.input :weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     = troop.input :side_weapon, collection: ["Select Weapon"], prompt: "Select Weapon", label: false
                     = link_to "remove", "#", class: "remove_troop"
+                    %table.troop_stat
+                      %tr
+                        %td WS
+                        %td BS
+                        %td S
+                        %td T
+                        %td W
+                        %td I
+                        %td A
+                        %td LD
+                        %td SV
+                      %tr
+                        %td 1
+                        %td 1
+                        %td 1
+                        %td 1
+                        %td 1
+                        %td 1
+                        %td 1
+                        %td 1
+                        %td 1
+
+
           = link_to "Add Troop", "#", class: "add_troop"
     .add_buttons
       = link_to "Add Troop Squad", '#', id: "add_squad"
@@ -90,3 +113,4 @@
     .create_army= f.button :submit
 
 = link_to "Click", '#', id: "click"
+

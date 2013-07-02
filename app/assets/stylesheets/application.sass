@@ -6,7 +6,6 @@
 *
   margin: 0
   padding: 0
-  // background-color: black
 
 // ----------------------------------------------------------------------------
 // Typography
@@ -84,68 +83,51 @@ nav
 
 p.intro
   font-size: 22px
-  float: left
-  width: 300px
-
+  width: 650px
+  position: absolute
+  margin-left: 187px
+  margin-top: -65px
+  font-weight: bold
+  line-height: 30px
 ul.index
-  float: left
   position: relative
-  margin-top: -205px
+  margin-top: 165px
   margin-left: 110px
-
   li
     color: white
     display: inline-block
     margin-left: -6px
-    list-style: hebrew
-  ul.dropdown > li
-    border: solid 1px gray
-    border-collapse: collapse
-    font-weight: bold
-    float: left
-    list-style: hebrew
 
   ul.dropdown
     position: absolute
-    background-color: white
     width: 818px
     height: 150px
-    text-align: center
     border: solid 1px gray
     left: 1
     margin-left: -7px
     height: auto
     background-color: black
-    li
-
-      li
-        display: block
-        font-weight: normal
-        color: white
-
-    li.hq
-      margin-left: -57pxpx
-      padding: 10px
-    li.elite
-      margin-right: 10px
-      padding: 10px
-    li.heavy
-      margin-right: 10px
-      padding: 10px
-    li.troop
-      margin-right: 10px
-      padding: 10px
-    li.fast
-      margin-right: -45px
-      padding: 10px
+    line-height: 20px
+    text-align: center
+  p.chaos
+  p.dark
+    color: #565683
+  p.ultra
+    color: blue
+  p.wolf
+    color: #7C11F0
+  p.ork
+    color: green
+  p.blood
+    color: red
 
 .box_pic
   float: left
   width: 180px
-
 .box_pic2
   float: right
   width: 180px
+
 .Choas_Army_Button
   @include button(black)
   width: 100px
@@ -168,6 +150,7 @@ ul.index
 // ----------------------------------------------------------------------------
 // Tables
 // ----------------------------------------------------------------------------
+
 .army_list
   float: right
   margin-top: -110px
@@ -197,14 +180,28 @@ table
         font-size: 12px
 
   tbody
-    tr
-      td
 
+    tr
+
+      td
         border: 1px solid gray
         padding: 5px 10px
         background: #516780
+        position: relative
         td
+table.troop_stat
+  position: absolute
+  top: 0
+  margin-left: 209px
 
+  td
+
+  td:first
+    border-top: none
+
+tr.troop
+  height: 57px
+  td
 
 // ----------------------------------------------------------------------------
 // New army form
@@ -220,10 +217,8 @@ table
 ul.squad_addons
   list-style: none
   border-collapse: collapse
-  // border: 1px solid gray
   margin-top: -24px
   border-top: none
-  // background-color: #0C0C0C
   text-align: center
   overflow: no-display
   label
@@ -236,7 +231,6 @@ ul.squad_addons
     border: 1px solid gray
     border-top: none
     margin-right: -4px
-    // padding-right: 10px
     overflow-x: hidden
 
   li:last-child
@@ -286,6 +280,9 @@ form#new_army
       width: 110px
       background-color: gray
   .input.select.optional.army_squads_troops_side_weapon
+    float: right
+    margin-top: -32px
+    margin-right: 72px
     .select
       width: 110px
       background-color: gray
