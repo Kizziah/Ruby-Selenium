@@ -52,23 +52,22 @@
           = link_to "Remove", '#', class: "remove_squad"
           %table.squad_table
             %thead
-              %tr
-                %h4 Troops
-                %th.squad_details
-                  %ul.squad_addons
-                    %li
-                      .veteran
-                        = squad.input :veteran, label: "Veteran of Long War", class: "veteran"
-                    %li
-                      .meltabomb
-                        = squad.input :meltabomb, label: "Meltabomb", class: "meltabomb"
-                    %li
-                      .mutation
-                        = squad.input :mutation, label: "Gift of Mutation", class: "mutation"
-                    %li
-                      .mark
-                        = squad.input :mark, collection: ["Khorne", "Tzeentch", "Slaanesh", "Nurgle"], label: false, prompt: "Mark"
-                  .squadpoints
+
+              %th.squad_details
+                Squad Info
+                %table.chart
+                  %tr.chart
+                    %td Points
+                    %td Size
+                    %td Type
+                  %tr.chart_stats
+                    %td
+                      .squadpoints
+                    %td
+                      .squadsize
+                    %td
+                      .squadtype
+
             %tbody
               = squad.simple_fields_for :troops do |troop|
                 %tr.troop

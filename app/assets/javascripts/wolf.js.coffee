@@ -4,7 +4,6 @@ daemonicSteeds = [
   "Disc of Tzeentch"
   "Palanquin of Nurgle"
   "Steed of Slaanesh"
-
 ]
 
 basicMarineWeapons = [
@@ -36,9 +35,9 @@ basicMarineLeaderWeapons = [
 
 choasHQ = [
   "Select Character",
-  "Deamon Prince",
-  "Kharn",
-  "Sorcerer"
+  "Dante",
+  "Mephiston",
+  "Libarian"
 ]
 
 cultistGunnyWeapons = [
@@ -55,22 +54,21 @@ cultistWeapons = [
 
 choasTroops = [
   "Select Troop"
-  "Marine",
-  "Cultist",
-  "Havoc"
+  "Tactical",
+  "Scout"
 ]
 
 choasHeavySupport = [
   "Select Heavy"
-  "Predator"
+  "Devestater",
   "LandRaider"
+
 ]
 
 choasFastAttack = [
   "Select Squad",
-  "Choas Biker",
-  "Raptor",
-  "Warp Talon"
+  "Biker",
+  "Land Speeder",
 ]
 
 berzerkerweapons = [
@@ -85,8 +83,7 @@ landRaiderMain = [
 choasEliteSquads = [
   "Select Elite",
   "Terminator",
-  "Berzerker",
-  "Thousand Son"
+  "Stern Guard",
 
 ]
 
@@ -94,11 +91,12 @@ squadDetails = (opts = {}) ->
   squad =
     min: 0
     max: 0
-    troop: 0
+    troop:
+
+     0
     base: 0
     havoc: 0
     gunny: 0
-    type: ""
     basicWeapons: []
     gunnyWeapons: []
     havocWeapons: []
@@ -123,8 +121,6 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = basicMarineWeapons
       squad.havocWeapons = havocWeapons
       squad.gunnyWeapons = gunnyWeapons
-      squad.type = "Troop"
-
     when "Cultist"
       squad.min = 10
       squad.max = 35
@@ -208,85 +204,30 @@ defineStats = (opts = {}) ->
     $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
     $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
+
 #Squad Creators
 #
 createLandraider = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
 
-  createWeaponOptions(weapons: ["Lasannon"], troops: opts.location.find('.army_squads_troops_weapon select'))
-  createWeaponOptions(weapons: ["Lasannon"], troops: opts.location.find('.army_squads_troops_side_weapon select'))
-  opts.location.find(" table tr:nth-child(1)").find(".troop_icon").removeClass "chaospredator"
-
-  opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "landraider"
+  generateTroop(troop: opts.troop)
+  opts.location.closest(".squad").find("table tr:nth-child(1)").hide()
+  createWeaponOptions(weapons: landRaiderMain, troops: opts.location.find("table tr:last").find('.army_squads_troops_weapon select'))
+  gun = opts.location.closest(".squad").find("table tr:last").find('.army_squads_troops_weapon').clone(true)
+  gun2 = opts.location.closest(".squad").find("table tr:last").find('.army_squads_troops_weapon').clone(true)
+  squad = opts.location.find("table tr td:last")
+  squad.prepend(gun)
+  gunLocation = squad.prepend(gun2)
+  lastGun = gunLocation.find(".input:last")
+  createWeaponOptions(weapons: ["heavybolter"], troops: lastGun.find("select"))
+  opts.location.find(" table tr:nth-child(2)").find(".troop_icon").addClass "landraider"
   opts.location.find(" table tr:gt(0)").each ->
     $(this).find("a.remove_troop").hide()
   opts.location.closest(".squad").find("table tr:last").addClass "tank"
-  opts.location.find(" table .troop_stat").addClass "hq"
-  if opts.location.find("table.troop_stat tr:first td").size() > 7
 
-    opts.location.find("table.troop_stat tr:first").find("td:eq(2)").text("F")
-    opts.location.find("table.troop_stat tr:first").find("td:eq(3)").text("S")
-    opts.location.find("table.troop_stat tr:first").find("td:eq(4)").text("R")
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").text("HP")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(0)").text("4")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(2)").text("14")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(3)").text("14")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(4)").text("14")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").text("4")
-
-    opts.location.find("table.troop_stat tr:first").find("td:eq(0)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
   SquadPoints = 230
   opts.location.find(".squadpoints").text(SquadPoints)
   opts.location.find(".add_troop").hide()
-  opts.location.find(".squadsize").text("Tank")
-
-createPredator = (opts = {}) ->
-  opts.location.find(".squad_wrap").show()
-
-  createWeaponOptions(weapons: ["autocannon"], troops: opts.location.find('.army_squads_troops_weapon select'))
-  createWeaponOptions(weapons: ["lascannon"], troops: opts.location.find('.army_squads_troops_side_weapon select'))
-  opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "chaospredator"
-  opts.location.find(" table tr:gt(0)").each ->
-    $(this).find("a.remove_troop").hide()
-  opts.location.closest(".squad").find("table tr:last").addClass "tank"
-  opts.location.find(" table .troop_stat").addClass "hq"
-  if opts.location.find("table.troop_stat tr:first td").size() > 7
-
-    opts.location.find("table.troop_stat tr:first").find("td:eq(2)").text("F")
-    opts.location.find("table.troop_stat tr:first").find("td:eq(3)").text("S")
-    opts.location.find("table.troop_stat tr:first").find("td:eq(4)").text("R")
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").text("HP")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(0)").text("4")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(2)").text("12")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(3)").text("12")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(4)").text("11")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").text("4")
-
-    opts.location.find("table.troop_stat tr:first").find("td:eq(0)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
-  SquadPoints = 120
-  opts.location.find(".squadpoints").text(SquadPoints)
-  opts.location.find(".add_troop").hide()
-  opts.location.find(".squadsize").text("Tank")
 
 createChoasBiker = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -299,7 +240,7 @@ createChoasBiker = (opts = {}) ->
     $(this).find("a.remove_troop").hide()
   SquadPoints = 70
   opts.location.find(".squadpoints").text(SquadPoints)
-  defineStats(location: opts.location)
+
 createDefaultSquad = (opts = {}) ->
   #set default
   createWeaponOptions(weapons: opts.troopWeapons, troops: opts.location.find('.army_squads_troops_weapon select'))
@@ -309,7 +250,6 @@ createDefaultSquad = (opts = {}) ->
   createWeaponOptions(weapons: opts.gunnyWeapons, troops: opts.location.find(" table tr:nth-child(2)").find(".army_squads_troops_weapon select"))
   #set side weapon
   createWeaponOptions(weapons: opts.sideWeapon, troops: opts.location.find('.army_squads_troops_side_weapon select'))
-  opts.location.find(".squadtype").text(opts.type)
 
   opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "champion"
   opts.location.find(" table tr:nth-child(2)").find(".troop_icon").addClass "gunny"
@@ -319,17 +259,16 @@ createDefaultSquad = (opts = {}) ->
     $(this).find("a.remove_troop").hide()
 
   opts.location.find(".squadpoints").text(opts.squadPoints)
-  opts.location.find(" table tr:gt(0)").each ->
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("#{opts.bs}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("#{opts.ws}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("#{opts.s}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("#{opts.t}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("#{opts.w}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("#{opts.i}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("#{opts.a}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("#{opts.ld}")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("#{opts.sv}")
-  opts.location.find(".squadsize").text(opts.size)
+  # opts.location.find(" table tr:gt(0)").each ->
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("#{opts.bs}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("#{opts.ws}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("#{opts.s}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("#{opts.t}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("#{opts.w}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("#{opts.i}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("#{opts.a}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("#{opts.ld}")
+  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("#{opts.sv}")
 
 createDefaultCultistSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -352,8 +291,6 @@ createDefaultCultistSquad = (opts = {}) ->
     a: 1
     ld: 7
     sv: 6
-    type: "Troop"
-    size: 10
 
   opts.location.find(" table tr:nth-child(1)").find(".troop_stat").find("tr:last").find("td:eq(0)").text("4")
   opts.location.find(" table tr:nth-child(1)").find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
@@ -370,19 +307,21 @@ createDefaultMarineSquad = (opts = {}) ->
     sideWeapon: ["boltpistol", "chainsword"]
     squadPoints: 75
     troopPic: "choasmarine"
-    type: "Troop"
-    size: 5
-    bs: 4
-    ws: 4
-    s: 4
-    t: 4
-    w: 1
-    i: 4
-    a: 1
-    ld: 8
-    sv: 3
 
+  opts.location.find(".squad_size").text("5")
+  # createWeaponOptions(weapons: ["Addons", "meltabomb", "Choas Mark"], troops: opts.location.find(".squad_extras select"))
   createWeaponOptions(weapons: ["chainsword", "powerfist", "powerweapon"], troops: opts.location.find(" table tr:nth-child(1)").find(".army_squads_troops_side_weapon select"))
+
+  opts.location.find(" table tr:gt(0)").each ->
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 createDefaultHavocSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -397,6 +336,17 @@ createDefaultHavocSquad = (opts = {}) ->
   SquadPoints = 75
   opts.location.find(".squadpoints").text(SquadPoints)
   defineStats(location: opts.location)
+
+  opts.location.find(" table tr:gt(0)").each ->
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 createDefaultBerzerkerSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -439,7 +389,16 @@ createDefaultThousandSonSquad = (opts = {}) ->
     $(this).find(".troop_icon").addClass "tenk"
   SquadPoints = 150
   opts.location.find(".squadpoints").text(SquadPoints)
-  defineStats(location: opts.location)
+  opts.location.find(" table tr:gt(0)").each ->
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 
 createDefaultTerminatorSquad = (opts = {}) ->
@@ -449,8 +408,16 @@ createDefaultTerminatorSquad = (opts = {}) ->
   createWeaponOptions(weapons: ["stormbolter"], troops: opts.location.find('.army_squads_troops_side_weapon select'))
   SquadPoints = 95
   opts.location.find(".squadpoints").text(SquadPoints)
-  defineStats(location: opts.location)
-
+  opts.location.find(" table tr:gt(0)").each ->
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("1")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("2")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("8")
+    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 createSorcerer = (opts = {}) ->
 
@@ -461,12 +428,10 @@ createSorcerer = (opts = {}) ->
 
   # opts.location.find(" table tr:nth-child(1)").find(".troop_icon").removeClass "kharn"
   # _.contains(pistols, $(this).val()) is true
-  opts.location.find(" table .troop_stat").addClass "hq"
 
   opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "sorcerer"
   SquadPoints = 75
   opts.location.find(".squadpoints").text(SquadPoints)
-  defineStats(location: opts.location)
 
 
 createDefaulRaptorSquad = (opts = {}) ->
@@ -480,8 +445,6 @@ createDefaulRaptorSquad = (opts = {}) ->
     $(this).find(".troop_icon").addClass "choasmarine"
   SquadPoints = 95
   opts.location.find(".squadpoints").text(SquadPoints)
-  defineStats(location: opts.location)
-
 createDefaulWarpTalonSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
   _.times(4, -> generateTroop(troop: opts.troop))
@@ -493,7 +456,6 @@ createDefaulWarpTalonSquad = (opts = {}) ->
     $(this).find(".troop_icon").addClass "choasmarine"
   SquadPoints = 160
   opts.location.find(".squadpoints").text(SquadPoints)
-  defineStats(location: opts.location)
 
 createKharn = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -503,17 +465,6 @@ createKharn = (opts = {}) ->
   opts.location.find(".squad_details").find(".army_squads_mark select").val("Kharn")
   SquadPoints = 160
   opts.location.find(".squadpoints").text(SquadPoints)
-  opts.location.find(" table .troop_stat").addClass "hq"
-  opts.location.find(" table tr:gt(0)").each ->
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("7")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("5")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("6")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("10")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 createDeamonPrince = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -528,18 +479,6 @@ createDeamonPrince = (opts = {}) ->
   opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass "deamonprince"
   SquadPoints = 160
   opts.location.find(".squadpoints").text(SquadPoints)
-  opts.location.find(" table .troop_stat").addClass "hq"
-
-  opts.location.find(" table tr:gt(0)").each ->
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("9")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("3")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("7")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("6")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("4")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("10")
-    $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("3")
 
 #Point Calculator Helpers
 #
@@ -566,6 +505,38 @@ weaponPointChart = (opts = {}) ->
   return do ->
     points
 
+markPointChart = (opts = {}) ->
+  points = 0
+  squadMark = opts.squadMark
+  type = opts.type
+  switch squadMark
+    when "Khorne", "Nurgle" then points+= 2 if type is "Cultist"
+    when "Tzeentch", "Slaanesh" then points+= 1 if type is "Cultist"
+  switch squadMark
+    when "Nurgle" then points+= 3 if type is "Marine"
+    when "Tzeentch", "Slaanesh", "Khorne" then points+= 2 if type is "Marine"
+  switch squadMark
+    when "Nurgle" then points+= 3 if type is "Havoc"
+    when "Tzeentch", "Slaanesh", "Khorne" then points+= 2 if type is "Havoc"
+  switch squadMark
+    when "Khorne" then points+= 3 if type is "Terminator"
+    when "Slaanesh" then points+= 4 if type is "Terminator"
+    when "Tzeentch" then points+= 5 if type is "Terminator"
+    when "Nurgle" then points+= 6 if type is "Terminator"
+
+  return do ->
+    points
+
+
+# squadAddonChart = (opts = {}) ->
+#   points = 0
+#   points += 5 if opts.table.find(".meltabomb input").is(":checked") is true
+#   points += 10 if opts.table.find(".mutation input").is(":checked") is true
+#   if opts.table.find(".veteran input").is(":checked") is true
+#     points += 1 * opts.table.find('.army_squads_troops_weapon').size()
+#   return do ->
+#     points
+
 countSquadPoints = (opts = {}) ->
 
   squadPoints = 0
@@ -576,8 +547,12 @@ countSquadPoints = (opts = {}) ->
   weaponPoints = weaponPointChart(troops: opts.troops)
   weaponPoints += weaponPointChart(troops: opts.sideWeapon)
   squadPoints += weaponPoints
-  opts.table.find(".squadsize").text(opts.size)
+  # markPoints = markPointChart(squadMark: opts.squadMark, type: opts.type)
+  # squadPoints += squadAddonChart(table: opts.table)
+  # squadPoints += markPoints * opts.table.find('.army_squads_troops_weapon').size()
   opts.table.find(".squadpoints").text(squadPoints)
+
+  # adjustTroopWithCloseCombatWeapon(sideWeapon: opts.sideWeapon, troops: opts.troops) #TODO FIX
 
 countArmyPoints = ->
   allSquadPoints = $(".squad").find(".squadpoints")
@@ -662,6 +637,8 @@ getSquadInfo = (squad) ->
     troop: squad.find("table tbody tr.troop:last")
     normalTroops: squad.find(" table tr:gt(1)")
     leaderTroop: squad.find(" table tr:nth-child(1)")
+    # squadExtras: squad.find(".army_squads_extras select")
+    # squadMark: squad.find(".army_squads_mark select").val()
 
 createHQLeaderRules = (opts = {}) ->
   opts.squadType.each ->
@@ -692,7 +669,7 @@ armyRules = ->
   elite = 0
   fast = 0
   hq = 0
-  squadType = $(".squad").find(".squadtype")
+  squadType = $(".squad").find("h4")
   identifyHQInArmy(squadType: squadType)
   squadType.each ->
     switch $(this).text()
@@ -749,6 +726,7 @@ createNewTable = (opts = {}) ->
     number: newNumber
     matcher: squadMatcher
 
+
   squad.before squadClone unless opts.hidden is true
   squad.after squadClone if opts.hidden is true
   squadClone.hide() if opts.hidden is true
@@ -776,7 +754,8 @@ setUpChoasArmy = ->
     hqOptions += "<option value=\"" + choasHQ[i] + "\">" + choasHQ[i] + "</option>"
   hqSquads.append hqOptions
   $(".squad").find(".squad_wrap").hide()
-  findSquad.find(".squadtype").text("HQ")
+
+  findSquad.find("h4").text("HQ")
   findSquad.find(".add_troop").hide()
 
 editTableWithProperOptions = (opts = {}) ->
@@ -787,7 +766,7 @@ editTableWithProperOptions = (opts = {}) ->
   $.each opts.type, (i) ->
     options += "<option value=\"" + opts.type[i] + "\">" + opts.type[i] + "</option>"
   squadTable.append options
-  findSquad.find(".squadtype").text(opts.title)
+  findSquad.find("h4").text(opts.title)
   findSquad.find(".add_troop").hide() if opts.title is "HQ"
   armyRules ->
 
@@ -799,6 +778,7 @@ jQuery ->
 
   setArmyForChoas = do -> #TODO FIX This
     setUpChoasArmy ->
+
 
   $("#add_squad").click ->
     event.preventDefault()
@@ -847,6 +827,11 @@ jQuery ->
     newSquad = getSquadInfo(currentSquad)
     countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon, squadMark: newSquad.squadMark)
 
+  $('.army_squads_mark select').change ->
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+
   $(".army_squads_troops_weapon select").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
@@ -857,32 +842,49 @@ jQuery ->
     squad = getSquadInfo(currentSquad)
     countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
 
+  $(".squad_click_addons").find(".meltabomb input").change ->
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    addMeltabomb(currentSquad: currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+  $(".squad_click_addons").find(".mutation input").change ->
+    currentSquad = $(this).closest(".squad")
+    squad = getSquadInfo(currentSquad)
+    addMutation(currentSquad: currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+  $(".squad_addons input").change ->
+    currentSquad = $(this).closest(".squad")
+
+    squad = getSquadInfo(currentSquad)
+    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+
   $(".army_squads_name select").change ->
     currentSquad = $(this).closest(".squad")
     squad = getSquadInfo(currentSquad)
     champion = $(this).closest(".squad").find("table tbody tr:first")
 
     while squad.size > 1  # reset troops in squad for when squad changes types
-      $(this).closest(".squad").find("table tbody tr.troop:last").remove()
+      $(this).closest(".squad").find("table tbody tr:last").remove()
 
       squad.size--
     squad = getSquadInfo(currentSquad)
-    info = (troop: squad.troop, location: currentSquad, type: squad.type)
+    info = (troop: squad.troop, location: currentSquad)
     switch squad.type
-      when "Marine" then createDefaultMarineSquad info
-      when "Havoc"  then createDefaultHavocSquad info
-      when "Cultist"  then createDefaultCultistSquad info
-      when "Thousand Son" then createDefaultThousandSonSquad info
-      when "Berzerker" then createDefaultBerzerkerSquad info
+      when "Tactical" then createDefaultMarineSquad info
+      when "Devastator"  then createDefaultHavocSquad info
+      when "Scout"  then createDefaultCultistSquad info
+      when "Stern Guard" then createDefaultThousandSonSquad info
+      when "Veteran" then createDefaultBerzerkerSquad info
       when "LandRaider" then createLandraider info
-      when "Predator" then createPredator info
-      when "Sorcerer" then createSorcerer info
-      when "Kharn" then createKharn info
+      when "Libarian" then createSorcerer info
+      when "Dante" then createKharn info
       when "Choas Biker" then createChoasBiker info
-      when "Deamon Prince" then createDeamonPrince info
+      when "Mephiston" then createDeamonPrince info
       when "Terminator" then createDefaultTerminatorSquad info
-      when "Raptor" then createDefaulRaptorSquad info
-      when "Warp Talon" then createDefaulWarpTalonSquad info
+      when "Land Speeder" then createDefaulRaptorSquad info
 
     armyRules ->
     countArmyPoints ->
