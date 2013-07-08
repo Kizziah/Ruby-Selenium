@@ -141,6 +141,7 @@ squadDetails = (opts = {}) ->
       squad.troop = 23
       squad.base = 150
       squad.basicWeapons = ["10kboltgun"]
+
     when "Raptor"
       squad.min = 5
       squad.max = 10
@@ -158,6 +159,7 @@ squadDetails = (opts = {}) ->
       squad.troop = 19
       squad.base = 105
       squad.basicWeapons = ["boltpistol, chainsword"]
+
     when "Choas Biker"
       squad.min = 3
       squad.max = 10

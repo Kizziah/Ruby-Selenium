@@ -3,7 +3,9 @@
   = f.input :name, label: false
 
   .army_points
-
+  .progressbar
+    .bar
+      .barpoints 0%
   .squadform
     .army_list
       %table
@@ -14,37 +16,36 @@
           %th max
         %tr
           %td HQ
-          %td.hq 1
-          %td 0
-          %td 1
+          %td.hq 0
+          %td.hqpoints 0
+          %td 2
         %tr
           %td Troop
-          %td.troop 2
-          %td 0
+          %td.troop 0
+          %td.trooppoints 0
           %td 6
         %tr
           %td Elite
           %td.elite 0
-          %td 0
+          %td.elitepoints 0
           %td 3
         %tr
           %td Heavy Support
           %td.heavy 0
-          %td 0
+          %td.heavypoints 0
           %td 3
         %tr
           %td Fast Attack
           %td.fast 0
-          %td 0
+          %td.fastpoints 0
           %td 3
         %tr
           %td Total
-          %td.total 3
+          %td.total 0
           %td 0
-          %td N/A
+          %td 18
 
-
-    %h3 Squads
+    %h3
     = f.simple_fields_for :squads do |squad|
       .fields.squad
         = squad.input :name, label: false, collection: Squad::TYPES.to_a, prompt: "Select squad"
@@ -110,5 +111,4 @@
 
     .create_army= f.button :submit
 
-= link_to "Click", '#', id: "click"
 

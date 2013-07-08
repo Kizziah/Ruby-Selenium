@@ -40,13 +40,22 @@ body.index
 body.choasbackground
   background: image-url("choas/choasbackground1.jpeg")  no-repeat
   background-attachment: fixed
+  h1
+    text-shadow: 0px 7px 1px rgba(0, 0, 0, 0.7)
+    color: #1E7186
 body.bloodangelbackground
   background: image-url("bloodangel.jpg")
   background-attachment: fixed
 
+  h1
+    text-shadow: 0px 7px 1px rgba(0, 0, 0, 0.7)
+    color: #BE2222
 body.spacewolfbackground
   background: image-url("spacewolfbackground.jpg")
   background-attachment: fixed
+  h1
+    text-shadow: 0px 7px 1px rgba(0, 0, 0, 0.7)
+    color: #134083
 
 body.orkbackground
   background: image-url("orkbackground.jpeg")
@@ -58,10 +67,15 @@ body.orkbackground
 body.ultrabackground
   background: image-url("ultrabackground.jpg")
   background-attachment: fixed
-
+  h1
+    text-shadow: 0px 7px 1px rgba(0, 0, 0, 0.7)
+    color: #1626DB
 body.darkbackground
   background: image-url("darkbackground.jpg")
   background-attachment: fixed
+  h1
+    text-shadow: 0px 7px 1px rgba(0, 0, 0, 0.7)
+    color: #22355C
 
 body
   font-family: helvetica, sans-serif
@@ -205,10 +219,28 @@ tr.troop
 // ----------------------------------------------------------------------------
 // New army form
 // ----------------------------------------------------------------------------
+
+.progressbar
+  background-color: black
+  border-radius: 10px
+  padding: 7px
+  height: 33px
+  margin-bottom: 45px
+  .bar
+    background-color: #174917
+    width: 0
+    height: 35px
+    border-radius: 10px
+    position: relative
+    .barpoints
+      @include button(#174917)
+      font-size: 15px
+      margin-top: 41px
+      margin-left: 278px
 .army_points
   font-size: 35px
   float: right
-  margin-top: -23px
+  margin-top: -42px
 
 .fields.squad
   background-color: rgba(0, 0, 0, .3)
