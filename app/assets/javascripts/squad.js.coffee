@@ -587,7 +587,14 @@ countArmyPoints = ->
   allSquadPoints.each ->
     points += parseInt($(this).text()) if parseInt($(this).text()) > 0
   $(".army_points").text(points)
+  $(".army_list").find("tr:last").find("td:eq(2)").text(points)
+  progressBar = $(".progressbar").find(".bar")
+  bar = points / 2000
+  bar = bar * 100
 
+  progressBar.css('width', "#{bar}%")
+  bar = parseInt(bar)
+  $(".barpoints").text("#{bar}%")
 
 #Squad Helpers
 #
@@ -690,25 +697,45 @@ identifyHQInArmy = (opts = {}) ->
 armyRules = ->
   troop = 0
   heavy = 0
-  troop = -1
   elite = 0
   fast = 0
   hq = 0
+
+  heavypoints = 0
+  trooppoints = 0
+  elitepoints = 0
+  fastpoints = 0
+  hqpoints = 0
   squadType = $(".squad").find(".squadtype")
-  identifyHQInArmy(squadType: squadType)
   squadType.each ->
     switch $(this).text()
       when "Heavy" then heavy += 1
-      when "Troops" then troop += 1
+      when "Troop" then troop += 1
       when "Elite" then elite += 1
-      when "Fast Attack" then fast += 1
       when "HQ" then hq += 1
+      when "Fast Attack" then fast += 1
+
+  totalsquadpoints = $(".squad").find(".squadpoints")
+  allSquads = $(".squad")
+  allSquads.each ->
+    switch $(this).find(".squadtype").text()
+      when "Troop" then trooppoints = parseInt($(this).find(".squadpoints").text()) + trooppoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "Heavy" then heavypoints = parseInt($(this).find(".squadpoints").text()) + heavypoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "Elite" then elitepoints = parseInt($(this).find(".squadpoints").text()) + elitepoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "Fast" then fastpoints = parseInt($(this).find(".squadpoints").text()) + fastpoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "HQ" then hqpoints = parseInt($(this).find(".squadpoints").text()) + hqpoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+
   armyCompositionTable = $(".army_list")
   armyCompositionTable.find(".hq").text(hq)
   armyCompositionTable.find(".fast").text(fast)
   armyCompositionTable.find(".troop").text(troop)
   armyCompositionTable.find(".heavy").text(heavy)
   armyCompositionTable.find(".elite").text(elite)
+  armyCompositionTable.find(".fastpoints").text(fastpoints)
+  armyCompositionTable.find(".trooppoints").text(trooppoints)
+  armyCompositionTable.find(".heavypoints").text(heavypoints)
+  armyCompositionTable.find(".elitepoints").text(elitepoints)
+  armyCompositionTable.find(".hqpoints").text(hqpoints)
 
   if elite >= 3
     $("#add_elite").hide()
@@ -730,6 +757,7 @@ armyRules = ->
     $("#add_squad").hide()
   else
     $("#add_squad").show()
+
   countArmyPoints ->
 
 createNewTable = (opts = {}) ->

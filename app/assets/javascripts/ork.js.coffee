@@ -243,13 +243,13 @@ squadDetails = (opts = {}) ->
       squad.troopPic = "ork"
       squad.size = 5
       squad.bs = 2
-      squad.ws = 4
+      squad.ws = 6
       squad.s =  3
       squad.t = 4
       squad.w = 1
       squad.i = 2
       squad.a = 3
-      squad.ld = 7
+      squad.ld = 10
       squad.sv = 6
     when "Weirdboy"
       squad.min = 1
@@ -261,48 +261,35 @@ squadDetails = (opts = {}) ->
       squad.sideWeapons = ["club"]
       squad.troopPic = "ork"
       squad.size = 5
-      squad.bs = 2
-      squad.ws = 4
+      squad.bs = 3
+      squad.ws = 5
       squad.s =  3
       squad.t = 4
       squad.w = 1
       squad.i = 2
       squad.a = 3
-      squad.ld = 7
+      squad.ld = 8
       squad.sv = 6
     when "Zogwort"
       squad.min = 1
       squad.max = 1
-      squad.troop = 650
-      squad.base = 650
+      squad.troop = 185
+      squad.base = 185
       squad.basicWeapons = ["Defgun"]
       squad.type = "HQ"
       squad.sideWeapons = ["club"]
       squad.troopPic = "ork"
       squad.size = 5
       squad.bs = 2
-      squad.ws = 4
+      squad.ws = 6
       squad.s =  3
       squad.t = 4
       squad.w = 1
       squad.i = 2
       squad.a = 3
-      squad.ld = 7
+      squad.ld = 9
       squad.sv = 6
-    when "Big Gunz"
-      squad.min = 1
-      squad.max = 1
-      squad.troop = 90
-      squad.base = 90
-      squad.basicWeapons = ["cannon"]
-      squad.type = "Heavy"
-      squad.sideWeapons = ["blasta"]
-      squad.troopPic = "ork"
-      squad.size = 3
-      squad.front = 12
-      squad.side = 12
-      squad.rear = 12
-      squad.hp = 2
+
     when "Big Gunz"
       squad.min = 1
       squad.max = 1
@@ -317,16 +304,19 @@ squadDetails = (opts = {}) ->
       squad.side = 10
       squad.rear = 10
       squad.hp = 2
+      squad.bs = 3
+
     when "BattleWagon"
       squad.min = 1
       squad.max = 1
-      squad.troop = 90
-      squad.base = 90
+      squad.troop = 150
+      squad.base = 150
       squad.basicWeapons = ["cannon"]
       squad.type = "Heavy"
       squad.sideWeapons = ["blasta"]
       squad.troopPic = "ork"
       squad.size = 1
+      squad.bs = 3
       squad.front = 14
       squad.side = 12
       squad.rear = 12
@@ -334,8 +324,8 @@ squadDetails = (opts = {}) ->
     when "Looted Wagon"
       squad.min = 1
       squad.max = 1
-      squad.troop = 90
-      squad.base = 90
+      squad.troop = 120
+      squad.base = 120
       squad.basicWeapons = ["cannon"]
       squad.type = "Heavy"
       squad.sideWeapons = ["blasta"]
@@ -345,6 +335,7 @@ squadDetails = (opts = {}) ->
       squad.side = 12
       squad.rear = 12
       squad.hp = 3
+      squad.bs = 3
 
   squad
 
@@ -387,28 +378,31 @@ createDefaultVechicle = (opts = {}) ->
   opts.location.find(".squadpoints").text(squad.base)
   opts.location.find(".squadsize").text(squad.size)
   if opts.location.find("table.troop_stat tr:first td").size() > 7
-
     opts.location.find("table.troop_stat tr:first").find("td:eq(2)").text("F")
     opts.location.find("table.troop_stat tr:first").find("td:eq(3)").text("S")
     opts.location.find("table.troop_stat tr:first").find("td:eq(4)").text("R")
     opts.location.find("table.troop_stat tr:first").find("td:eq(5)").text("HP")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(0)").text("#{squad.ws}")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(2)").text("#{squad.front}")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(3)").text("#{squad.side}")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(4)").text("#{squad.rear}")
-    opts.location.find("table.troop_stat tr:last").find("td:eq(5)").text("#{squad.hp}")
-
+    opts.location.find("table.troop_stat tr:last").find("td:eq(0)").text("#{squad.bs}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(1)").text("#{squad.front}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(2)").text("#{squad.side}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(3)").text("#{squad.rear}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(4)").text("#{squad.hp}")
     opts.location.find("table.troop_stat tr:first").find("td:eq(0)").remove()
     opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:first").find("td:eq(5)").remove()
-
     opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
     opts.location.find("table.troop_stat tr:last").find("td:eq(5)").remove()
+  else
+    opts.location.find("table.troop_stat tr:last").find("td:eq(0)").text("#{squad.bs}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(1)").text("#{squad.front}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(2)").text("#{squad.side}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(3)").text("#{squad.rear}")
+    opts.location.find("table.troop_stat tr:last").find("td:eq(4)").text("#{squad.hp}")
 
 createDefaultSquad = (opts = {}) ->
   squad = squadDetails(type: opts.type)
