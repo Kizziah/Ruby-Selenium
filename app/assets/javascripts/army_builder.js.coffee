@@ -1,7 +1,4 @@
 window.ArmyBuilder = {
 
-
-
-
 }
 

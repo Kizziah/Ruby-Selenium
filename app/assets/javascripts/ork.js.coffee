@@ -641,87 +641,87 @@ editTableWithProperOptions = (opts = {}) ->
   armyRules ->
 
 jQuery ->
+  if $("h1").text() is "Ork"
+    createSquadFieldThatWillRemainHidden = do ->
+      createNewTable(hidden: true)
 
-  createSquadFieldThatWillRemainHidden = do ->
-    createNewTable(hidden: true)
+    setArmy = do -> #TODO FIX This
+      setUpArmy ->
 
-  setArmyForChoas = do -> #TODO FIX This
-    setUpArmy ->
+    $("#add_squad").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: Troop, title: "Troop")
+      # armyRules ->
 
-  $("#add_squad").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: Troop, title: "Troop")
-    # armyRules ->
+    $("#add_hq").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: HQ, title: "HQ")
 
-  $("#add_hq").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: HQ, title: "HQ")
+    $("#add_elite").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: EliteSquads, title: "Elite")
 
-  $("#add_elite").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: EliteSquads, title: "Elite")
+    $("#add_heavyweapon").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: heavySupport, title: "Heavy")
 
-  $("#add_heavyweapon").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: heavySupport, title: "Heavy")
+    $("#add_fastattack").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: fastAttack, title: "Fast Attack")
 
-  $("#add_fastattack").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: fastAttack, title: "Fast Attack")
+    $(".remove_squad").click ->
+      event.preventDefault()
+      $(this).closest(".squad").remove()
+      armyRules ->
+      countArmyPoints ->
 
-  $(".remove_squad").click ->
-    event.preventDefault()
-    $(this).closest(".squad").remove()
-    armyRules ->
-    countArmyPoints ->
+    $(".remove_troop").click ->
+      event.preventDefault()
+      location = $(this).closest(".squad")
+      squad = getSquadInfo(location)
+      $(this).closest("tr").remove()
+      squad = getSquadInfo(location)
+      removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+      location.find(".add_troop").show()
+      countArmyPoints ->
 
-  $(".remove_troop").click ->
-    event.preventDefault()
-    location = $(this).closest(".squad")
-    squad = getSquadInfo(location)
-    $(this).closest("tr").remove()
-    squad = getSquadInfo(location)
-    removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
-    location.find(".add_troop").show()
-    countArmyPoints ->
+    $(".add_troop").click ->
+      event.preventDefault()
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      addTroopRules(size: squad.size, troop: squad.troop, type: squad.type)
+      newSquad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon, squadMark: newSquad.squadMark)
+      countArmyPoints ->
 
-  $(".add_troop").click ->
-    event.preventDefault()
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    addTroopRules(size: squad.size, troop: squad.troop, type: squad.type)
-    newSquad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon, squadMark: newSquad.squadMark)
-    countArmyPoints ->
+    $(".army_squads_troops_weapon select").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+      countArmyPoints ->
 
-  $(".army_squads_troops_weapon select").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
-    countArmyPoints ->
+    $(".army_squads_troops_side_weapon select").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+      countArmyPoints ->
 
-  $(".army_squads_troops_side_weapon select").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
-    countArmyPoints ->
+    $(".army_squads_name select").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      while squad.size > 1  # reset troops in squad for when squad changes types
+        $(this).closest(".squad").find("table tbody tr.troop:last").remove()
+        squad.size--
+      squad = getSquadInfo(currentSquad)
+      info = (troop: squad.troop, location: currentSquad, type: squad.type)
+      details = squadDetails(type: squad.type)
 
-  $(".army_squads_name select").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    while squad.size > 1  # reset troops in squad for when squad changes types
-      $(this).closest(".squad").find("table tbody tr.troop:last").remove()
-      squad.size--
-    squad = getSquadInfo(currentSquad)
-    info = (troop: squad.troop, location: currentSquad, type: squad.type)
-    details = squadDetails(type: squad.type)
-
-    createDefaultSquad info unless details.type is "Heavy"
-    createDefaultVechicle info if details.type is "Heavy"
-    armyRules ->
-    countArmyPoints ->
+      createDefaultSquad info unless details.type is "Heavy"
+      createDefaultVechicle info if details.type is "Heavy"
+      armyRules ->
+      countArmyPoints ->

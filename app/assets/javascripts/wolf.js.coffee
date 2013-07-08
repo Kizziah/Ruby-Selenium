@@ -33,7 +33,7 @@ basicMarineLeaderWeapons = [
   "plasmagun"
 ]
 
-choasHQ = [
+HQ = [
   "Select Character",
   "Dante",
   "Mephiston",
@@ -52,7 +52,7 @@ cultistWeapons = [
   "autogun"
 ]
 
-choasTroops = [
+Troop = [
   "Select Troop"
   "Tactical",
   "Scout"
@@ -259,16 +259,7 @@ createDefaultSquad = (opts = {}) ->
     $(this).find("a.remove_troop").hide()
 
   opts.location.find(".squadpoints").text(opts.squadPoints)
-  # opts.location.find(" table tr:gt(0)").each ->
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(0)").text("#{opts.bs}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(1)").text("#{opts.ws}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(2)").text("#{opts.s}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(3)").text("#{opts.t}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(4)").text("#{opts.w}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(5)").text("#{opts.i}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(6)").text("#{opts.a}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(7)").text("#{opts.ld}")
-  #   $(this).find(".troop_stat").find("tr:last").find("td:eq(8)").text("#{opts.sv}")
+
 
 createDefaultCultistSquad = (opts = {}) ->
   opts.location.find(".squad_wrap").show()
@@ -560,7 +551,14 @@ countArmyPoints = ->
   allSquadPoints.each ->
     points += parseInt($(this).text()) if parseInt($(this).text()) > 0
   $(".army_points").text(points)
+  $(".army_list").find("tr:last").find("td:eq(2)").text(points)
+  progressBar = $(".progressbar").find(".bar")
+  bar = points / 2000
+  bar = bar * 100
 
+  progressBar.css('width', "#{bar}%")
+  bar = parseInt(bar)
+  $(".barpoints").text("#{bar}%")
 
 #Squad Helpers
 #
@@ -662,6 +660,7 @@ identifyHQInArmy = (opts = {}) ->
     if kharn is 0
       createHQLeaderRules(squadType: squadType, squadChange: "Berzerker", remove: true)
 
+
 armyRules = ->
   troop = 0
   heavy = 0
@@ -732,31 +731,32 @@ createNewTable = (opts = {}) ->
   squadClone.hide() if opts.hidden is true
   $(".fields.squad:last").prev().find(".remove_troop").hide()
 
-# Creat mandatory Choas Army squads
+# Creat mandatory Army squads
 #
 setUpChoasArmy = ->
   $(".squadform").show()
-  $("#army_faction").val("Choas Force")
   $(".army_squads_name select").empty()
   troopsOptions = ""
-  $.each choasTroops, (i) ->
-    troopsOptions += "<option value=\"" + choasTroops[i] + "\">" + choasTroops[i] + "</option>"
+  $.each Troop, (i) ->
+    troopsOptions += "<option value=\"" + Troop[i] + "\">" + Troop[i] + "</option>"
   $(".army_squads_name select").append troopsOptions
   createNewTable ->
   createNewTable ->
+  $(".squad:first").find(".squadtype").text("Troop")
+  $(".squad:first").next().find(".squadtype").text("Troop")
   $(".squad").find("a.remove_squad").hide()
   $(".squad:last").find("a.remove_squad").show()
   findSquad = $(".squad:last").prev()
   hqSquads = findSquad.find('.army_squads_name select')
   hqSquads.empty()
   hqOptions = ""
-  $.each choasHQ, (i) ->
-    hqOptions += "<option value=\"" + choasHQ[i] + "\">" + choasHQ[i] + "</option>"
+  $.each HQ, (i) ->
+    hqOptions += "<option value=\"" + HQ[i] + "\">" + HQ[i] + "</option>"
   hqSquads.append hqOptions
   $(".squad").find(".squad_wrap").hide()
-
-  findSquad.find("h4").text("HQ")
+  findSquad.find(".squadtype").text("HQ")
   findSquad.find(".add_troop").hide()
+  armyRules ->
 
 editTableWithProperOptions = (opts = {}) ->
   findSquad = $(".squad:last").prev()
@@ -773,123 +773,120 @@ editTableWithProperOptions = (opts = {}) ->
 
 jQuery ->
 
-  createSquadFieldThatWillRemainHidden = do ->
-    createNewTable(hidden: true)
+  if $("h1").text() is "Space Wolf"
 
-  setArmyForChoas = do -> #TODO FIX This
-    setUpChoasArmy ->
+    createSquadFieldThatWillRemainHidden = do ->
+      createNewTable(hidden: true)
 
-
-  $("#add_squad").click ->
-    event.preventDefault()
-    createNewTable ->
-    armyRules ->
-
-  $("#add_hq").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: choasHQ, title: "HQ")
-
-  $("#add_elite").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: choasEliteSquads, title: "Elite")
-
-  $("#add_heavyweapon").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: choasHeavySupport, title: "Heavy")
-
-  $("#add_fastattack").click ->
-    event.preventDefault()
-    createNewTable ->
-    editTableWithProperOptions(type: choasFastAttack, title: "Fast Attack")
-
-  $(".remove_squad").click ->
-    event.preventDefault()
-    $(this).closest(".squad").remove()
-    armyRules ->
-
-  $(".remove_troop").click ->
-    event.preventDefault()
-    location = $(this).closest(".squad")
-    squad = getSquadInfo(location)
-    $(this).closest("tr").remove()
-    squad = getSquadInfo(location)
-    removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
-    location.find(".add_troop").show()
-
-  $(".add_troop").click ->
-    event.preventDefault()
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    addTroopRules(size: squad.size, troop: squad.troop, type: squad.type)
-    newSquad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon, squadMark: newSquad.squadMark)
-
-  $('.army_squads_mark select').change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
-
-  $(".army_squads_troops_weapon select").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
-
-  $(".army_squads_troops_side_weapon select").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
-
-  $(".squad_click_addons").find(".meltabomb input").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    addMeltabomb(currentSquad: currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
-
-  $(".squad_click_addons").find(".mutation input").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    addMutation(currentSquad: currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
-
-  $(".squad_addons input").change ->
-    currentSquad = $(this).closest(".squad")
-
-    squad = getSquadInfo(currentSquad)
-    countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+    setArmyForChoas = do -> #TODO FIX This
+      setUpChoasArmy ->
 
 
-  $(".army_squads_name select").change ->
-    currentSquad = $(this).closest(".squad")
-    squad = getSquadInfo(currentSquad)
-    champion = $(this).closest(".squad").find("table tbody tr:first")
+    $("#add_squad").click ->
+      event.preventDefault()
+      createNewTable ->
+      armyRules ->
 
-    while squad.size > 1  # reset troops in squad for when squad changes types
-      $(this).closest(".squad").find("table tbody tr:last").remove()
+    $("#add_hq").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: choasHQ, title: "HQ")
 
-      squad.size--
-    squad = getSquadInfo(currentSquad)
-    info = (troop: squad.troop, location: currentSquad)
-    switch squad.type
-      when "Tactical" then createDefaultMarineSquad info
-      when "Devastator"  then createDefaultHavocSquad info
-      when "Scout"  then createDefaultCultistSquad info
-      when "Stern Guard" then createDefaultThousandSonSquad info
-      when "Veteran" then createDefaultBerzerkerSquad info
-      when "LandRaider" then createLandraider info
-      when "Libarian" then createSorcerer info
-      when "Dante" then createKharn info
-      when "Choas Biker" then createChoasBiker info
-      when "Mephiston" then createDeamonPrince info
-      when "Terminator" then createDefaultTerminatorSquad info
-      when "Land Speeder" then createDefaulRaptorSquad info
+    $("#add_elite").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: choasEliteSquads, title: "Elite")
 
-    armyRules ->
-    countArmyPoints ->
+    $("#add_heavyweapon").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: choasHeavySupport, title: "Heavy")
 
-  $("#click").click ->
+    $("#add_fastattack").click ->
+      event.preventDefault()
+      createNewTable ->
+      editTableWithProperOptions(type: choasFastAttack, title: "Fast Attack")
+
+    $(".remove_squad").click ->
+      event.preventDefault()
+      $(this).closest(".squad").remove()
+      armyRules ->
+
+    $(".remove_troop").click ->
+      event.preventDefault()
+      location = $(this).closest(".squad")
+      squad = getSquadInfo(location)
+      $(this).closest("tr").remove()
+      squad = getSquadInfo(location)
+      removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+      location.find(".add_troop").show()
+
+    $(".add_troop").click ->
+      event.preventDefault()
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      addTroopRules(size: squad.size, troop: squad.troop, type: squad.type)
+      newSquad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon, squadMark: newSquad.squadMark)
+
+    $('.army_squads_mark select').change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+
+    $(".army_squads_troops_weapon select").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+
+    $(".army_squads_troops_side_weapon select").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+    $(".squad_click_addons").find(".meltabomb input").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      addMeltabomb(currentSquad: currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+    $(".squad_click_addons").find(".mutation input").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      addMutation(currentSquad: currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
+
+    $(".squad_addons input").change ->
+      currentSquad = $(this).closest(".squad")
+
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
 
 
+    $(".army_squads_name select").change ->
+      currentSquad = $(this).closest(".squad")
+      squad = getSquadInfo(currentSquad)
+      champion = $(this).closest(".squad").find("table tbody tr:first")
 
+      while squad.size > 1  # reset troops in squad for when squad changes types
+        $(this).closest(".squad").find("table tbody tr:last").remove()
+
+        squad.size--
+      squad = getSquadInfo(currentSquad)
+      info = (troop: squad.troop, location: currentSquad)
+      switch squad.type
+        when "Tactical" then createDefaultMarineSquad info
+        when "Devastator"  then createDefaultHavocSquad info
+        when "Scout"  then createDefaultCultistSquad info
+        when "Stern Guard" then createDefaultThousandSonSquad info
+        when "Veteran" then createDefaultBerzerkerSquad info
+        when "LandRaider" then createLandraider info
+        when "Libarian" then createSorcerer info
+        when "Dante" then createKharn info
+        when "Choas Biker" then createChoasBiker info
+        when "Mephiston" then createDeamonPrince info
+        when "Terminator" then createDefaultTerminatorSquad info
+        when "Land Speeder" then createDefaulRaptorSquad info
+
+      armyRules ->
+      countArmyPoints ->

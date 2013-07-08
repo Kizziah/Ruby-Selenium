@@ -1,5 +1,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require underscore
-//= require army_builder
 //= require index
+//= require ork
+//= require blood
+//= require wolf
+//= require ultra
+//= require dark
+//= require chaos
