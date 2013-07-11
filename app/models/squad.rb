@@ -19,7 +19,10 @@ class Squad < ActiveRecord::Base
 
   def valid_squad?(squad)
     ["Cultist", "Thousand Son", "Havoc", "Marine", "Berzerker", "LandRaider", "Sorcerer", "Kharn", "Terminator", "Deamon Prince",
-      "Choas Biker", "Raptor", "Warp Talon"].include?(squad)
+      "Choas Biker", "Raptor", "Warp Talon", "Tactical", "Scout", "Biker", "WarBoss", "Zogwort", "Weirdboy",
+      "Land Speeder", "Stern Guard", "Devestater", "Dante", "Mephiston", "Libarian", "Ork", "Gretchin", "Big Gunz",
+      "BattleWagon", "Looted Wagon", "StormBoyz", "Ork Bike", "War Buggy", "TankBustas", "Lootas", "Kommandos", "WarBoss",
+      "Zogwort", "Weirdboy" ].include?(squad)
   end
 
   def delete_if_not_valid

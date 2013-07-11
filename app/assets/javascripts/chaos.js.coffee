@@ -170,6 +170,7 @@ squadDetails = (opts = {}) ->
       squad.max = 10
       squad.troop = 31
       squad.base = 95
+
   squad
 
 renameField = (opts = {}) ->
@@ -796,6 +797,8 @@ setUpChoasArmy = ->
   $(".army_squads_name select").append troopsOptions
   createNewTable ->
   createNewTable ->
+  $(".squad:first").find(".squadtype").text("Troop")
+  $(".squad:first").next().find(".squadtype").text("Troop")
   $(".squad").find("a.remove_squad").hide()
   $(".squad:last").find("a.remove_squad").show()
   findSquad = $(".squad:last").prev()
@@ -808,6 +811,7 @@ setUpChoasArmy = ->
   $(".squad").find(".squad_wrap").hide()
   findSquad.find(".squadtype").text("HQ")
   findSquad.find(".add_troop").hide()
+  armyRules ->
 
 editTableWithProperOptions = (opts = {}) ->
   findSquad = $(".squad:last").prev()

@@ -111,6 +111,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = basicMarineWeapons
       squad.havocWeapons = havocWeapons
 
+
     when "Marine"
       squad.min = 5
       squad.max = 20
@@ -496,38 +497,6 @@ weaponPointChart = (opts = {}) ->
   return do ->
     points
 
-markPointChart = (opts = {}) ->
-  points = 0
-  squadMark = opts.squadMark
-  type = opts.type
-  switch squadMark
-    when "Khorne", "Nurgle" then points+= 2 if type is "Cultist"
-    when "Tzeentch", "Slaanesh" then points+= 1 if type is "Cultist"
-  switch squadMark
-    when "Nurgle" then points+= 3 if type is "Marine"
-    when "Tzeentch", "Slaanesh", "Khorne" then points+= 2 if type is "Marine"
-  switch squadMark
-    when "Nurgle" then points+= 3 if type is "Havoc"
-    when "Tzeentch", "Slaanesh", "Khorne" then points+= 2 if type is "Havoc"
-  switch squadMark
-    when "Khorne" then points+= 3 if type is "Terminator"
-    when "Slaanesh" then points+= 4 if type is "Terminator"
-    when "Tzeentch" then points+= 5 if type is "Terminator"
-    when "Nurgle" then points+= 6 if type is "Terminator"
-
-  return do ->
-    points
-
-
-# squadAddonChart = (opts = {}) ->
-#   points = 0
-#   points += 5 if opts.table.find(".meltabomb input").is(":checked") is true
-#   points += 10 if opts.table.find(".mutation input").is(":checked") is true
-#   if opts.table.find(".veteran input").is(":checked") is true
-#     points += 1 * opts.table.find('.army_squads_troops_weapon').size()
-#   return do ->
-#     points
-
 countSquadPoints = (opts = {}) ->
 
   squadPoints = 0
@@ -664,25 +633,45 @@ identifyHQInArmy = (opts = {}) ->
 armyRules = ->
   troop = 0
   heavy = 0
-  troop = -1
   elite = 0
   fast = 0
   hq = 0
-  squadType = $(".squad").find("h4")
-  identifyHQInArmy(squadType: squadType)
+
+  heavypoints = 0
+  trooppoints = 0
+  elitepoints = 0
+  fastpoints = 0
+  hqpoints = 0
+  squadType = $(".squad").find(".squadtype")
   squadType.each ->
     switch $(this).text()
       when "Heavy" then heavy += 1
-      when "Troops" then troop += 1
+      when "Troop" then troop += 1
       when "Elite" then elite += 1
-      when "Fast Attack" then fast += 1
       when "HQ" then hq += 1
+      when "Fast Attack" then fast += 1
+
+  totalsquadpoints = $(".squad").find(".squadpoints")
+  allSquads = $(".squad")
+  allSquads.each ->
+    switch $(this).find(".squadtype").text()
+      when "Troop" then trooppoints = parseInt($(this).find(".squadpoints").text()) + trooppoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "Heavy" then heavypoints = parseInt($(this).find(".squadpoints").text()) + heavypoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "Elite" then elitepoints = parseInt($(this).find(".squadpoints").text()) + elitepoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "Fast" then fastpoints = parseInt($(this).find(".squadpoints").text()) + fastpoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+      when "HQ" then hqpoints = parseInt($(this).find(".squadpoints").text()) + hqpoints if $.isNumeric(parseInt($(this).find(".squadpoints").text())) is true
+
   armyCompositionTable = $(".army_list")
   armyCompositionTable.find(".hq").text(hq)
   armyCompositionTable.find(".fast").text(fast)
   armyCompositionTable.find(".troop").text(troop)
   armyCompositionTable.find(".heavy").text(heavy)
   armyCompositionTable.find(".elite").text(elite)
+  armyCompositionTable.find(".fastpoints").text(fastpoints)
+  armyCompositionTable.find(".trooppoints").text(trooppoints)
+  armyCompositionTable.find(".heavypoints").text(heavypoints)
+  armyCompositionTable.find(".elitepoints").text(elitepoints)
+  armyCompositionTable.find(".hqpoints").text(hqpoints)
 
   if elite >= 3
     $("#add_elite").hide()
@@ -735,6 +724,7 @@ createNewTable = (opts = {}) ->
 #
 setUpChoasArmy = ->
   $(".squadform").show()
+  $("#army_faction").val("Choas Force")
   $(".army_squads_name select").empty()
   troopsOptions = ""
   $.each Troop, (i) ->
