@@ -29,9 +29,9 @@ basicMarineLeaderWeapons = [
 
 HQ = [
   "Select Character",
-  "Dante",
-  "Mephiston",
-  "Libarian"
+  "Great Wolf",
+  "Wolf Lord",
+  "Wolf Priest"
 ]
 
 cultistGunnyWeapons = [
@@ -48,9 +48,9 @@ cultistWeapons = [
 
 Troop = [
   "Select Troop"
-  "Tactical",
-  "Scout",
-  "Devestater"
+  "Blood Claw",
+  "Grey Hunter",
+  "Long Fang"
 ]
 
 heavySupport = [
@@ -64,11 +64,9 @@ heavySupport = [
 
 fastAttack = [
   "Select Squad",
-  "Assualt"
-  "Biker",
+  "SkyClaw"
+  "Wolfpack",
 ]
-
-
 
 landRaiderMain = [
   "lascannon",
@@ -77,9 +75,9 @@ landRaiderMain = [
 
 EliteSquads = [
   "Select Elite",
-  "Terminator",
-  "Stern Guard",
-
+  "Wolf Guard",
+  "Lone Wolf",
+  "Scout",
 ]
 
 squadDetails = (opts = {}) ->
@@ -112,11 +110,11 @@ squadDetails = (opts = {}) ->
 
   switch opts.type
 
-    when "Tactical"
+    when "Grey Hunter"
       squad.min = 5
       squad.max = 10
       squad.troop = 15
-      squad.base = 90
+      squad.base = 75
       squad.basicWeapons = basicMarineWeapons
       squad.type = "Troop"
       squad.sideWeapons = ["chainsword", "boltpistol"]
@@ -132,9 +130,9 @@ squadDetails = (opts = {}) ->
       squad.ld = 8
       squad.sv = 3
     
-    when "Devestater"
+    when "Long Fang"
       squad.min = 5
-      squad.max = 5
+      squad.max = 6
       squad.troop = 15
       squad.base = 90
       squad.basicWeapons = havocWeapons
@@ -153,11 +151,11 @@ squadDetails = (opts = {}) ->
       squad.sv = 3
 
 
-    when "Scout"
+    when "Blood Claw"
       squad.min = 5
       squad.max = 15
-      squad.troop = 12
-      squad.base = 60
+      squad.troop = 15
+      squad.base = 75
       squad.basicWeapons = basicMarineWeapons
       squad.type = "Troop"
       squad.sideWeapons = ["chainsword", "boltpistol"]
@@ -171,18 +169,18 @@ squadDetails = (opts = {}) ->
       squad.i = 4
       squad.a = 1
       squad.ld = 8
-      squad.sv = 4
+      squad.sv = 3
 
-    when "Terminator"
-      squad.min = 5
+    when "Wolf Guard"
+      squad.min = 3
       squad.max = 10
-      squad.troop = 42
-      squad.base = 200
+      squad.troop = 33
+      squad.base = 99
       squad.basicWeapons = ["stormbolter"]
       squad.type = "Elite"
-      squad.sideWeapons = ["powerfist", "chainsword"]
+      squad.sideWeapons = ["powerweapon","powerfist", "chainfist"]
       squad.troopPic = "wolf"
-      squad.size = 5
+      squad.size = 3
       squad.bs = 4
       squad.ws = 4
       squad.s =  4
@@ -193,15 +191,35 @@ squadDetails = (opts = {}) ->
       squad.ld = 9
       squad.sv = 2
 
-    when "Stern Guard"
-      squad.min = 5
-      squad.max = 10
+    when "Lone Wolf"
+      squad.min = 1
+      squad.max = 1
       squad.troop = 25
       squad.base = 125
-      squad.basicWeapons = ["boltgun", "combi-melta"]
+      squad.basicWeapons = ["boltgun", "plasmapistol"]
       squad.type = "Elite"
-      squad.sideWeapons = ["chainsword", "boltpistol", "powerfist", "powerweapon", "plasmapistol"]
+      squad.sideWeapons = ["chainsword", "boltpistol", "powerfist", "powersword"]
       squad.troopPic = "wolf"
+      squad.size = 1
+      squad.bs = 4
+      squad.ws = 5
+      squad.s =  4
+      squad.t = 4
+      squad.w = 1
+      squad.i = 4
+      squad.a = 2
+      squad.ld = 8
+      squad.sv = 3
+    
+    when "Scout"
+      squad.min = 5
+      squad.max = 10
+      squad.troop = 15
+      squad.base = 75
+      squad.basicWeapons = basicMarineWeapons
+      squad.type = "Elite"
+      squad.sideWeapons = ["chainsword", "boltpistol"]
+      squad.troopPic = "dark"
       squad.size = 5
       squad.bs = 4
       squad.ws = 4
@@ -209,11 +227,11 @@ squadDetails = (opts = {}) ->
       squad.t = 4
       squad.w = 1
       squad.i = 4
-      squad.a = 2
-      squad.ld = 9
-      squad.sv = 3
+      squad.a = 1
+      squad.ld = 8
+      squad.sv = 4
 
-    when "Assualt"
+    when "SkyClaw"
       squad.min = 5
       squad.max = 15
       squad.troop = 25
@@ -233,85 +251,85 @@ squadDetails = (opts = {}) ->
       squad.ld = 9
       squad.sv = 3
 
-    when "Biker"
-      squad.min = 3
-      squad.max = 12
-      squad.troop = 30
-      squad.base = 95
-      squad.basicWeapons = ["twin-boltguns", "meltagun", "plasmagun"]
+    when "Wolfpack"
+      squad.min = 5
+      squad.max = 15
+      squad.troop = 8
+      squad.base = 40
+      squad.basicWeapons = ["Fangs"]
       squad.type = "Fast"
-      squad.sideWeapons = ["boltpistol", "chainsword", "powerfist", "powerweapon"]
+      squad.sideWeapons = ["Claws"]
       squad.troopPic = "wolf"
-      squad.size = 3
-      squad.bs = 2
+      squad.size = 5
+      squad.bs = 0
       squad.ws = 4
-      squad.s =  3
-      squad.t = 5
+      squad.s =  4
+      squad.t = 4
       squad.w = 1
       squad.i = 3
       squad.a = 2
-      squad.ld = 8
-      squad.sv = 3
-
-    when "WarBoss"
-      squad.min = 1
-      squad.max = 1
-      squad.troop = 185
-      squad.base = 185
-      squad.basicWeapons = ["Defgun"]
-      squad.type = "HQ"
-      squad.sideWeapons = ["club"]
-      squad.troopPic = "ork"
-      squad.size = 5
-      squad.bs = 2
-      squad.ws = 6
-      squad.s =  3
-      squad.t = 4
-      squad.w = 1
-      squad.i = 2
-      squad.a = 3
-      squad.ld = 10
+      squad.ld = 5
       squad.sv = 6
-    
-    when "Mephiston"
+
+    when "Great Wolf"
       squad.min = 1
       squad.max = 1
-      squad.troop = 120
-      squad.base = 120
-      squad.basicWeapons = ["Defgun"]
+      squad.troop = 275
+      squad.base = 275
+      squad.basicWeapons = ["strombolter"]
       squad.type = "HQ"
-      squad.sideWeapons = ["club"]
-      squad.troopPic = "ork"
-      squad.size = 5
-      squad.bs = 3
+      squad.sideWeapons = ["Axe Morkai"]
+      squad.troopPic = "wolf"
+      squad.size = 1
+      squad.bs = 5
+      squad.ws = 6
+      squad.s =  4
+      squad.t = 4
+      squad.w = 3
+      squad.i = 5
+      squad.a = 5
+      squad.ld = 10
+      squad.sv = 2
+    
+    when "Wolf Lord"
+      squad.min = 1
+      squad.max = 1
+      squad.troop = 140
+      squad.base = 140
+      squad.basicWeapons = ["stormbolter"]
+      squad.type = "HQ"
+      squad.sideWeapons = ["powerweapon", "powerfist", "chainfist"]
+      squad.troopPic = "wolf"
+      squad.size = 1
+      squad.bs = 6
       squad.ws = 5
       squad.s =  3
       squad.t = 4
-      squad.w = 1
-      squad.i = 2
-      squad.a = 3
-      squad.ld = 8
-      squad.sv = 6
+      squad.w = 3
+      squad.i = 5
+      squad.a = 4
+      squad.ld = 10
+      squad.sv = 2
     
-    when "Zogwort"
+    when "Wolf Priest"
       squad.min = 1
       squad.max = 1
-      squad.troop = 185
-      squad.base = 185
-      squad.basicWeapons = ["Defgun"]
+      squad.troop = 100
+      squad.base = 100
+      squad.basicWeapons = ["boltgun", "stormbolter", "plasmapistol"]
       squad.type = "HQ"
-      squad.sideWeapons = ["club"]
-      squad.troopPic = "ork"
-      squad.size = 5
-      squad.bs = 2
-      squad.ws = 6
-      squad.s =  3
+      squad.sideWeapons = ["powerweapon"]
+      squad.troopPic = "wolf"
+      squad.size = 1
+      squad.bs = 5
+      squad.ws = 4
+      squad.s =  4
       squad.t = 4
-      squad.w = 1
-      squad.i = 2
-      squad.a = 3
-      squad.ld = 9
-      squad.sv = 6
+      squad.w = 2
+      squad.i = 4
+      squad.a = 2
+      squad.ld = 10
+      squad.sv = 3
 
     when "LandRaider"
       squad.min = 1

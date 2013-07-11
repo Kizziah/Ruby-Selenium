@@ -44,19 +44,19 @@ describe Army do
 
   end
 
-  describe "Devestater Squad" do
+  describe "Devastator Squad" do
 
     it "allow max of 5 troops in Squad and Min of 5 troops", :js => true  do
       click_link "add_heavyweapon"
       squads = page.all(".squad")
-      squads[0].find(".army_squads_name select").select "Devestater"
+      squads[0].find(".army_squads_name select").select "Devastator"
       confirm_squad_troop_count(5, squads[0])
     end
 
     it "should be a Troop squad", :js => true do
       click_link "add_heavyweapon"
       squads = page.all(".squad")
-      squads[0].find(".army_squads_name select").select "Devestater"
+      squads[0].find(".army_squads_name select").select "Devastator"
       squads[0].find(".squadtype").should have_content "Troop"
     end
 
