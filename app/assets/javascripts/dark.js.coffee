@@ -28,8 +28,8 @@ basicMarineLeaderWeapons = [
 
 HQ = [
   "Select Character",
-  "Dante",
-  "Mephiston",
+  "Azrael",
+  "Ezekiel",
   "Libarian"
 ]
 
@@ -76,8 +76,8 @@ landRaiderMain = [
 
 EliteSquads = [
   "Select Elite",
-  "Terminator",
-  "Stern Guard",
+  "DeathWing",
+  "Company Veteran",
 
 ]
 
@@ -171,14 +171,14 @@ squadDetails = (opts = {}) ->
       squad.ld = 8
       squad.sv = 4
 
-    when "Terminator"
+    when "DeathWing"
       squad.min = 5
       squad.max = 10
-      squad.troop = 42
-      squad.base = 200
+      squad.troop = 44
+      squad.base = 220
       squad.basicWeapons = ["stormbolter"]
       squad.type = "Elite"
-      squad.sideWeapons = ["powerfist", "chainsword"]
+      squad.sideWeapons = ["powerfist", "chainfist"]
       squad.troopPic = "dark"
       squad.size = 5
       squad.bs = 4
@@ -191,14 +191,14 @@ squadDetails = (opts = {}) ->
       squad.ld = 9
       squad.sv = 2
 
-    when "Stern Guard"
+    when "Company Veteran"
       squad.min = 5
       squad.max = 10
-      squad.troop = 25
-      squad.base = 125
-      squad.basicWeapons = ["boltgun", "combi-melta"]
+      squad.troop = 18
+      squad.base = 90
+      squad.basicWeapons = ["boltgun", "meltagun", "plasmapistol"]
       squad.type = "Elite"
-      squad.sideWeapons = ["chainsword", "boltpistol", "powerfist", "powerweapon", "plasmapistol"]
+      squad.sideWeapons = ["chainsword", "boltpistol"]
       squad.troopPic = "dark"
       squad.size = 5
       squad.bs = 4
@@ -251,65 +251,65 @@ squadDetails = (opts = {}) ->
       squad.ld = 8
       squad.sv = 3
 
-    when "WarBoss"
+    when "Ezekiel"
       squad.min = 1
       squad.max = 1
-      squad.troop = 185
-      squad.base = 185
-      squad.basicWeapons = ["Defgun"]
+      squad.troop = 145
+      squad.base = 145
+      squad.basicWeapons = ["boltpistol"]
       squad.type = "HQ"
-      squad.sideWeapons = ["club"]
+      squad.sideWeapons = ["force sword"]
       squad.troopPic = "ork"
-      squad.size = 5
-      squad.bs = 2
-      squad.ws = 6
-      squad.s =  3
+      squad.size = 1
+      squad.bs = 5
+      squad.ws = 5
+      squad.s =  4
       squad.t = 4
-      squad.w = 1
-      squad.i = 2
+      squad.w = 3
+      squad.i = 5
       squad.a = 3
       squad.ld = 10
-      squad.sv = 6
+      squad.sv = 2
     
-    when "Mephiston"
+    when "Azrael"
       squad.min = 1
       squad.max = 1
-      squad.troop = 120
-      squad.base = 120
-      squad.basicWeapons = ["Defgun"]
+      squad.troop = 215
+      squad.base = 215
+      squad.basicWeapons = ["Lions Wrath"]
       squad.type = "HQ"
-      squad.sideWeapons = ["club"]
+      squad.sideWeapons = ["Secret Sword"]
       squad.troopPic = "ork"
-      squad.size = 5
-      squad.bs = 3
-      squad.ws = 5
-      squad.s =  3
-      squad.t = 4
-      squad.w = 1
-      squad.i = 2
-      squad.a = 3
-      squad.ld = 8
-      squad.sv = 6
-    
-    when "Zogwort"
-      squad.min = 1
-      squad.max = 1
-      squad.troop = 185
-      squad.base = 185
-      squad.basicWeapons = ["Defgun"]
-      squad.type = "HQ"
-      squad.sideWeapons = ["club"]
-      squad.troopPic = "ork"
-      squad.size = 5
-      squad.bs = 2
+      squad.size = 1
+      squad.bs = 5
       squad.ws = 6
-      squad.s =  3
+      squad.s =  4
       squad.t = 4
       squad.w = 1
-      squad.i = 2
-      squad.a = 3
-      squad.ld = 9
-      squad.sv = 6
+      squad.i = 5
+      squad.a = 4
+      squad.ld = 10
+      squad.sv = 2
+    
+    when "Libarian"
+      squad.min = 1
+      squad.max = 1
+      squad.troop = 65
+      squad.base = 65
+      squad.basicWeapons = ["boltpistol"]
+      squad.type = "HQ"
+      squad.sideWeapons = ["force sword"]
+      squad.troopPic = "ork"
+      squad.size = 1
+      squad.bs = 4
+      squad.ws = 5
+      squad.s =  4
+      squad.t = 4
+      squad.w = 2
+      squad.i = 4
+      squad.a = 2
+      squad.ld = 10
+      squad.sv = 3
 
     when "LandRaider"
       squad.min = 1
