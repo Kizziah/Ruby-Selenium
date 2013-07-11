@@ -49,7 +49,9 @@ Troop = [
   "Select Troop"
   "Tactical",
   "Scout",
-  "Devestater"
+  "Devastator"
+  
+
 ]
 
 heavySupport = [
@@ -131,7 +133,7 @@ squadDetails = (opts = {}) ->
       squad.ld = 8
       squad.sv = 3
     
-    when "Devestater"
+    when "Devastator"
       squad.min = 5
       squad.max = 5
       squad.troop = 15

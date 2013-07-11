@@ -49,7 +49,7 @@ Troop = [
   "Select Troop"
   "Tactical",
   "Scout",
-  "Devestater"
+  "Devastator"
 ]
 
 heavySupport = [
@@ -119,7 +119,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = basicMarineWeapons
       squad.type = "Troop"
       squad.sideWeapons = ["chainsword", "boltpistol"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 4
       squad.ws = 4
@@ -131,7 +131,7 @@ squadDetails = (opts = {}) ->
       squad.ld = 8
       squad.sv = 3
     
-    when "Devestater"
+    when "Devastator"
       squad.min = 5
       squad.max = 5
       squad.troop = 15
@@ -139,7 +139,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = havocWeapons
       squad.type = "Troop"
       squad.sideWeapons = ["boltpistol"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 4
       squad.ws = 4
@@ -160,7 +160,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = basicMarineWeapons
       squad.type = "Troop"
       squad.sideWeapons = ["chainsword", "boltpistol"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 3
       squad.ws = 3
@@ -180,7 +180,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = ["stormbolter"]
       squad.type = "Elite"
       squad.sideWeapons = ["powerfist", "chainsword"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 4
       squad.ws = 4
@@ -200,7 +200,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = ["boltgun", "combi-melta"]
       squad.type = "Elite"
       squad.sideWeapons = ["chainsword", "boltpistol", "powerfist", "powerweapon", "plasmapistol"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 4
       squad.ws = 4
@@ -220,7 +220,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = ["boltpistol", "plasmapistol"]
       squad.type = "Fast"
       squad.sideWeapons = ["chainsword", "powerfist", "powerweapon"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 4
       squad.ws = 4
@@ -240,7 +240,7 @@ squadDetails = (opts = {}) ->
       squad.basicWeapons = ["twin-boltguns", "meltagun", "plasmagun"]
       squad.type = "Fast"
       squad.sideWeapons = ["boltpistol", "chainsword", "powerfist", "powerweapon"]
-      squad.troopPic = "choasmarine"
+      squad.troopPic = "blood"
       squad.size = 3
       squad.bs = 2
       squad.ws = 4
