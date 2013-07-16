@@ -1,21 +1,14 @@
-%h1= "Edit #{@squad.name}"
-= @squad.troops.size
-= @squad.mark
+%h1= "#{@squad.name}"
 
-dasf
-= @squad.veteran?
-= @squad.meltabomb?
-= @squad.mutation?
-= @squad.veteran_status
+.squad_edit
+%p Size
+= @squad.troops.size
+%p Points
+= @squad.points
 
 = simple_form_for [@army, @squad] do |f|
-  = f.input :extras
-  = f.input :size
-  = f.input :mark
   = f.simple_fields_for :troops do |troop|
     = troop.input :weapon
     = troop.input :side_weapon
 
   = f.button :submit
-
-= link_to 'Complete Details on Squad', army_squad_path(@army, @squad)

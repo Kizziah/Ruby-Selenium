@@ -835,37 +835,37 @@ jQuery ->
     setArmyForChoas = do -> #TODO FIX This
       setUpChoasArmy ->
 
-    $("#add_squad").click ->
+    $("#add_squad").click (event) ->
       event.preventDefault()
       createNewTable ->
       armyRules ->
 
-    $("#add_hq").click ->
+    $("#add_hq").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: choasHQ, title: "HQ")
 
-    $("#add_elite").click ->
+    $("#add_elite").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: choasEliteSquads, title: "Elite")
 
-    $("#add_heavyweapon").click ->
+    $("#add_heavyweapon").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: choasHeavySupport, title: "Heavy")
 
-    $("#add_fastattack").click ->
+    $("#add_fastattack").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: choasFastAttack, title: "Fast Attack")
 
-    $(".remove_squad").click ->
+    $(".remove_squad").click (event) ->
       event.preventDefault()
       $(this).closest(".squad").remove()
       armyRules ->
 
-    $(".remove_troop").click ->
+    $(".remove_troop").click (event) ->
       event.preventDefault()
       location = $(this).closest(".squad")
       squad = getSquadInfo(location)
@@ -874,7 +874,7 @@ jQuery ->
       removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
       location.find(".add_troop").show()
 
-    $(".add_troop").click ->
+    $(".add_troop").click (event) ->
       event.preventDefault()
       currentSquad = $(this).closest(".squad")
       squad = getSquadInfo(currentSquad)

@@ -14,7 +14,7 @@
     %tr
     %td=link_to "#{squad.name}", edit_army_squad_path(@army, squad)
     %td= squad.points
-    %td= squad.size
+    %td= squad.count_size
 
 = link_to 'Edit', edit_army_path(@army)
 \|

@@ -1,5 +1,3 @@
-
-
 basicMarineWeapons = [
   "boltgun"
   "boltpistol"
@@ -89,8 +87,10 @@ squadDetails = (opts = {}) ->
     havoc: 0
     gunny: 0
     type: ""
+    weaponChartType: ""
     basicWeapons: []
     sideWeapon: []
+    extraWeapons: 0
     troopPic: ""
     squadPoints: 0
     size: 0
@@ -149,7 +149,6 @@ squadDetails = (opts = {}) ->
       squad.a = 1
       squad.ld = 8
       squad.sv = 3
-
 
     when "Blood Claw"
       squad.min = 5
@@ -346,6 +345,8 @@ squadDetails = (opts = {}) ->
       squad.rear = 14
       squad.hp = 4
       squad.bs = 4
+      squad.picture = "landraider"
+      squad.extraWeapons = 1
 
     when "Whirlwind"
       squad.min = 1
@@ -362,6 +363,7 @@ squadDetails = (opts = {}) ->
       squad.side = 11
       squad.rear = 10
       squad.hp = 3
+
     when "Predator"
       squad.min = 1
       squad.max = 1
@@ -377,6 +379,7 @@ squadDetails = (opts = {}) ->
       squad.rear = 10
       squad.hp = 3
       squad.bs = 4
+
     when "Dreadnought"
       squad.min = 1
       squad.max = 1
@@ -420,6 +423,7 @@ createWeaponOptions = (opts = {}) ->
     opts.troops.append weaponoptions
 
 #Squad Creators
+
 createDefaultVechicle = (opts = {}) ->
   squad = squadDetails(type: opts.type)
   opts.location.find(".squad_wrap").show()
@@ -427,12 +431,15 @@ createDefaultVechicle = (opts = {}) ->
   _.times(baseSize, -> generateTroop(troop: opts.troop))
   createWeaponOptions(weapons: squad.basicWeapons, troops: opts.location.find('.army_squads_troops_weapon select'))
   createWeaponOptions(weapons: squad.sideWeapons, troops: opts.location.find('.army_squads_troops_side_weapon select'))
+  clone = opts.location.find('.army_squads_troops_weapon select').clone(true)
+  console.log opts.location.find(".troop td:first").prepend(clone)
   opts.location.find(".squadtype").text(squad.type)
-
   opts.location.find(" table tr:gt(0)").each ->
     $(this).find("a.remove_troop").hide()
   opts.location.find(".squadpoints").text(squad.base)
   opts.location.find(".squadsize").text(squad.size)
+  opts.location.find(" table tr:nth-child(1)").find(".troop_icon").addClass squad.picture
+
   if opts.location.find("table.troop_stat tr:first td").size() > 7
     opts.location.find("table.troop_stat tr:first").find("td:eq(2)").text("F")
     opts.location.find("table.troop_stat tr:first").find("td:eq(3)").text("S")
@@ -580,6 +587,10 @@ countSquadPoints = (opts = {}) ->
   squadPoints += weaponPoints
   opts.table.find(".squadsize").text(opts.size)
   opts.table.find(".squadpoints").text(squadPoints)
+
+  opts.table.find('.army_squads_points input').hide()
+  opts.table.find('.army_squads_points input').val(squadPoints)
+
   armyRules ->
 
 countArmyPoints = ->
@@ -653,7 +664,10 @@ createNewTable = (opts = {}) ->
     field: squadClone.find('.army_squads_troops_side_weapon select')
     number: newNumber
     matcher: squadMatcher
-
+  renameField
+    field: squadClone.find('.army_squads_points input')
+    number: newNumber
+    matcher: squadMatcher
   squad.before squadClone unless opts.hidden is true
   squad.after squadClone if opts.hidden is true
   squadClone.hide() if opts.hidden is true
@@ -704,39 +718,39 @@ jQuery ->
     setArmy = do -> #TODO FIX This
       setUpArmy ->
 
-    $("#add_squad").click ->
+    $("#add_squad").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: Troop, title: "Troop")
       # armyRules ->
 
-    $("#add_hq").click ->
+    $("#add_hq").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: HQ, title: "HQ")
 
-    $("#add_elite").click ->
+    $("#add_elite").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: EliteSquads, title: "Elite")
 
-    $("#add_heavyweapon").click ->
+    $("#add_heavyweapon").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: heavySupport, title: "Heavy")
 
-    $("#add_fastattack").click ->
+    $("#add_fastattack").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: fastAttack, title: "Fast Attack")
 
-    $(".remove_squad").click ->
+    $(".remove_squad").click (event) ->
       event.preventDefault()
       $(this).closest(".squad").remove()
       armyRules ->
       countArmyPoints ->
 
-    $(".remove_troop").click ->
+    $(".remove_troop").click (event) ->
       event.preventDefault()
       location = $(this).closest(".squad")
       squad = getSquadInfo(location)
@@ -746,7 +760,7 @@ jQuery ->
       location.find(".add_troop").show()
       countArmyPoints ->
 
-    $(".add_troop").click ->
+    $(".add_troop").click (event) ->
       event.preventDefault()
       currentSquad = $(this).closest(".squad")
       squad = getSquadInfo(currentSquad)
@@ -758,7 +772,7 @@ jQuery ->
     $(".army_squads_troops_weapon select").change ->
       currentSquad = $(this).closest(".squad")
       squad = getSquadInfo(currentSquad)
-      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       countArmyPoints ->
 
     $(".army_squads_troops_side_weapon select").change ->
@@ -780,4 +794,6 @@ jQuery ->
       createDefaultSquad info unless details.type is "Heavy"
       createDefaultVechicle info if details.type is "Heavy"
       armyRules ->
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       countArmyPoints ->

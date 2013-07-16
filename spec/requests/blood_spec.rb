@@ -26,7 +26,6 @@ describe Army do
   end
 
   describe "Scout Squad" do
-
     it "allow max of 15 troops in Squad and Min of 5 troops", :js => true  do
       click_link "add_heavyweapon"
       squads = page.all(".squad")

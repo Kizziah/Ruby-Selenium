@@ -90,6 +90,7 @@ squadDetails = (opts = {}) ->
     havoc: 0
     gunny: 0
     type: ""
+    weaponChartType: ""
     basicWeapons: []
     sideWeapon: []
     troopPic: ""
@@ -179,7 +180,8 @@ squadDetails = (opts = {}) ->
       squad.base = 200
       squad.basicWeapons = ["stormbolter"]
       squad.type = "Elite"
-      squad.sideWeapons = ["powerfist", "chainsword"]
+      squad.sideWeapons = ["powerfist", "chainfist"]
+      squad.weaponChartType = "Terminator"
       squad.troopPic = "blood"
       squad.size = 5
       squad.bs = 4
@@ -191,6 +193,7 @@ squadDetails = (opts = {}) ->
       squad.a = 2
       squad.ld = 9
       squad.sv = 2
+
 
     when "Stern Guard"
       squad.min = 5
@@ -470,17 +473,22 @@ createDefaultSquad = (opts = {}) ->
 
 weaponPointChart = (opts = {}) ->
   points = 0
-  opts.troops.each ->
-    switch $(this).val()
-      when "autogun" then points += 1
-      when "shotgun" then points += 2
-      when "chainaxe", "combibolter", "sonicblaster" then points += 3
-      when "flamer", "heavystubber", "meltabomb" then points += 5
-      when "meltagun", "heavybotler", "autocannon" then points += 10
-      when "plasmapistol", "plasmagun", "misssle launcher", "doomsiren", "powerweapon" then points += 15
-      when "lascannon" then points += 20
-      when "powerfist" then points += 25
-      when "blastmaster" then points += 30
+  if opts.chartType is "Terminator"
+    opts.troops.each ->
+      switch $(this).val()
+        when "chainfist" then points += 10
+  else
+    opts.troops.each ->
+      switch $(this).val()
+        when "autogun" then points += 1
+        when "shotgun" then points += 2
+        when "chainaxe", "combibolter", "sonicblaster" then points += 3
+        when "flamer", "heavystubber", "meltabomb" then points += 5
+        when "meltagun", "heavybotler", "autocannon" then points += 10
+        when "plasmapistol", "plasmagun", "misssle launcher", "doomsiren", "powerweapon" then points += 15
+        when "lascannon" then points += 20
+        when "powerfist" then points += 25
+        when "blastmaster" then points += 30
   return do ->
     points
 
@@ -556,11 +564,13 @@ countSquadPoints = (opts = {}) ->
   squadPoints += squad.base
   surplusTroops = opts.size - squad.min if surplusTroops isnt 0
   squadPoints += surplusTroops * squad.troop if surplusTroops isnt 0
-  weaponPoints = weaponPointChart(troops: opts.troops)
-  weaponPoints += weaponPointChart(troops: opts.sideWeapon)
+  weaponPoints = weaponPointChart(troops: opts.troops, chartType: squad.weaponChartType)
+  weaponPoints += weaponPointChart(troops: opts.sideWeapon, chartType: squad.weaponChartType)
   squadPoints += weaponPoints
   opts.table.find(".squadsize").text(opts.size)
   opts.table.find(".squadpoints").text(squadPoints)
+  opts.table.find('.army_squads_points input').hide()
+  opts.table.find('.army_squads_points input').val(squadPoints)
   armyRules ->
 
 countArmyPoints = ->
@@ -634,6 +644,10 @@ createNewTable = (opts = {}) ->
     field: squadClone.find('.army_squads_troops_side_weapon select')
     number: newNumber
     matcher: squadMatcher
+  renameField
+    field: squadClone.find('.army_squads_points input')
+    number: newNumber
+    matcher: squadMatcher
 
   squad.before squadClone unless opts.hidden is true
   squad.after squadClone if opts.hidden is true
@@ -678,6 +692,7 @@ editTableWithProperOptions = (opts = {}) ->
   armyRules ->
 
 jQuery ->
+  
   if $("h1").text() is "Blood Angel"
     createSquadFieldThatWillRemainHidden = do ->
       createNewTable(hidden: true)
@@ -685,39 +700,39 @@ jQuery ->
     setArmy = do -> #TODO FIX This
       setUpArmy ->
 
-    $("#add_squad").click ->
+    $("#add_squad").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: Troop, title: "Troop")
       # armyRules ->
 
-    $("#add_hq").click ->
+    $("#add_hq").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: HQ, title: "HQ")
 
-    $("#add_elite").click ->
+    $("#add_elite").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: EliteSquads, title: "Elite")
 
-    $("#add_heavyweapon").click ->
+    $("#add_heavyweapon").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: heavySupport, title: "Heavy")
 
-    $("#add_fastattack").click ->
+    $("#add_fastattack").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: fastAttack, title: "Fast Attack")
 
-    $(".remove_squad").click ->
+    $(".remove_squad").click (event) ->
       event.preventDefault()
       $(this).closest(".squad").remove()
       armyRules ->
       countArmyPoints ->
 
-    $(".remove_troop").click ->
+    $(".remove_troop").click (event) ->
       event.preventDefault()
       location = $(this).closest(".squad")
       squad = getSquadInfo(location)
@@ -727,7 +742,7 @@ jQuery ->
       location.find(".add_troop").show()
       countArmyPoints ->
 
-    $(".add_troop").click ->
+    $(".add_troop").click (event) ->
       event.preventDefault()
       currentSquad = $(this).closest(".squad")
       squad = getSquadInfo(currentSquad)
@@ -761,4 +776,6 @@ jQuery ->
       createDefaultSquad info unless details.type is "Heavy"
       createDefaultVechicle info if details.type is "Heavy"
       armyRules ->
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       countArmyPoints ->

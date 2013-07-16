@@ -56,12 +56,13 @@
           = link_to "Remove", '#', class: "remove_squad"
           %table.squad_table
             %thead
+              = squad.input :points, label: false
 
               %th.squad_details
                 Squad Info
                 %table.chart
                   %tr.chart
-                    %td Points
+                    %td Points 
                     %td Size
                     %td Type
                   %tr.chart_stats

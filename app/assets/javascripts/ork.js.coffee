@@ -648,39 +648,39 @@ jQuery ->
     setArmy = do -> #TODO FIX This
       setUpArmy ->
 
-    $("#add_squad").click ->
+    $("#add_squad").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: Troop, title: "Troop")
       # armyRules ->
 
-    $("#add_hq").click ->
+    $("#add_hq").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: HQ, title: "HQ")
 
-    $("#add_elite").click ->
+    $("#add_elite").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: EliteSquads, title: "Elite")
 
-    $("#add_heavyweapon").click ->
+    $("#add_heavyweapon").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: heavySupport, title: "Heavy")
 
-    $("#add_fastattack").click ->
+    $("#add_fastattack").click (event) ->
       event.preventDefault()
       createNewTable ->
       editTableWithProperOptions(type: fastAttack, title: "Fast Attack")
 
-    $(".remove_squad").click ->
+    $(".remove_squad").click (event) ->
       event.preventDefault()
       $(this).closest(".squad").remove()
       armyRules ->
       countArmyPoints ->
 
-    $(".remove_troop").click ->
+    $(".remove_troop").click (event) ->
       event.preventDefault()
       location = $(this).closest(".squad")
       squad = getSquadInfo(location)
@@ -690,7 +690,7 @@ jQuery ->
       location.find(".add_troop").show()
       countArmyPoints ->
 
-    $(".add_troop").click ->
+    $(".add_troop").click (event) ->
       event.preventDefault()
       currentSquad = $(this).closest(".squad")
       squad = getSquadInfo(currentSquad)

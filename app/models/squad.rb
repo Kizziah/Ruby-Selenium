@@ -4,49 +4,27 @@ class Squad < ActiveRecord::Base
   has_many :troops
   accepts_nested_attributes_for :troops, allow_destroy: true
   validates_presence_of :name
-  after_create :delete_if_not_valid
+  after_create :delete_invalid_squad
+  
+  TYPES = {}
 
-  TYPES = {
-    havoc: "Havoc",
-    cultist: "Cultists",
-    korne_bezerker: "Korne Bezerker",
-    marine: "Marine"
-  }
-
-  def veteran_status
-    "Veteran of Long War" if veteran?
+  def count_size
+    troops.size
   end
+
+  def delete_invalid_squad
+    self.delete unless valid_squad?(self.name)
+  end
+
+  private
 
   def valid_squad?(squad)
     ["Cultist", "Thousand Son", "Havoc", "Marine", "Berzerker", "LandRaider", "Sorcerer", "Kharn", "Terminator", "Deamon Prince",
       "Choas Biker", "Raptor", "Warp Talon", "Tactical", "Scout", "Biker", "WarBoss", "Zogwort", "Weirdboy",
       "Land Speeder", "Stern Guard", "Devestater", "Dante", "Mephiston", "Libarian", "Ork", "Gretchin", "Big Gunz",
       "BattleWagon", "Looted Wagon", "StormBoyz", "Ork Bike", "War Buggy", "TankBustas", "Lootas", "Kommandos", "WarBoss",
-      "Zogwort", "Weirdboy" ].include?(squad)
-  end
-
-  def delete_if_not_valid
-    self.delete unless valid_squad?(self.name)
-  end
-
-  def define_base_squad
-    if self.name == "havoc"
-      self.update_attribute(:size, 5)
-      self.update_attribute(:points, 75)
-
-    end
-
-    if self.name == "cultist"
-      self.update_attribute(:size, 10)
-      self.update_attribute(:points, 50)
-      self.size.times { self.troops.build }
-    end
-
-    if self.name == "marine"
-      self.update_attribute(:size, 5)
-      self.update_attribute(:points, 75)
-    end
-
+      "Zogwort", "Weirdboy", "Great Wolf", "Wolf Lord", "SkyClaw", "Wolfpack", "Lone Wolf", "Wolf Guard", "Blood Claw", "Long Fang", "Grey Hunter", 
+      "Wolf Priest"  ].include?(squad)
   end
 
 end
