@@ -6,9 +6,11 @@
 %p Points
 = @squad.points
 
+
 = simple_form_for [@army, @squad] do |f|
   = f.simple_fields_for :troops do |troop|
     = troop.input :weapon
     = troop.input :side_weapon
 
   = f.button :submit
+%p Names

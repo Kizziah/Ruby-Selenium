@@ -1,5 +1,10 @@
 %p#notice= notice
-
+  
+-if user_signed_in?
+  %p View Armies
+-else
+  %p You must be Loged in to Save an Army
+  = link_to "Sign up", new_user_registration_path
 %p
   %b Name:
   = @army.name
@@ -12,7 +17,7 @@
     %th Size
   - @army.squads.each do |squad|
     %tr
-    %td=link_to "#{squad.name}", edit_army_squad_path(@army, squad)
+    %td=link_to "#{squad.name}", army_squad_path(@army, squad)
     %td= squad.points
     %td= squad.count_size
 

@@ -1,15 +1,14 @@
 %p#notice= notice
 
 %p
-  %b Name:
-  = @squad.name
+	%b Name:
+	= @squad.name
 %p
-  %b Points:
-  = @squad.points
+	%b Points:
+	= @squad.points
 %p
-  %b Size:
-  = @squad.size
-%p
-  %b Army:
-  = @squad.army_id
-  = @squad.troops
+	- @squad.troops.each do |troop|
+		%p 
+			troop
+			= troop.weapon
+			= troop.side_weapon

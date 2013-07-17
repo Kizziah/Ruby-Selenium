@@ -2,10 +2,14 @@ class ArmiesController < ApplicationController
 
   def index
     @armies = Army.all
+    points = 0
+    @army.squads.each {|squad| squad.points += points }
+    @points = points
   end
 
   def show
     @army = Army.find(params[:id])
+
   end
 
   def new_blood
@@ -54,9 +58,15 @@ class ArmiesController < ApplicationController
 
   def create
     @army = Army.new(params[:army])
-
+    @user = current_user
+    @profile = @user.profile if @user != nil
     if @army.save
-      redirect_to @army, notice: 'Army was successfully created.'
+      if @profile != nil
+        @profile.armies << @army
+          redirect_to dashboard_path
+      else
+        redirect_to @army, notice: 'Army was successfully created.'
+      end
     else
       render :new
     end
@@ -76,7 +86,13 @@ class ArmiesController < ApplicationController
   def destroy
     @army = Army.find(params[:id])
     @army.destroy
-    redirect_to root_path
+    @user = current_user
+    @profile = @user.profile
+    if @profile != nil
+      redirect_to dashboard_path
+    else
+      redirect_to root_path
+    end
   end
 
 end

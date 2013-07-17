@@ -26,5 +26,5 @@ class Squad < ActiveRecord::Base
       "Zogwort", "Weirdboy", "Great Wolf", "Wolf Lord", "SkyClaw", "Wolfpack", "Lone Wolf", "Wolf Guard", "Blood Claw", "Long Fang", "Grey Hunter", 
       "Wolf Priest"  ].include?(squad)
   end
-
+  
 end
