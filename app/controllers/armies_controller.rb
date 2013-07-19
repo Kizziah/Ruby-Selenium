@@ -2,9 +2,6 @@ class ArmiesController < ApplicationController
 
   def index
     @armies = Army.all
-    points = 0
-    @army.squads.each {|squad| squad.points += points }
-    @points = points
   end
 
   def show

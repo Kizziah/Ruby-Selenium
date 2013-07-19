@@ -8,15 +8,17 @@
   %thead
     %tr
       %th Name
-      %th.action Edit
+      %th Faction
+      %th.action Edit 
       %th.action Destroy
       %th Points
   %tbody
     - @armies.each do |army|
       %tr
         %td= link_to army.name, army
+        %td= army.faction
         %td= link_to 'Edit', edit_army_path(army)
         %td= link_to 'Destroy', army, method: :delete, data: { confirm: 'Are you sure?' }
         %td= army.points
-
+        
 = link_to "New Army", armies_path

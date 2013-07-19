@@ -694,6 +694,8 @@ editTableWithProperOptions = (opts = {}) ->
 jQuery ->
   
   if $("h1").text() is "Blood Angel"
+    $("#army_faction").val("Blood Angel") 
+    $(".faction").hide()
     createSquadFieldThatWillRemainHidden = do ->
       createNewTable(hidden: true)
 

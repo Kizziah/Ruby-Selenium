@@ -711,7 +711,10 @@ editTableWithProperOptions = (opts = {}) ->
   armyRules ->
 
 jQuery ->
+  
   if $("h1").text() is "Space Wolf"
+    $("#army_faction").val("Space Wolf") 
+    $(".faction").hide()
     createSquadFieldThatWillRemainHidden = do ->
       createNewTable(hidden: true)
 

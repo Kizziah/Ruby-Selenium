@@ -18,10 +18,10 @@ class Squad < ActiveRecord::Base
 
   private
 
-  def valid_squad?(squad)
+  def valid_squad?(squad) 
     ["Cultist", "Thousand Son", "Havoc", "Marine", "Berzerker", "LandRaider", "Sorcerer", "Kharn", "Terminator", "Deamon Prince",
       "Choas Biker", "Raptor", "Warp Talon", "Tactical", "Scout", "Biker", "WarBoss", "Zogwort", "Weirdboy",
-      "Land Speeder", "Stern Guard", "Devestater", "Dante", "Mephiston", "Libarian", "Ork", "Gretchin", "Big Gunz",
+      "Land Speeder", "Stern Guard", "Devastator", "Dante", "Mephiston", "Libarian", "Ork", "Gretchin", "Big Gunz",
       "BattleWagon", "Looted Wagon", "StormBoyz", "Ork Bike", "War Buggy", "TankBustas", "Lootas", "Kommandos", "WarBoss",
       "Zogwort", "Weirdboy", "Great Wolf", "Wolf Lord", "SkyClaw", "Wolfpack", "Lone Wolf", "Wolf Guard", "Blood Claw", "Long Fang", "Grey Hunter", 
       "Wolf Priest"  ].include?(squad)

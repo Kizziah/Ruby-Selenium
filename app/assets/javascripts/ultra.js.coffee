@@ -563,6 +563,8 @@ countSquadPoints = (opts = {}) ->
   squadPoints += weaponPoints
   opts.table.find(".squadsize").text(opts.size)
   opts.table.find(".squadpoints").text(squadPoints)
+  opts.table.find('.army_squads_points input').hide()
+  opts.table.find('.army_squads_points input').val(squadPoints)
   armyRules ->
 
 countArmyPoints = ->
@@ -636,6 +638,10 @@ createNewTable = (opts = {}) ->
     field: squadClone.find('.army_squads_troops_side_weapon select')
     number: newNumber
     matcher: squadMatcher
+  renameField
+    field: squadClone.find('.army_squads_points input')
+    number: newNumber
+    matcher: squadMatcher
 
   squad.before squadClone unless opts.hidden is true
   squad.after squadClone if opts.hidden is true
@@ -681,6 +687,8 @@ editTableWithProperOptions = (opts = {}) ->
 
 jQuery ->
   if $("h1").text() is "Ultra Marine"
+    $("#army_faction").val("Ultra Marine") 
+    $(".faction").hide()
     createSquadFieldThatWillRemainHidden = do ->
       createNewTable(hidden: true)
 
@@ -763,4 +771,6 @@ jQuery ->
       createDefaultSquad info unless details.type is "Heavy"
       createDefaultVechicle info if details.type is "Heavy"
       armyRules ->
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       countArmyPoints ->

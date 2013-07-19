@@ -560,6 +560,10 @@ countSquadPoints = (opts = {}) ->
   squadPoints += weaponPoints
   opts.table.find(".squadsize").text(opts.size)
   opts.table.find(".squadpoints").text(squadPoints)
+
+  opts.table.find('.army_squads_points input').hide()
+  opts.table.find('.army_squads_points input').val(squadPoints)
+ 
   armyRules ->
 
 countArmyPoints = ->
@@ -633,7 +637,10 @@ createNewTable = (opts = {}) ->
     field: squadClone.find('.army_squads_troops_side_weapon select')
     number: newNumber
     matcher: squadMatcher
-
+  renameField
+    field: squadClone.find('.army_squads_points input')
+    number: newNumber
+    matcher: squadMatcher
   squad.before squadClone unless opts.hidden is true
   squad.after squadClone if opts.hidden is true
   squadClone.hide() if opts.hidden is true
@@ -679,6 +686,8 @@ editTableWithProperOptions = (opts = {}) ->
 jQuery ->
 
   if $("h1").text() is "Dark Angel"
+    $("#army_faction").val("Dark Angel") 
+    $(".faction").hide()
     createSquadFieldThatWillRemainHidden = do ->
       createNewTable(hidden: true)
 
@@ -723,7 +732,7 @@ jQuery ->
       squad = getSquadInfo(location)
       $(this).closest("tr").remove()
       squad = getSquadInfo(location)
-      removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+      removeTroopRules(troops: squad.troops, size: squad.size, location: location, type: squad.type, sideWeapon: squad.sideWeapon)
       location.find(".add_troop").show()
       countArmyPoints ->
 
@@ -733,13 +742,13 @@ jQuery ->
       squad = getSquadInfo(currentSquad)
       addTroopRules(size: squad.size, troop: squad.troop, type: squad.type)
       newSquad = getSquadInfo(currentSquad)
-      countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon, squadMark: newSquad.squadMark)
+      countSquadPoints(troops: newSquad.troops, table: currentSquad, size: newSquad.size, type: newSquad.type, sideWeapon: newSquad.sideWeapon)
       countArmyPoints ->
 
     $(".army_squads_troops_weapon select").change ->
       currentSquad = $(this).closest(".squad")
       squad = getSquadInfo(currentSquad)
-      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon, squadMark: squad.squadMark)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       countArmyPoints ->
 
     $(".army_squads_troops_side_weapon select").change ->
@@ -761,4 +770,6 @@ jQuery ->
       createDefaultSquad info unless details.type is "Heavy"
       createDefaultVechicle info if details.type is "Heavy"
       armyRules ->
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       countArmyPoints ->

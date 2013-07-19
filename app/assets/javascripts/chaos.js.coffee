@@ -582,6 +582,9 @@ countSquadPoints = (opts = {}) ->
   opts.table.find(".squadsize").text(opts.size)
   opts.table.find(".squadpoints").text(squadPoints)
 
+  opts.table.find('.army_squads_points input').hide()
+  opts.table.find('.army_squads_points input').val(squadPoints)
+
 countArmyPoints = ->
   allSquadPoints = $(".squad").find(".squadpoints")
   points = 0
@@ -779,6 +782,10 @@ createNewTable = (opts = {}) ->
     field: squadClone.find('.army_squads_troops_side_weapon select')
     number: newNumber
     matcher: squadMatcher
+  renameField
+    field: squadClone.find('.army_squads_points input')
+    number: newNumber
+    matcher: squadMatcher
 
   squad.before squadClone unless opts.hidden is true
   squad.after squadClone if opts.hidden is true
@@ -788,8 +795,8 @@ createNewTable = (opts = {}) ->
 # Creat mandatory Choas Army squads
 #
 setUpChoasArmy = ->
+  
   $(".squadform").show()
-  $("#army_faction").val("Choas Force")
   $(".army_squads_name select").empty()
   troopsOptions = ""
   $.each choasTroops, (i) ->
@@ -829,6 +836,8 @@ editTableWithProperOptions = (opts = {}) ->
 jQuery ->
   if $("h1").text() is "Chaos"
 
+    $("#army_faction input").val("Chaos") 
+    $(".faction").hide()
     createSquadFieldThatWillRemainHidden = do ->
       createNewTable(hidden: true)
 
@@ -919,5 +928,7 @@ jQuery ->
         when "Raptor" then createDefaulRaptorSquad info
         when "Warp Talon" then createDefaulWarpTalonSquad info
 
+      squad = getSquadInfo(currentSquad)
+      countSquadPoints(troops: squad.troops, table: currentSquad, size: squad.size, type: squad.type, sideWeapon: squad.sideWeapon)
       armyRules ->
       countArmyPoints ->

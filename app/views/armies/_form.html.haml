@@ -1,10 +1,10 @@
 = simple_form_for @army do |f|
-
+  .faction= f.input :faction, label: false
   .rank
   .name
     Army Name
     .comander_name= f.input :name, label: false
-
+    
   .army_points
   .progressbar
     .bar
