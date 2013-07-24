@@ -97,6 +97,7 @@ squadDetails = (opts = {}) ->
     base: 0
     havoc: 0
     gunny: 0
+    category: ""
     type: ""
     basicWeapons: []
     gunnyWeapons: []
@@ -111,7 +112,8 @@ squadDetails = (opts = {}) ->
       squad.havoc = 4
       squad.basicWeapons = basicMarineWeapons
       squad.havocWeapons = havocWeapons
-
+      squad.infantry
+      
     when "Marine"
       squad.min = 5
       squad.max = 20

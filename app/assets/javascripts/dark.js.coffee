@@ -647,6 +647,7 @@ createNewTable = (opts = {}) ->
   $(".fields.squad:last").prev().find(".remove_troop").hide()
 
 setUpArmy = ->
+  createNewTable(hidden: true)
   $(".squadform").show()
   $(".army_squads_name select").empty()
   troopsOptions = ""
@@ -688,9 +689,6 @@ jQuery ->
   if $("h1").text() is "Dark Angel"
     $("#army_faction").val("Dark Angel") 
     $(".faction").hide()
-    createSquadFieldThatWillRemainHidden = do ->
-      createNewTable(hidden: true)
-
     setArmy = do -> #TODO FIX This
       setUpArmy ->
    

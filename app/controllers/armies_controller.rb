@@ -6,7 +6,6 @@ class ArmiesController < ApplicationController
 
   def show
     @army = Army.find(params[:id])
-
   end
 
   def new_blood

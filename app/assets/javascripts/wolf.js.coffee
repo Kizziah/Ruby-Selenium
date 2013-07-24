@@ -87,6 +87,7 @@ squadDetails = (opts = {}) ->
     havoc: 0
     gunny: 0
     type: ""
+    style: ""
     weaponChartType: ""
     basicWeapons: []
     sideWeapon: []
@@ -117,6 +118,7 @@ squadDetails = (opts = {}) ->
       squad.base = 75
       squad.basicWeapons = basicMarineWeapons
       squad.type = "Troop"
+      squad.style = "Infantry"
       squad.sideWeapons = ["chainsword", "boltpistol"]
       squad.troopPic = "wolf"
       squad.size = 5
@@ -137,6 +139,8 @@ squadDetails = (opts = {}) ->
       squad.base = 90
       squad.basicWeapons = havocWeapons
       squad.type = "Troop"
+      squad.style = "Infantry"
+
       squad.sideWeapons = ["boltpistol"]
       squad.troopPic = "wolf"
       squad.size = 5
@@ -150,6 +154,7 @@ squadDetails = (opts = {}) ->
       squad.ld = 8
       squad.sv = 3
 
+
     when "Blood Claw"
       squad.min = 5
       squad.max = 15
@@ -157,6 +162,8 @@ squadDetails = (opts = {}) ->
       squad.base = 75
       squad.basicWeapons = basicMarineWeapons
       squad.type = "Troop"
+      squad.style = "Infantry"
+
       squad.sideWeapons = ["chainsword", "boltpistol"]
       squad.troopPic = "wolf"
       squad.size = 5
@@ -189,6 +196,7 @@ squadDetails = (opts = {}) ->
       squad.a = 2
       squad.ld = 9
       squad.sv = 2
+      squad.style = "Elite Infantry"
 
     when "Lone Wolf"
       squad.min = 1
@@ -209,7 +217,9 @@ squadDetails = (opts = {}) ->
       squad.a = 2
       squad.ld = 8
       squad.sv = 3
-    
+      squad.style = "Elite Infantry"
+
+
     when "Scout"
       squad.min = 5
       squad.max = 10
@@ -229,6 +239,7 @@ squadDetails = (opts = {}) ->
       squad.a = 1
       squad.ld = 8
       squad.sv = 4
+      squad.style = "Infantry"
 
     when "SkyClaw"
       squad.min = 5
@@ -249,6 +260,8 @@ squadDetails = (opts = {}) ->
       squad.a = 2
       squad.ld = 9
       squad.sv = 3
+      squad.style = "Fast Infantry"
+
 
     when "Wolfpack"
       squad.min = 5
@@ -269,6 +282,7 @@ squadDetails = (opts = {}) ->
       squad.a = 2
       squad.ld = 5
       squad.sv = 6
+      squad.style = "Fast Infantry"
 
     when "Great Wolf"
       squad.min = 1
@@ -289,7 +303,8 @@ squadDetails = (opts = {}) ->
       squad.a = 5
       squad.ld = 10
       squad.sv = 2
-    
+      squad.style = "HQ Infantry"
+
     when "Wolf Lord"
       squad.min = 1
       squad.max = 1
@@ -309,7 +324,8 @@ squadDetails = (opts = {}) ->
       squad.a = 4
       squad.ld = 10
       squad.sv = 2
-    
+      squad.style = "HQ Infantry"
+
     when "Wolf Priest"
       squad.min = 1
       squad.max = 1
@@ -329,6 +345,7 @@ squadDetails = (opts = {}) ->
       squad.a = 2
       squad.ld = 10
       squad.sv = 3
+      squad.style = "HQ Infantry"
 
     when "LandRaider"
       squad.min = 1
@@ -347,6 +364,7 @@ squadDetails = (opts = {}) ->
       squad.bs = 4
       squad.picture = "landraider"
       squad.extraWeapons = 1
+      squad.style = "Heavy"
 
     when "Whirlwind"
       squad.min = 1
@@ -713,6 +731,7 @@ editTableWithProperOptions = (opts = {}) ->
 jQuery ->
   
   if $("h1").text() is "Space Wolf"
+   
     $("#army_faction").val("Space Wolf") 
     $(".faction").hide()
     createSquadFieldThatWillRemainHidden = do ->

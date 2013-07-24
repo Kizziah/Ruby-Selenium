@@ -1,3 +1,0 @@
-class HavocSquad < Squad
-
-end

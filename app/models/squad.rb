@@ -1,5 +1,5 @@
 class Squad < ActiveRecord::Base
-  attr_accessible :army_id, :name, :points, :size, :extras, :mark, :troops_attributes, :veteran, :meltabomb, :mutation
+  attr_accessible :army_id, :name, :points, :size, :troops_attributes
   belongs_to :army
   has_many :troops
   accepts_nested_attributes_for :troops, allow_destroy: true
@@ -14,6 +14,12 @@ class Squad < ActiveRecord::Base
 
   def delete_invalid_squad
     self.delete unless valid_squad?(self.name)
+  end
+
+  def name_troop
+    self.troops.each do |troop|
+    troop.name = 8
+    end 
   end
 
   private
